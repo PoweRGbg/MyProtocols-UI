@@ -1,0 +1,16 @@
+<form (ngSubmit)="addPrescription()">
+    <div>
+      <label for="prescriptionName">Prescription Name:</label>
+      <input type="text" id="prescriptionName" name="prescriptionName" [(ngModel)]="prescriptionName">
+    </div>
+    <div>
+      <label for="prescriptionEnd">Prescription End:</label>
+      <input type="date" id="prescriptionEnd" name="prescriptionEnd" [(ngModel)]="prescriptionEnd">
+    </div>
+    <div>
+      <label for="prescriptionValidity">Prescription Validity:</label>
+      <input type="text" id="prescriptionValidity" name="prescriptionValidity" [(ngModel)]="prescriptionValidity">
+    </div>
+    <button type="submit">Add</button>
+  </form>
+  
