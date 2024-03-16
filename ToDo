@@ -1,0 +1,6 @@
+- Create Protocols
+- each protocol should have:
+    - medicine and monthly dosage
+    - issue date ( default today)
+    - validity ( default 6 months)
+    - prescriptions ( default none )

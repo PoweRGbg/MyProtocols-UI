@@ -1,0 +1,21 @@
+<table *ngIf="prescriptions.length">
+    <thead>
+      <tr>
+        <th>Recipe for medicine:</th>
+        <th>Expires on</th>
+        <th>Days left</th>
+        <!-- Add more table headers as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let recipe of prescriptions">
+        <td>{{ recipe.medicineName }}</td>
+        <td>{{ formatDate(recipe.validTo) }}</td>
+        <td>{{ daysLeft(recipe.validTo) }}</td>
+        <td class="button"><div (click)="removeRecipe(recipe)">delete</div></td>
+      </tr>
+    </tbody>
+  </table> 
+  
+  
+  

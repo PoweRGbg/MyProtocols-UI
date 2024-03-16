@@ -1,0 +1,14 @@
+.button {
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: red;
+}
+
+table {
+    th,td {
+        border: 1px solid;
+        display: flex-row;
+    }
+}
