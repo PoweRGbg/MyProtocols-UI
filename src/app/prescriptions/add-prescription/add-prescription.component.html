@@ -1,16 +1,30 @@
 <form (ngSubmit)="addPrescription()">
-    <div>
-      <label for="prescriptionName">Prescription Name:</label>
-      <input type="text" id="prescriptionName" name="prescriptionName" [(ngModel)]="prescriptionName">
-    </div>
-    <div>
-      <label for="prescriptionValidity">Prescription Validity:</label>
-      <input type="text" id="prescriptionValidity" name="prescriptionValidity" [(ngModel)]="prescriptionValidity">
-    </div>
-    <div>
-      <label for="prescriptionStart">Prescription issued date:</label>
-      <input type="date" id="prescriptionStart" name="prescriptionStart" [(ngModel)]="prescriptionStart">
-    </div>
-    <button type="submit">Add</button>
+    <table>
+      <tr>
+        <td>
+          <label for="prescriptionName">Medicine:</label>
+        </td>
+        <td>
+          <input type="text" id="prescriptionName" name="prescriptionName" [(ngModel)]="prescriptionName">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="prescriptionValidity">Validity:</label>
+        </td>
+        <td>
+          <input type="text" id="prescriptionValidity" name="prescriptionValidity" [(ngModel)]="prescriptionValidity">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="prescriptionStart">Date of issue:</label>
+        </td>
+        <td>
+          <input type="date" id="prescriptionStart" name="prescriptionStart" [(ngModel)]="prescriptionStart">
+          <button type="submit">Add</button>
+        </td>
+      </tr>
+    </table>
   </form>
   

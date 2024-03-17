@@ -1,0 +1,13 @@
+table {
+    display: inline-flex;
+}
+tr {
+    display: block;
+}
+td {
+    display: block;
+}
+
+.fill {
+    width: -webkit-fill-available;
+}

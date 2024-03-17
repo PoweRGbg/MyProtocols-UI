@@ -13,11 +13,11 @@ import { PrescriptionsComponent } from './prescriptions.component';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     AddPrescriptionComponent,
     PrescriptionsComponent,
-  ]
+  ],
 })
 export class PrescriptionModule { }

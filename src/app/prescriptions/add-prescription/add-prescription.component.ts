@@ -11,30 +11,28 @@ export class AddPrescriptionComponent {
 	now = new Date();
 	protected readonly todayAsString = formatDate(this.now);
 	prescriptionName: string = '';
-	prescriptionStart:string = this.todayAsString;
+	prescriptionStart: string = this.todayAsString;
 	prescriptionValidity: number = 30;
 
-	constructor(private prescriptionService: PrescriptionService) {}
+	constructor(private prescriptionService: PrescriptionService) { }
 
 	addPrescription() {
 		console.log('now', this.now);
-		
+
 		console.log('Today is ', this.todayAsString);
-		
+
 		if (this.prescriptionName && this.prescriptionStart && this.prescriptionValidity) {
-			const validTo: Date  = new Date(
+			const validTo: Date = new Date(
 				new Date(this.prescriptionStart).getTime() + this.prescriptionValidity * 24 * 60 * 60 * 1000
-				);
+			);
 			this.prescriptionService.addPrescription({
+				id: this.prescriptionService.getAllPrescriptions().length + 1,
 				medicineName: this.prescriptionName,
 				validTo: validTo,
 			});
 			// Clear form fields after adding prescription
 			this.prescriptionName = '';
 			this.prescriptionStart = this.todayAsString;
-			console.log('Prescription start set to ' + this.prescriptionStart);
-			console.log('Today ' + this.todayAsString);
-			
 			this.prescriptionValidity = 30;
 		} else {
 			alert('Please fill all fields');

@@ -1,5 +1,3 @@
-// recipe-list.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { PrescriptionService } from '../prescriptions-service/prescriptions.service';
 import { Prescription } from '../prescriptions.component';
@@ -39,10 +37,10 @@ export class PrescriptionsListComponent implements OnInit {
 		return "EXPIRED!";
 	}
 
-	protected removeRecipe(prescription: Prescription): void {
-		console.log('clicked on remove', prescription.medicineName);
+	protected removeRecipe(prescriptionId: number): void {
+		console.log('clicked on remove', prescriptionId);
 		
-		this.prescriptionService.removePrescription(prescription);
+		this.prescriptionService.removePrescription(prescriptionId);
 	}
 
 	protected formatDate(targetDate: Date): string {
