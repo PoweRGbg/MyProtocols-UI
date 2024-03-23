@@ -10,9 +10,9 @@
     <tbody>
       <tr *ngFor="let protocol of protocols">
         <td>{{ protocol.medicines.join(',') }}</td>
-        <td>{{ formatDate(protocol.validTo) }}</td>
-        <td>{{ daysLeft(protocol.validTo) }}</td>
-        <td class="button"><div (click)="removeProtocol(protocol.id)">delete</div></td>
+        <td class="centered">{{ formatDate(protocol.validTo) }}</td>
+        <td class="centered">{{ daysLeft(protocol.validTo) }}</td>
+        <td class="button"><div (click)="removeProtocol(protocol.id)">REMOVE</div></td>
       </tr>
     </tbody>
   </table> 

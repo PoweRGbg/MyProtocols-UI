@@ -11,5 +11,9 @@ export interface Prescription {
   styleUrl: './prescriptions.component.scss'
 })
 export class PrescriptionsComponent {
+    protected showAddPrescriptionForm: boolean = false;
 
+    protected showHideAddForm(): void { 
+        this.showAddPrescriptionForm = !this.showAddPrescriptionForm;
+    }
 }
