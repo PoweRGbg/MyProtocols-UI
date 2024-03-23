@@ -1,0 +1,18 @@
+<table *ngIf="protocols.length">
+    <thead>
+      <tr>
+        <th>Medicines included:</th>
+        <th>Expires on</th>
+        <th>Days left</th>
+        <!-- Add more table headers as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let protocol of protocols">
+        <td>{{ protocol.medicines.join(',') }}</td>
+        <td>{{ formatDate(protocol.validTo) }}</td>
+        <td>{{ daysLeft(protocol.validTo) }}</td>
+        <td class="button"><div (click)="removeProtocol(protocol.id)">delete</div></td>
+      </tr>
+    </tbody>
+  </table> 

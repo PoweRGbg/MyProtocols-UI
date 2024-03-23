@@ -1,0 +1,41 @@
+<form (ngSubmit)="addProtocol()">
+    <table>
+        <tr>
+            <td>
+                <label for="protocolValidity">Validity:</label>
+            </td>
+            <td>
+                <input type="text" id="protocolValidity" name="protocolValidity" [(ngModel)]="protocolValidity">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="protocolFor">Medicine:</label>
+            </td>
+            <td>
+                <protocol-add-medicine (medicineAdded)="addMedicineToProtocol($event)">
+                </protocol-add-medicine>
+            </td>
+        </tr>
+        <tr *ngFor="let medicine of medicines">
+            <td>
+                <label for="protocolValidity">Medicine:</label>
+            </td>
+            <td>
+                {{medicine}}
+            </td>
+            <td>
+                <button type="button" (click)="removeMedicineFromProtocol(medicine)">Remove</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="protocolStart">Date of issue:</label>
+            </td>
+            <td>
+                <input type="date" id="protocolStart" name="protocolStart" [(ngModel)]="protocolStart">
+                <button type="submit">Add</button>
+            </td>
+        </tr>
+    </table>
+</form>
