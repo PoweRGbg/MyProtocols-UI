@@ -1,30 +1,33 @@
-<form (ngSubmit)="addPrescription()">
-    <table>
-      <tr>
-        <td>
-          <label for="prescriptionName">Medicine:</label>
-        </td>
-        <td>
-          <input type="text" id="prescriptionName" name="prescriptionName" [(ngModel)]="prescriptionName">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label for="prescriptionValidity">Validity:</label>
-        </td>
-        <td>
-          <input type="text" id="prescriptionValidity" name="prescriptionValidity" [(ngModel)]="prescriptionValidity">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label for="prescriptionStart">Date of issue:</label>
-        </td>
-        <td>
-          <input type="date" id="prescriptionStart" name="prescriptionStart" [(ngModel)]="prescriptionStart">
-          <button type="submit">Add</button>
-        </td>
-      </tr>
-    </table>
-  </form>
-  
+<div class="add-prescription">
+    <div>Adding prescription:</div>
+    <form (ngSubmit)="addPrescription()">
+        <table>
+            <tr>
+                <td>
+                    <label for="prescriptionName">Medicine:</label>
+                </td>
+                <td>
+                    <input type="text" id="prescriptionName" name="prescriptionName" [(ngModel)]="prescriptionName">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="prescriptionValidity">Validity:</label>
+                </td>
+                <td>
+                    <input type="text" id="prescriptionValidity" name="prescriptionValidity" [(ngModel)]="prescriptionValidity">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="prescriptionStart">Date of issue:</label>
+                </td>
+                <td>
+                    <input type="date" id="prescriptionStart" name="prescriptionStart" [(ngModel)]="prescriptionStart">
+                    <button type="submit">Add</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+    

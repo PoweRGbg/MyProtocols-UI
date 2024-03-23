@@ -1,7 +1,7 @@
 <div id="prescription-actions">
     <button (click)="showHideAddForm()">Add prescription</button>
 </div>
-<prescription-add *ngIf="showAddPrescriptionForm"></prescription-add>
+<prescription-add *ngIf="showAddPrescriptionForm" (prescriptionAdded)="prescriptionAdded()"></prescription-add>
 <div>
     <prescriptions-list></prescriptions-list>
 </div>

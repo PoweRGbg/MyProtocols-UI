@@ -33,14 +33,13 @@ export class PrescriptionsListComponent implements OnInit {
 		if (daysDifference > 0) {
 			return daysDifference.toString();
 		}
-
 		return "EXPIRED!";
 	}
 
 	protected removeRecipe(prescriptionId: number): void {
-		console.log('clicked on remove', prescriptionId);
-		
-		this.prescriptionService.removePrescription(prescriptionId);
+        if (confirm(`Are you sure you want to remove this prescription for ${this.prescriptionService.getAllFromApi}`)) {
+            this.prescriptionService.removePrescription(prescriptionId);
+        }
 	}
 
 	protected formatDate(targetDate: Date): string {

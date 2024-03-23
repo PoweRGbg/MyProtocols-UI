@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PrescriptionService } from '../prescriptions-service/prescriptions.service';
 import { formatDate } from '../common';
 
@@ -12,6 +12,8 @@ export class AddPrescriptionComponent implements OnInit {
 	protected readonly todayAsString = formatDate(this.now);
     @Input() medicineName: string | undefined;
 
+    @Output() prescriptionAdded: EventEmitter<string> = new EventEmitter<string>();
+    
 	protected prescriptionName: string = '';
 	protected prescriptionStart: string = this.todayAsString;
 	protected prescriptionValidity: number = 30;
@@ -25,9 +27,10 @@ export class AddPrescriptionComponent implements OnInit {
     }
 
 	addPrescription() {
-		console.log('now', this.now);
-
-		console.log('Today is ', this.todayAsString);
+        if (this.prescriptionService.isThereAValidPrescription(this.prescriptionName)) {
+            alert('There is already a valid prescription for this medicine');
+            return;
+        }
 
 		if (this.prescriptionName && this.prescriptionStart && this.prescriptionValidity) {
 			const validTo: Date = new Date(
@@ -38,6 +41,7 @@ export class AddPrescriptionComponent implements OnInit {
 				medicineName: this.prescriptionName,
 				validTo: validTo,
 			});
+            this.prescriptionAdded.emit(this.prescriptionName);
 			// Clear form fields after adding prescription
 			this.prescriptionName = '';
 			this.prescriptionStart = this.todayAsString;

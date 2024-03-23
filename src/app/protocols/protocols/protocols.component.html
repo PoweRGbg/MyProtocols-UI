@@ -1,4 +1,4 @@
 <p>Protocols:</p>
 <button type="button" (click)="addProtocol = !addProtocol">Add Protocol</button>
-<list-protocols></list-protocols>
+<list-protocols *ngIf="!addProtocol"></list-protocols>
 <add-protocol *ngIf="addProtocol" (protocolAdded)="protocolAdded($event)"></add-protocol>

@@ -44,9 +44,17 @@ export class PrescriptionService {
 			this.prescriptions = prescriptions.map(prescription => this.toPrescription(prescription));
 			console.log('Prescriptions after API: ',this.prescriptions);
 			
-			this.prescriptionsSubject.next([...this.prescriptions]);
+			this.prescriptionsSubject.next([...this.prescriptions.sort((a, b) => a.validTo.getTime() - b.validTo.getTime())]);
 		});
 	}
+
+    isThereAValidPrescription(medicineName: string): boolean {
+        const prescriptionsForMedicine = this.prescriptions.filter(prescription => prescription.medicineName === medicineName);
+        const today = new Date();
+        const validPrescriptions = prescriptionsForMedicine
+            .filter(prescription => prescription.validTo >= today);
+        return validPrescriptions.length > 0;
+    }
 
 	toPrescription(prescription: any): Prescription {
 		return {

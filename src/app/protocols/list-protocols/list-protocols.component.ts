@@ -40,7 +40,9 @@ export class ListProtocolsComponent {
     }
 
     protected removeProtocol(protocolId: number): void {
-        this.protocolsService.removeProtocol(protocolId);
+        if (confirm("Are you sure you want to remove this protocol?")) {
+            this.protocolsService.removeProtocol(protocolId);
+        }
     }
 
     protected formatDate(targetDate: Date): string {
@@ -51,5 +53,10 @@ export class ListProtocolsComponent {
         if (medicines.length !== 0) {
             this.medicinesForPrescriptions = [...medicines];
         }
+    }
+
+    protected prescriptionAdded(medicineName: string): void {
+        this.medicinesForPrescriptions = this.medicinesForPrescriptions
+            .filter((medicine) => medicine !== medicineName);
     }
 }
