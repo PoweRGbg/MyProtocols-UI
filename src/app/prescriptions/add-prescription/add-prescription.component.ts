@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PrescriptionService } from '../prescriptions-service/prescriptions.service';
 import { formatDate } from '../common';
 
@@ -7,14 +7,22 @@ import { formatDate } from '../common';
 	templateUrl: './add-prescription.component.html',
 	styleUrls: ['./add-prescription.component.scss']
 })
-export class AddPrescriptionComponent {
+export class AddPrescriptionComponent implements OnInit {
 	now = new Date();
 	protected readonly todayAsString = formatDate(this.now);
-	prescriptionName: string = '';
-	prescriptionStart: string = this.todayAsString;
-	prescriptionValidity: number = 30;
+    @Input() medicineName: string | undefined;
 
-	constructor(private prescriptionService: PrescriptionService) { }
+	protected prescriptionName: string = '';
+	protected prescriptionStart: string = this.todayAsString;
+	protected prescriptionValidity: number = 30;
+
+	constructor(private prescriptionService: PrescriptionService) {}
+
+    ngOnInit(): void {
+        this.prescriptionName = this.medicineName ?? '';
+        console.log('this.medicineName', this.medicineName);
+        console.log('this.prescriptionName', this.prescriptionName);
+    }
 
 	addPrescription() {
 		console.log('now', this.now);

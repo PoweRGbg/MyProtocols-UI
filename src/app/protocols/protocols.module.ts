@@ -5,6 +5,7 @@ import { AddProtocolComponent } from './add-protocol/add-protocol.component';
 import { ProtocolsComponent } from './protocols/protocols.component';
 import { AddMedicineComponent } from './add-medicine/add-medicine.component';
 import { ListProtocolsComponent } from './list-protocols/list-protocols.component';
+import { PrescriptionModule } from '../prescriptions/prescriptions.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ListProtocolsComponent } from './list-protocols/list-protocols.componen
   imports: [
     CommonModule,
     FormsModule,
+    PrescriptionModule,
   ],
   exports: [
     ProtocolsComponent,

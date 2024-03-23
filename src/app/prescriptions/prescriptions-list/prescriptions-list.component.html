@@ -12,7 +12,7 @@
         <td>{{ recipe.medicineName }}</td>
         <td>{{ formatDate(recipe.validTo) }}</td>
         <td class="centered">{{ daysLeft(recipe.validTo) }}</td>
-        <td class="button"><div (click)="removeRecipe(recipe.id)">REMOVE</div></td>
+        <td class="button"><div (click)="removeRecipe(recipe.id)">X</div></td>
       </tr>
     </tbody>
   </table> 

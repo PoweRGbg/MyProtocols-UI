@@ -10,7 +10,8 @@ import { formatDate } from '../../prescriptions/common';
 })
 
 export class ListProtocolsComponent {
-    protocols: Protocol[] = [];
+    protected medicinesForPrescriptions: string[] = [];
+    protected protocols: Protocol[] = [];
 
     constructor(private protocolsService: ProtocolsService) { }
 
@@ -44,5 +45,11 @@ export class ListProtocolsComponent {
 
     protected formatDate(targetDate: Date): string {
         return formatDate(targetDate);
+    }
+
+    protected addPrescriptions(medicines: string[]): void {
+        if (medicines.length !== 0) {
+            this.medicinesForPrescriptions = [...medicines];
+        }
     }
 }
