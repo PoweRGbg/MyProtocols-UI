@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ProtocolsService } from '../protocols.service';
 import { formatDate } from '../../prescriptions/common';
+import { AuthService } from '../../public/auth.service';
 
 @Component({
   selector: 'add-protocol',
@@ -16,7 +17,10 @@ export class AddProtocolComponent {
 	medicine: string = '';
     @Output() protocolAdded: EventEmitter<boolean> = new EventEmitter<boolean>();
     
-	constructor(private protocolsService: ProtocolsService) { }
+	constructor(
+        private protocolsService: ProtocolsService,
+        private authService: AuthService
+    ) { }
 
 	addProtocol() {
         if (this.medicines.length > 0 && this.protocolStart && this.protocolValidity) {
@@ -25,6 +29,7 @@ export class AddProtocolComponent {
 			);
 			this.protocolsService.addProtocol({
 				id: this.protocolsService.getAllProtocols().length + 1,
+                user: this.authService.getLoggedInUser(),
 				medicines: this.medicines,
 				validTo: validTo,
 			});

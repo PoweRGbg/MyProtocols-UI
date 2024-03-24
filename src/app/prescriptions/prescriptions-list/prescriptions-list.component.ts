@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PrescriptionService } from '../prescriptions-service/prescriptions.service';
 import { Prescription } from '../prescriptions.component';
 import { formatDate } from '../common';
+import { AuthService } from '../../public/auth.service';
 
 @Component({
 	selector: 'prescriptions-list',
@@ -11,12 +12,15 @@ import { formatDate } from '../common';
 export class PrescriptionsListComponent implements OnInit {
 	prescriptions: Prescription[] = [];
 
-	constructor(private prescriptionService: PrescriptionService) { }
+	constructor(
+        private prescriptionService: PrescriptionService,
+        private authService: AuthService,
+    ) { }
 
 	ngOnInit(): void {
 		this.getAllRecipes();
 		this.prescriptionService.prescriptions$.subscribe((prescriptions) => {
-			this.prescriptions = prescriptions;
+			this.prescriptions = prescriptions.filter((prescription) => prescription.user === this.authService.getLoggedInUser());
 		});
 	}
 

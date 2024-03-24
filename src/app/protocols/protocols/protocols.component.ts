@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 export interface Protocol {
     id: number;
+    user: string;
     medicines: string[];
     issued?: Date;
     validTo: Date;
@@ -17,5 +18,9 @@ export class ProtocolsComponent {
 
     protected protocolAdded(added: boolean): void {
         this.addProtocol = !added;
+    }
+
+    protected showAddProtocol(): void {
+        this.addProtocol = !this.addProtocol;
     }
 }

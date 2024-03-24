@@ -78,8 +78,8 @@ export class AuthService {
     /*
      Get the user fromt the token payload
      */
-    getLoggedInUser() {
+    getLoggedInUser(): string {
         const decodedToken = this.jwtService.decodeToken();
-        return decodedToken.user;
+        return decodedToken.name;
     }
 }

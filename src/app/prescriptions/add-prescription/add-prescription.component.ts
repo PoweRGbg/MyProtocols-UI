@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PrescriptionService } from '../prescriptions-service/prescriptions.service';
 import { formatDate } from '../common';
+import { AuthService } from '../../public/auth.service';
 
 @Component({
 	selector: 'prescription-add',
@@ -18,7 +19,10 @@ export class AddPrescriptionComponent implements OnInit {
 	protected prescriptionStart: string = this.todayAsString;
 	protected prescriptionValidity: number = 30;
 
-	constructor(private prescriptionService: PrescriptionService) {}
+	constructor(
+        private prescriptionService: PrescriptionService,
+        private authService: AuthService
+    ) {}
 
     ngOnInit(): void {
         this.prescriptionName = this.medicineName ?? '';
@@ -36,6 +40,7 @@ export class AddPrescriptionComponent implements OnInit {
 			);
 			this.prescriptionService.addPrescription({
 				id: this.prescriptionService.getAllPrescriptions().length + 1,
+                user: this.authService.getLoggedInUser(),
 				medicineName: this.prescriptionName,
 				validTo: validTo,
 			});

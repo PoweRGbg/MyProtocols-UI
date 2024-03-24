@@ -1,4 +1,3 @@
-<p>Protocols:</p>
-<button type="button" (click)="addProtocol = !addProtocol">Add Protocol</button>
+<button mat-raised-button (click)="showAddProtocol()">Add Protocol</button>
 <list-protocols *ngIf="!addProtocol"></list-protocols>
 <add-protocol *ngIf="addProtocol" (protocolAdded)="protocolAdded($event)"></add-protocol>

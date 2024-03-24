@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 export interface Prescription {
     id: number;
     medicineName: string;
+    user: string;
     issued?: Date;
     validTo: Date;
     fulfilledDate?: Date;
