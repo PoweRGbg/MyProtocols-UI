@@ -1,0 +1,7 @@
+<div id="prescription-actions">
+    <button mat-raised-button (click)="showHideAddForm()">Add prescription</button>
+</div>
+<prescription-add *ngIf="showAddPrescriptionForm" (prescriptionAdded)="prescriptionAdded()"></prescription-add>
+<div>
+    <prescriptions-list></prescriptions-list>
+</div>

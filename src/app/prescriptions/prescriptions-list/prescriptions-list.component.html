@@ -1,0 +1,28 @@
+<table *ngIf="prescriptions.length">
+    <thead>
+      <tr>
+        <th>Recipe for medicine:</th>
+        <th>Expires on</th>
+        <th>Days left</th>
+        <!-- Add more table headers as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let recipe of prescriptions">
+        <td [ngClass]="recipe.fulfilledDate ? 'fulfilled' : ''">{{ recipe.medicineName }}</td>
+        <td [ngClass]="recipe.fulfilledDate ? 'fulfilled' : ''">{{ formatDate(recipe.validTo) }}</td>
+        <td [ngClass]="recipe.fulfilledDate ? 'fulfilled centered' : 'centered'">{{ daysLeft(recipe.validTo) }}</td>
+        <td *ngIf="recipe.fulfilledDate"
+            [ngClass]="recipe.fulfilledDate ? 'fulfilled fulfilled-date centered' : 'centered'">
+            Fulfilled: {{recipe.fulfilledDate}}
+        </td>
+        <td *ngIf="!recipe.fulfilledDate" class="button">
+            <div (click)="fulfillRecipe(recipe.id)">Fulfill</div>
+        </td>
+        <td class="button"><div (click)="removeRecipe(recipe.id)">X</div></td>
+      </tr>
+    </tbody>
+  </table> 
+  
+  
+  

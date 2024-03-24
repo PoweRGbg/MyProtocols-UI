@@ -1,0 +1,25 @@
+<div id="prescriptions-add" *ngFor="let medicine of medicinesForPrescriptions">
+    <div>For: {{medicine}}</div>
+    <prescription-add [medicineName]="medicine" (prescriptionAdded)="prescriptionAdded($event)">
+    </prescription-add>
+</div>
+
+<table *ngIf="protocols.length">
+    <thead>
+      <tr>
+        <th>Medicines included:</th>
+        <th>Expires on</th>
+        <th>Days left</th>
+        <!-- Add more table headers as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let protocol of protocols">
+        <td>{{ protocol.medicines.join(',') }}</td>
+        <td class="centered">{{ formatDate(protocol.validTo) }}</td>
+        <td class="centered">{{ daysLeft(protocol.validTo) }}</td>
+        <td class="button-action"><div (click)="addPrescriptions(protocol.medicines)">Add prescriptions</div></td>
+        <td class="button-delete"><div (click)="removeProtocol(protocol.id)">REMOVE</div></td>
+      </tr>
+    </tbody>
+  </table> 

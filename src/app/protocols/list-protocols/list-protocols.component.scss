@@ -1,0 +1,26 @@
+.button {
+    cursor: pointer;
+}
+
+.button-delete:hover {
+    background-color: red;
+}
+.button-action:hover {
+    background-color: #afe6ff;
+}
+
+table {
+    border-spacing: 0px;
+    border: 1px solid;
+    th {
+        border: 1px solid;
+        padding: 5px;
+    }
+    td {
+        border: 1px solid;
+        padding: 5px;
+    }
+    .centered {
+        text-align: center;
+    }
+}
