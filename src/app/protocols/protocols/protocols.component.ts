@@ -16,8 +16,6 @@ export class ProtocolsComponent {
     addProtocol: boolean = false;
 
     protected protocolAdded(added: boolean): void {
-        console.log('Protocol added', added);
-        
         this.addProtocol = !added;
     }
 }

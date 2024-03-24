@@ -37,8 +37,14 @@ export class PrescriptionsListComponent implements OnInit {
 	}
 
 	protected removeRecipe(prescriptionId: number): void {
-        if (confirm(`Are you sure you want to remove this prescription for ${this.prescriptionService.getAllFromApi}`)) {
+        if (confirm('Are you sure you want to remove this prescription?')) {
             this.prescriptionService.removePrescription(prescriptionId);
+        }
+	}
+
+	protected fulfillRecipe(prescriptionId: number): void {
+        if (confirm('Are you sure you want to fulfill this prescription?')) {
+            this.prescriptionService.fulfillPrescription(prescriptionId);
         }
 	}
 

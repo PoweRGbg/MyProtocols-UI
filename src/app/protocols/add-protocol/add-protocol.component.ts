@@ -20,7 +20,6 @@ export class AddProtocolComponent {
 
 	addProtocol() {
         if (this.medicines.length > 0 && this.protocolStart && this.protocolValidity) {
-            console.log('Adding protocol');
 			const validTo: Date = new Date(
 				new Date(this.protocolStart).getTime() + this.protocolValidity * 24 * 60 * 60 * 1000
 			);
@@ -34,8 +33,6 @@ export class AddProtocolComponent {
 			this.protocolStart = this.todayAsString;
 			this.protocolValidity = 30;
 		} else {
-            console.log('Something is wrong with the form');
-            
             if (this.medicines.length < 1) {
 			    alert('Please add at least one medicine to protocol');
             } else if (!this.protocolStart) {
@@ -62,12 +59,9 @@ export class AddProtocolComponent {
             return;
         }
 		this.medicines.push(medicineAdded);
-        console.log('Added medicine to protocol: ', medicineAdded);
-        console.log('Medicines in protocol: ', this.medicines);
 	}
 
     protected removeMedicineFromProtocol(medicineRemoved: string): void {
         this.medicines = this.medicines.filter(medicine => medicine !== medicineRemoved);
-        console.log('Removed medicine from protocol: ', medicineRemoved);
     }
 }

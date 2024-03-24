@@ -1,23 +1,38 @@
-.button {
-    cursor: pointer;
-}
-
-.button:hover {
-    background-color: red;
-}
 
 table {
     border-spacing: 0px;
     border: 1px solid;
+
     th {
         border: 1px solid;
         padding: 5px;
     }
+
     td {
         border: 1px solid;
         padding: 5px;
     }
+
     .centered {
         text-align: center;
+    }
+
+    .fulfilled {
+        background-color: #83e783;
+        text-decoration: line-through;
+    }
+
+    .fulfilled-date {
+        font-size: 0.5em;
+    }
+
+    .button {
+        text-align: center;
+        cursor: pointer;
+        background-color: white;
+    }
+    
+    .button:hover {
+        background-color: red;
     }
 }

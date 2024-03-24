@@ -22,8 +22,6 @@ export class AddPrescriptionComponent implements OnInit {
 
     ngOnInit(): void {
         this.prescriptionName = this.medicineName ?? '';
-        console.log('this.medicineName', this.medicineName);
-        console.log('this.prescriptionName', this.prescriptionName);
     }
 
 	addPrescription() {

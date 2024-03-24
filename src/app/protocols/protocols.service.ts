@@ -18,7 +18,6 @@ export class ProtocolsService {
 	}
 
 	addProtocol(protocol: Protocol) {
-        console.log('Adding protocol to API: ', protocol);
 		this.addProtocolToAPI(protocol);
 	}
 
@@ -40,10 +39,7 @@ export class ProtocolsService {
 
 	getAllFromApi(): void {
 		this.http.get<Protocol[]>(this.apiUrl).subscribe((protocols) => {
-			console.log('Got protocols from API: ' + JSON.stringify(protocols));
-			
 			this.protocols = protocols.map(protocol => this.toProtocol(protocol));
-			console.log('Protocols after API: ',this.protocols);
 			
 			this.protocolsSubject.next([...this.protocols]);
 		});

@@ -31,6 +31,19 @@ export class PrescriptionService {
 		});
 	}
 
+	fulfillPrescription(prescriptionId: number) {
+        const body = { status: Date.now() };
+        this.http.put<Prescription>(
+            `${this.apiUrl}/${prescriptionId}`,
+            body,
+            { headers: {
+                'Content-Type': 'application/json',
+            }
+        }).subscribe(() => {
+			this.getAllFromApi();
+		});
+	}
+
 	addPrescriptionToAPI(prescription: Prescription): void {
 		this.http.post<Prescription>(this.apiUrl, prescription).subscribe(() => {
 			this.getAllFromApi();
@@ -39,11 +52,7 @@ export class PrescriptionService {
 
 	getAllFromApi(): void {
 		this.http.get<Prescription[]>(this.apiUrl).subscribe((prescriptions) => {
-			console.log('Got prescriptions from API: ' + JSON.stringify(prescriptions));
-			
 			this.prescriptions = prescriptions.map(prescription => this.toPrescription(prescription));
-			console.log('Prescriptions after API: ',this.prescriptions);
-			
 			this.prescriptionsSubject.next([...this.prescriptions.sort((a, b) => a.validTo.getTime() - b.validTo.getTime())]);
 		});
 	}
@@ -60,7 +69,9 @@ export class PrescriptionService {
 		return {
 			id: prescription.id,
 			medicineName: prescription.medicineName,
-			validTo: new Date(prescription.validTo)
+			validTo: new Date(prescription.validTo),
+            fulfilledDate: 
+                prescription.fulfilledDate ? new Date(prescription.fulfilledDate) : undefined,
 		}
 	}
 }

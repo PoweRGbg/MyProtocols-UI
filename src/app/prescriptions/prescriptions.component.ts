@@ -4,6 +4,7 @@ export interface Prescription {
     medicineName: string;
     issued?: Date;
     validTo: Date;
+    fulfilledDate?: Date;
 }
 @Component({
     selector: 'prescriptions',

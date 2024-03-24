@@ -18,12 +18,13 @@ export class ListProtocolsComponent {
     ngOnInit(): void {
         this.getAll();
         this.protocolsService.protocols$.subscribe((protocols) => {
-            this.protocols = protocols;
+            this.protocols = protocols.sort((a, b) => a.validTo.getTime() - b.validTo.getTime());
         });
     }
 
     getAll() {
-        this.protocols = this.protocolsService.getAllProtocols();
+        this.protocols = this.protocolsService.getAllProtocols()
+            .sort((a, b) => a.validTo.getTime() - b.validTo.getTime());
     }
 
     protected daysLeft(targetDate: Date): string {
