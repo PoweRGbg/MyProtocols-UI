@@ -1,5 +1,15 @@
 <p>MyProtocols UI</p>
-<div>Welcome {{user}}</div>
-<button mat-raised-button (click)="logout()">Logout</button>
-<prescriptions></prescriptions>
-<protocols></protocols>
+<div class="dashboard-title">Welcome {{user}}
+    <span> Session expires: {{sessionExpiry}}</span>
+    <span class="logout-button">
+        <button mat-raised-button (click)="logout()">Logout</button>
+    </span>
+</div>
+<div>
+    <span>Prescriptions:</span>
+    <prescriptions></prescriptions>
+</div>
+<div>
+    <span>Protocols:</span>
+    <protocols></protocols>
+</div>

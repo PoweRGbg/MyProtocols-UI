@@ -26,6 +26,7 @@ export class PrescriptionService {
 	}
 
 	getAllPrescriptions(): Prescription[] {
+        this.getAllFromApi();
 		return this.prescriptions.filter((prescription) => prescription.user === this.user);
 	}
 
@@ -55,8 +56,11 @@ export class PrescriptionService {
 	}
 
 	getAllFromApi(): void {
+        this.user = this.authService.getLoggedInUser();
 		this.http.get<Prescription[]>(this.apiUrl).subscribe((prescriptions) => {
-			this.prescriptions = prescriptions.map(prescription => this.toPrescription(prescription));
+			this.prescriptions = prescriptions
+                .filter(prescription => prescription.user === this.user)
+                .map(prescription => this.toPrescription(prescription));
 			this.prescriptionsSubject.next([...this.prescriptions.sort((a, b) => a.validTo.getTime() - b.validTo.getTime())]);
 		});
 	}

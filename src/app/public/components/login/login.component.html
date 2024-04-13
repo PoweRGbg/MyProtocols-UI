@@ -6,7 +6,7 @@
       <form [formGroup]="loginForm" (ngSubmit)="login()">
 
         <mat-form-field>
-          <input type="email" matInput placeholder="Email" formControlName="email">
+          <input type="email" matInput placeholder="Email" formControlName="email"  autocomplete="on">
           <!-- Here we can display error messages/hints for the user, if one of the Validators adds an error to the email 
            with the .touched check we only display the hints if the input was touched by the users -->
           <mat-error *ngIf="this.loginForm.get('email')?.touched && this.loginForm.get('email')?.hasError('required')">
@@ -16,7 +16,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input type="password" matInput placeholder="Password" formControlName="password">
+          <input type="password" matInput placeholder="Password" formControlName="password"  autocomplete="off">
           <mat-error
             *ngIf="this.loginForm.get('password')?.touched && this.loginForm.get('password')?.hasError('required')">
             Password is required</mat-error>

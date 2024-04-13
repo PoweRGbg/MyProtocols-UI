@@ -28,6 +28,10 @@ export class ProtocolsService {
     }
 
     getAllProtocols(): Protocol[] {
+        this.user = this.authService.getLoggedInUser();
+        this.getAllFromApi();
+        console.log('getti  ng all protocols for user', this.user);
+
         return this.protocols.filter((protocol) => protocol.user === this.user);
     }
 
