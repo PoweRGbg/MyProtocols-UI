@@ -22,16 +22,12 @@ export class LoginComponent {
     ) { }
 
     login() {
-        console.log('Login pressed');
-
         if (!this.loginForm.valid) {
             return;
         }
         this.authService.login(this.loginForm.value).pipe(
             // route to protected/dashboard, if login was successfull
             tap(() => {
-                console.log('Login successfull');
-
                 this.router.navigate(['../../protected/dashboard'])
             })
         ).subscribe();
