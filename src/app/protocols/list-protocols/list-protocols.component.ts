@@ -60,4 +60,10 @@ export class ListProtocolsComponent {
         this.medicinesForPrescriptions = this.medicinesForPrescriptions
             .filter((medicine) => medicine !== medicineName);
     }
+    
+    protected isExpired(protocol: Protocol): boolean {
+        const today = new Date();
+
+        return protocol.validTo.getTime() < today.getTime();
+    }
 }

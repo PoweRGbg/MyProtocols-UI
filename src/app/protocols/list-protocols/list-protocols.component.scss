@@ -5,6 +5,7 @@
 .button-delete:hover {
     background-color: red;
 }
+
 .button-action:hover {
     background-color: #afe6ff;
 }
@@ -19,6 +20,9 @@ table {
     td {
         border: 1px solid;
         padding: 5px;
+        div {
+            text-align: center;
+        }
     }
     .centered {
         text-align: center;

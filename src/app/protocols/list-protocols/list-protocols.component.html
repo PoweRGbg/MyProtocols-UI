@@ -17,8 +17,12 @@
         <td>{{ protocol.medicines.join(',') }}</td>
         <td class="centered">{{ formatDate(protocol.validTo) }}</td>
         <td class="centered">{{ daysLeft(protocol.validTo) }}</td>
-        <td class="button-action"><div (click)="addPrescriptions(protocol.medicines)">Добави рецепти</div></td>
-        <td class="button-delete"><div (click)="removeProtocol(protocol.id)">ИЗТРИЙ</div></td>
+        <td *ngIf="!isExpired(protocol)" class="button-action">
+            <div (click)="addPrescriptions(protocol.medicines)">Добави рецепти</div>
+        </td>
+        <td class="button-delete">
+            <div (click)="removeProtocol(protocol.id)">ИЗТРИЙ</div>
+        </td>
       </tr>
     </tbody>
   </table> 

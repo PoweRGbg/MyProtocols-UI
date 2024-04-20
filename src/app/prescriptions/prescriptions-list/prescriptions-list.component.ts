@@ -41,13 +41,13 @@ export class PrescriptionsListComponent implements OnInit {
 	}
 
 	protected removeRecipe(prescriptionId: number): void {
-        if (confirm('Are you sure you want to remove this prescription?')) {
+        if (confirm('Сигурни ли сте, че искате да премахнете тази рецепта?')) {
             this.prescriptionService.removePrescription(prescriptionId);
         }
 	}
 
 	protected fulfillRecipe(prescriptionId: number): void {
-        if (confirm('Are you sure you want to fulfill this prescription?')) {
+        if (confirm('Сигурни ли сте, че таззи рецепта е изпълнена?')) {
             this.prescriptionService.fulfillPrescription(prescriptionId);
         }
 	}
@@ -55,4 +55,10 @@ export class PrescriptionsListComponent implements OnInit {
 	protected formatDate(targetDate: Date): string {
 		return formatDate(targetDate);
 	}
+
+    protected isExpired(recipe: Prescription): boolean {
+        const today = new Date();
+
+        return recipe.validTo.getTime() < today.getTime();
+    }
 }

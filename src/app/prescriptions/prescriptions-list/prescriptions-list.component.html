@@ -15,7 +15,7 @@
             [ngClass]="recipe.fulfilledDate ? 'fulfilled fulfilled-date centered' : 'centered'">
             Взета: {{recipe.fulfilledDate}}
         </td>
-        <td *ngIf="!recipe.fulfilledDate" class="button">
+        <td *ngIf="!recipe.fulfilledDate && !isExpired(recipe)" class="button">
             <div (click)="fulfillRecipe(recipe.id)">Вземи</div>
         </td>
         <td class="button"><div (click)="removeRecipe(recipe.id)">X</div></td>
