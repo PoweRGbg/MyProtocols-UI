@@ -40,7 +40,6 @@ export class AuthService {
         // I want to catch if the respone is error, so I can show a snackbar message
         return this.http.post<LoginResponse>(`${this.apiUrl}/sign-in`, loginRequest).pipe(
             tap((res: LoginResponse) => {
-                console.log('res', res);
                 if ((res as any as HttpErrorResponse).error) {
                    
                 } else 
@@ -67,8 +66,6 @@ export class AuthService {
      The `..of()..` can be removed if you have a real backend, at the moment, this is just a faked response
     */
     register(registerRequest: RegisterRequest): Observable<RegisterResponse> {
-        console.log('registerRequest', registerRequest);
-
         return this.http.post<RegisterResponse>(`${this.apiUrl}/sign-up`, registerRequest).pipe(
             tap((res: RegisterResponse) => this.snackbar.open(`Потребителят е създаден`, 'Затвори', {
                 duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'

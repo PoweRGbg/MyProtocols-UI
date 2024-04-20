@@ -29,12 +29,16 @@ export class AddPrescriptionComponent implements OnInit {
     }
 
 	addPrescription() {
+        console.log('Adding prescription', this.prescriptionName, this.prescriptionStart, this.prescriptionValidity);
+        
         if (this.prescriptionService.isThereAValidPrescription(this.prescriptionName)) {
             alert('Вече имате рецепта за този медикамент!');
             return;
         }
 
 		if (this.prescriptionName && this.prescriptionStart && this.prescriptionValidity) {
+            console.log('Adding prescription', this.prescriptionName, this.prescriptionStart, this.prescriptionValidity);
+            
 			const validTo: Date = new Date(
 				new Date(this.prescriptionStart).getTime() + this.prescriptionValidity * 24 * 60 * 60 * 1000
 			);
@@ -50,7 +54,7 @@ export class AddPrescriptionComponent implements OnInit {
 			this.prescriptionStart = this.todayAsString;
 			this.prescriptionValidity = 30;
 		} else {
-			alert('Please fill all fields');
+			alert('Попълнете всички полета!');
 		}
 	}
 

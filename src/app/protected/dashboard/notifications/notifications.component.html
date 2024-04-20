@@ -1,13 +1,20 @@
 <p>Нотификации:</p>
-<label>Изтичащи скоро протоли:</label>
-<ul>
-    <li *ngFor="let protocol of protocolsIn7Days">
-        Протокол за {{protocol.medicines.join(',')}} изтича на {{protocol.validTo}}
-    </li>
-</ul>
-<label>Изтичащи скоро рецепти:</label>
-<ul>
-    <li *ngFor="let recipe of prescriptionsIn7Days">
-        Рецепта за {{recipe.medicineName}} изтича на {{recipe.validTo}}
-    </li>
-</ul>
+<div *ngIf="prescriptionsIn7Days.length === 0 && protocolsIn7Days.length === 0">
+    Няма изтичащи скоро рецепти и протоколи
+</div>
+<div *ngIf="protocolsIn7Days.length > 0">
+    <label>Изтичащи скоро протоколи:</label>
+    <ul>
+        <li *ngFor="let protocol of protocolsIn7Days">
+            Протокол за {{protocol.medicines.join(',')}} изтича на {{formatDate(protocol.validTo)}}
+        </li>
+    </ul>
+</div>
+<div *ngIf="prescriptionsIn7Days.length > 0">
+    <label>Изтичащи скоро рецепти:</label>
+    <ul>
+        <li *ngFor="let recipe of prescriptionsIn7Days">
+            Рецепта за {{recipe.medicineName}} изтича на {{formatDate(recipe.validTo)}}
+        </li>
+    </ul>
+</div>  

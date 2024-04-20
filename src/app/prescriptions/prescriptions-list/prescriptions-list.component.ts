@@ -3,6 +3,7 @@ import { PrescriptionService } from '../prescriptions-service/prescriptions.serv
 import { Prescription } from '../prescriptions.component';
 import { formatDate } from '../common';
 import { AuthService } from '../../public/auth.service';
+import { convertDateToEU } from '../../common/common';
 
 @Component({
 	selector: 'prescriptions-list',
@@ -52,13 +53,13 @@ export class PrescriptionsListComponent implements OnInit {
         }
 	}
 
-	protected formatDate(targetDate: Date): string {
-		return formatDate(targetDate);
-	}
-
     protected isExpired(recipe: Prescription): boolean {
         const today = new Date();
 
         return recipe.validTo.getTime() < today.getTime();
+    }
+
+    protected formatDate(targetDate: Date): string {
+        return convertDateToEU(targetDate.toISOString());
     }
 }

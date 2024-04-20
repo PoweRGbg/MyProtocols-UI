@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
   providers: [
     AuthService,
     provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'fr' }
   ],
   exports: [
     AddPrescriptionComponent,

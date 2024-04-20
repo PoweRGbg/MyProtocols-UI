@@ -49,17 +49,17 @@ export class DashboardComponent {
     protected expiresIn(expiryDate: Date | null): string {
         if (!expiryDate) {
             this.authService.logout();
-            return 'Expired';
+            return 'Изтекла сесия!';
         }
         const now = new Date();
         const diff = expiryDate.getTime() - now.getTime();
         const seconds = Math.floor(diff / 1000);
         const minutes = Math.floor(seconds / 60);
         const hours = Math.floor(minutes / 60);
-        const hoursStr = hours ? `${hours} hours, ` : '';
-        const minutesStr = minutes % 60 ? `${minutes % 60} minutes, ` : '';
-        const days = Math.floor(hours / 24) ? `${Math.floor(hours / 24)} days,` : '';
-        return `${days} ${hoursStr} ${minutesStr} ${seconds % 60} seconds`;
+        const hoursStr = hours ? `${hours} часа, ` : '';
+        const minutesStr = minutes % 60 ? `${minutes % 60} ${ minutes % 60 === 1 ? 'минута' : 'минути'}, ` : '';
+        const days = Math.floor(hours / 24) ? `${Math.floor(hours / 24)} дни,` : '';
+        return `${days} ${hoursStr} ${minutesStr} ${seconds % 60} сек`;
     }
 
     logout() {

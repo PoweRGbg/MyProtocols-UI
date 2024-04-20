@@ -3,7 +3,7 @@ import { PrescriptionService } from '../../../prescriptions/prescriptions-servic
 import { Prescription } from '../../../prescriptions/prescriptions.component';
 import { Protocol } from '../../../protocols/protocols/protocols.component';
 import { ProtocolsService } from '../../../protocols/protocols.service';
-
+import { convertDateToEU } from '../../../common/common';
 @Component({
   selector: 'dashboard-notifications',
   templateUrl: './notifications.component.html',
@@ -33,12 +33,16 @@ export class DashboardNotificationsComponent {
     getProtocolsInDays(days: number): Protocol[] {
         const now = new Date();
         const daysFromNow = new Date(now.setDate(now.getDate() + days));
-        return this.protocols.filter((protocol) => protocol.validTo <= daysFromNow);
+        return this.protocols.filter((protocol) => protocol.validTo <= daysFromNow && protocol.validTo.getDate() < now.getDate());
     }
     
     getPrescriptionsInDays(days: number): Prescription[] {
         const now = new Date();
         const daysFromNow = new Date(now.setDate(now.getDate() + days));
         return this.prescriptions.filter((protocol) => protocol.validTo <= daysFromNow);
+    }
+
+    protected formatDate(targetDate: Date): string {
+        return convertDateToEU(targetDate.toISOString());
     }
 }

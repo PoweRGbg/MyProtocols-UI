@@ -3,6 +3,15 @@
         <tr>
             <td>
                 <mat-form-field>
+                    <mat-label for="prescriptionStart">Дата на издаване:</mat-label>
+                    <input matInput [matDatepicker]="picker" id="protocolStart" name="protocolStart" [(ngModel)]="protocolStart">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field>
                     <mat-label>Валидност (дни):</mat-label>
                     <input matInput id="protocolValidity" name="protocolValidity" [(ngModel)]="protocolValidity">
                 </mat-form-field>
@@ -23,19 +32,12 @@
             </td>
         </tr>
         <tr>
-            <td>
-                <mat-form-field>
-                    <mat-label for="prescriptionStart">Дата на издаване:</mat-label>
-                    <input matInput [matDatepicker]="picker" id="protocolStart" name="protocolStart" [(ngModel)]="protocolStart">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-            </td>
+            
         </tr>
         <tr>
             <td>
                 <button mat-flat-button color="primary" type="submit">Добави протокол</button>
             </td>
+        </tr>
     </table>
 </form>

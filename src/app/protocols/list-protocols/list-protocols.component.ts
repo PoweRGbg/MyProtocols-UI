@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProtocolsService } from '../protocols.service';
 import { Protocol } from '../protocols/protocols.component';
 import { formatDate } from '../../prescriptions/common';
+import { convertDateToEU } from '../../common/common';
 
 @Component({
     selector: 'list-protocols',
@@ -46,10 +47,6 @@ export class ListProtocolsComponent {
         }
     }
 
-    protected formatDate(targetDate: Date): string {
-        return formatDate(targetDate);
-    }
-
     protected addPrescriptions(medicines: string[]): void {
         if (medicines.length !== 0) {
             this.medicinesForPrescriptions = [...medicines];
@@ -65,5 +62,9 @@ export class ListProtocolsComponent {
         const today = new Date();
 
         return protocol.validTo.getTime() < today.getTime();
+    }
+    
+    protected formatDate(targetDate: Date): string {
+        return convertDateToEU(targetDate.toISOString());
     }
 }
