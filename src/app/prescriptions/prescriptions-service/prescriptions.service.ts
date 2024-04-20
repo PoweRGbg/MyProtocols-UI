@@ -57,6 +57,7 @@ export class PrescriptionService {
 
 	getAllFromApi(): void {
         this.user = this.authService.getLoggedInUser();
+        console.log('getting all prescriptions from API for user', this.user);
 		this.http.get<Prescription[]>(this.apiUrl).subscribe((prescriptions) => {
 			this.prescriptions = prescriptions
                 .filter(prescription => prescription.user === this.user)
@@ -73,6 +74,27 @@ export class PrescriptionService {
         const validPrescriptions = prescriptionsForMedicine
             .filter(prescription => prescription.validTo >= today);
         return validPrescriptions.length > 0;
+    }
+
+    // method to get all prescriptions expiring in the next 7 days
+    getPrescriptionsExpiringInDays(days: number): Prescription[] {
+        const today = new Date();
+        const nextDays = new Date(today);
+        nextDays.setDate(today.getDate() + days);
+        if (!this.prescriptions.length) {
+            console.log('getting all prescriptions from API');
+            this.getAllFromApi();
+        }
+        console.log('prescriptions in service', this.prescriptions);
+        
+        return this.prescriptions
+            .filter(prescription => prescription.validTo >= today && prescription.validTo <= nextDays);
+    }
+
+    getExpiredPrescriptions(): Prescription[] {
+        const today = new Date();
+        return this.prescriptions
+            .filter(prescription => prescription.validTo < today);
     }
 
 	toPrescription(prescription: any): Prescription {

@@ -39,11 +39,11 @@ export class AddProtocolComponent {
 			this.protocolValidity = 30;
 		} else {
             if (this.medicines.length < 1) {
-			    alert('Please add at least one medicine to protocol');
+			    alert('Моля добавете лекарства към протокола');
             } else if (!this.protocolStart) {
-                alert('Please fill in protocol start date');
+                alert('Моля попълнете начална дата на протокола');
             } else if (!this.protocolValidity) {
-                alert('Please fill in protocol validity');
+                alert('Моля попълнете валидност на протокола в дни');
             }
 		}
 	}

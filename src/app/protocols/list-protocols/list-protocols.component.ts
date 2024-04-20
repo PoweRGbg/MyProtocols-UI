@@ -37,11 +37,11 @@ export class ListProtocolsComponent {
             return daysDifference.toString();
         }
 
-        return "EXPIRED!";
+        return "ИЗТЕКЪЛ!";
     }
 
     protected removeProtocol(protocolId: number): void {
-        if (confirm("Are you sure you want to remove this protocol?")) {
+        if (confirm("Сигурми ли сте, че искате да изтриете протокола? Не може да го възстановите след това!")) {
             this.protocolsService.removeProtocol(protocolId);
         }
     }

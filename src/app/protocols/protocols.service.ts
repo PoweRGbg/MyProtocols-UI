@@ -60,6 +60,17 @@ export class ProtocolsService {
         });
     }
 
+    getProtocolsInDays(days: number): Protocol[] {
+        const now = new Date();
+        const daysFromNow = new Date(now.setDate(now.getDate() + days));
+        return this.protocols.filter((protocol) => protocol.validTo <= daysFromNow);
+    }
+
+    getExpiredProtocols(): Protocol[] {
+        const now = new Date();
+        return this.protocols.filter((protocol) => protocol.validTo < now);
+    }
+
     toProtocol(protocol: any): Protocol {
         return {
             id: protocol.id,

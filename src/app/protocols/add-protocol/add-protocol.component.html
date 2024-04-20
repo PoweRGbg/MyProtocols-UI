@@ -2,7 +2,7 @@
     <table>
         <tr>
             <td>
-                <label for="protocolValidity">Validity:</label>
+                <label for="protocolValidity">Валидност (дни):</label>
             </td>
             <td>
                 <input type="text" id="protocolValidity" name="protocolValidity" [(ngModel)]="protocolValidity">
@@ -10,7 +10,7 @@
         </tr>
         <tr>
             <td>
-                <label for="protocolFor">Medicine:</label>
+                <label for="protocolFor">Лекарство:</label>
             </td>
             <td>
                 <protocol-add-medicine (medicineAdded)="addMedicineToProtocol($event)">
@@ -19,7 +19,7 @@
         </tr>
         <tr *ngFor="let medicine of medicines">
             <td>
-                <label for="protocolValidity">Medicine:</label>
+                <label for="protocolValidity">Лекарство:</label>
             </td>
             <td>
                 {{medicine}}
@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <td>
-                <label for="protocolStart">Date of issue:</label>
+                <label for="protocolStart">Дата на издаване:</label>
             </td>
             <td>
                 <input type="date" id="protocolStart" name="protocolStart" [(ngModel)]="protocolStart">
@@ -39,7 +39,7 @@
         <tr>
             <td></td>
             <td>
-                <button type="submit">Add</button>
+                <button type="submit">Добави</button>
             </td>
     </table>
 </form>

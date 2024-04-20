@@ -1,58 +1,58 @@
 <div>
-  <a [routerLink]="['../login']">Go to Login</a>
+  <a [routerLink]="['../login']">Към влизане</a>
   <mat-card>
-    <mat-card-title>Register</mat-card-title>
+    <mat-card-title>Регистрация</mat-card-title>
 
     <mat-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="register()">
 
         <div>
             <mat-form-field>
-                <input type="email" matInput placeholder="Email" formControlName="email" autocomplete="on">
+                <input type="email" matInput placeholder="Имейл" formControlName="email" autocomplete="on">
                 <!-- Here we can display error messages/hints for the user, if one of the Validators adds an error to the email 
                     with the .touched check we only display the hints if the input was touched by the users -->
                     <mat-error
                     *ngIf="this.registerForm.get('email')?.touched && this.registerForm.get('email')?.hasError('required')">
-                    Email is required</mat-error>
+                    Нужен е имейл</mat-error>
                     <mat-error
                     *ngIf="this.registerForm.get('email')?.touched && this.registerForm.get('email')?.hasError('email')">
-                    Email must be a valid Email</mat-error>
+                    Невалиден имейл</mat-error>
                 </mat-form-field>
             </div>
 
         <div>
             <mat-form-field>
-                <input type="text" matInput placeholder="Name" formControlName="name" autocomplete="on">
+                <input type="text" matInput placeholder="Име" formControlName="name" autocomplete="on">
                 <mat-error
                 *ngIf="this.registerForm.get('name')?.touched && this.registerForm.get('name')?.hasError('required')">
-                Name is required</mat-error>
+                Нужно е име</mat-error>
             </mat-form-field>
         </div>
             
         <div>
             <mat-form-field>
-                <input type="password" matInput placeholder="Password" formControlName="password" autocomplete="off">
+                <input type="password" matInput placeholder="Парола" formControlName="password" autocomplete="off">
                 <mat-error
                 *ngIf="this.registerForm.get('password')?.touched && this.registerForm.get('password')?.hasError('required')">
-                Password is required</mat-error>
+                Паролата е задължителна</mat-error>
             </mat-form-field>
         </div>
         
         <div>
             <mat-form-field>
-                <input type="password" matInput placeholder="Password Confirmation" formControlName="passwordConfirm" autocomplete="off">
+                <input type="password" matInput placeholder="Потвърдете паролата" formControlName="passwordConfirm" autocomplete="off">
                 <mat-error
                 *ngIf="this.registerForm.get('passwordConfirm')?.touched && this.registerForm.get('passwordConfirm')?.hasError('required')">
-                Password Confirmation is required</mat-error>
+                Потвърдете паролата</mat-error>
             </mat-form-field>
         </div>
             
         <mat-error
           *ngIf="this.registerForm.get('passwordConfirm')?.dirty && this.registerForm.hasError('passwordsNotMatching')">
-          Passwords are not matching!</mat-error>
+          Паролите не съвпадат!</mat-error>
 
         <div class="button">
-          <button type="submit" mat-button [disabled]="!registerForm.valid">Register</button>
+          <button type="submit" mat-button [disabled]="!registerForm.valid">Регистрирай ме</button>
         </div>
 
       </form>

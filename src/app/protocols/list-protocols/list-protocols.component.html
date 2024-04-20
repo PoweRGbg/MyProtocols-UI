@@ -1,5 +1,5 @@
 <div id="prescriptions-add" *ngFor="let medicine of medicinesForPrescriptions">
-    <div>For: {{medicine}}</div>
+    <div>За: {{medicine}}</div>
     <prescription-add [medicineName]="medicine" (prescriptionAdded)="prescriptionAdded($event)">
     </prescription-add>
 </div>
@@ -7,10 +7,9 @@
 <table *ngIf="protocols.length">
     <thead>
       <tr>
-        <th>Medicines included:</th>
-        <th>Expires on</th>
-        <th>Days left</th>
-        <!-- Add more table headers as needed -->
+        <th>Включени лекарства:</th>
+        <th>Изтича на</th>
+        <th>Оставащи дни</th>
       </tr>
     </thead>
     <tbody>
@@ -18,8 +17,8 @@
         <td>{{ protocol.medicines.join(',') }}</td>
         <td class="centered">{{ formatDate(protocol.validTo) }}</td>
         <td class="centered">{{ daysLeft(protocol.validTo) }}</td>
-        <td class="button-action"><div (click)="addPrescriptions(protocol.medicines)">Add prescriptions</div></td>
-        <td class="button-delete"><div (click)="removeProtocol(protocol.id)">REMOVE</div></td>
+        <td class="button-action"><div (click)="addPrescriptions(protocol.medicines)">Добави рецепти</div></td>
+        <td class="button-delete"><div (click)="removeProtocol(protocol.id)">ИЗТРИЙ</div></td>
       </tr>
     </tbody>
   </table> 

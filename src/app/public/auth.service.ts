@@ -1,7 +1,7 @@
 import { LOCALSTORAGE_TOKEN_KEY } from './../app.module';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from './interfaces';
@@ -37,14 +37,30 @@ export class AuthService {
     ) { }
 
     login(loginRequest: LoginRequest): Observable<LoginResponse> {
+        // I want to catch if the respone is error, so I can show a snackbar message
         return this.http.post<LoginResponse>(`${this.apiUrl}/sign-in`, loginRequest).pipe(
             tap((res: LoginResponse) => {
+                console.log('res', res);
+                if ((res as any as HttpErrorResponse).error) {
+                   
+                } else 
                 return localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, res.accessToken)
             }),
-            tap(() => this.snackbar.open('Login Successfull', 'Close', {
+            tap(() => this.snackbar.open('Успешно влизане', 'Затвори', {
                 duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
-            }))
+            })),
+            catchError((err) => {
+                this.snackbar.open('Грешка при влизане', 'Затвори', {
+                    duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
+                });
+                return of(err);
+            })
         );
+    }
+
+    logout() {
+        // Removes the jwt token from the local storage, so the user gets logged out & then navigate back to the "public" routes
+        localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
     }
 
     /*
@@ -54,7 +70,7 @@ export class AuthService {
         console.log('registerRequest', registerRequest);
 
         return this.http.post<RegisterResponse>(`${this.apiUrl}/sign-up`, registerRequest).pipe(
-            tap((res: RegisterResponse) => this.snackbar.open(`User created successfully`, 'Close', {
+            tap((res: RegisterResponse) => this.snackbar.open(`Потребителят е създаден`, 'Затвори', {
                 duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
             }))
         )

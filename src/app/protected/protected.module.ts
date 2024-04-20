@@ -5,10 +5,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatButtonModule } from '@angular/material/button';
 import { PrescriptionModule } from '../prescriptions/prescriptions.module';
 import { ProtocolsModule } from '../protocols/protocols.module';
+import { DashboardNotificationsComponent } from './dashboard/notifications/notifications.component';
 
 @NgModule({
     declarations: [
-        DashboardComponent
+        DashboardComponent,
+        DashboardNotificationsComponent,
     ],
     imports: [
         CommonModule,

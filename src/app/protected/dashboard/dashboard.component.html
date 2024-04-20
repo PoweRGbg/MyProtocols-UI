@@ -1,15 +1,21 @@
-<p>MyProtocols UI</p>
-<div class="dashboard-title">Welcome {{user}}
-    <span> Session expires: {{sessionExpiry}}</span>
+<p>MyProtocols UI v.{{appVersion}}</p>
+<div class="dashboard-title">Здравейте {{user}}  
+    <span> Сесията изтича след: {{sessionExpiry}}</span>
     <span class="logout-button">
-        <button mat-raised-button (click)="logout()">Logout</button>
+        <button mat-raised-button (click)="logout()">Излизане</button>
     </span>
 </div>
 <div>
-    <span>Prescriptions:</span>
+    <dashboard-notifications
+        [prescriptions]="prescriptions"
+        [protocols]="protocols"
+    ></dashboard-notifications>
+</div>
+<div>
+    <span>Рецепти:</span>
     <prescriptions></prescriptions>
 </div>
 <div>
-    <span>Protocols:</span>
+    <span>Протоколи:</span>
     <protocols></protocols>
 </div>

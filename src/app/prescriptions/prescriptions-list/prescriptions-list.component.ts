@@ -37,7 +37,7 @@ export class PrescriptionsListComponent implements OnInit {
 		if (daysDifference > 0) {
 			return daysDifference.toString();
 		}
-		return "EXPIRED!";
+		return "ИЗТЕКЛА!";
 	}
 
 	protected removeRecipe(prescriptionId: number): void {

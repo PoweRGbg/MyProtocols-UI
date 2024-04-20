@@ -1,10 +1,9 @@
 <table *ngIf="prescriptions.length">
     <thead>
       <tr>
-        <th>Recipe for medicine:</th>
-        <th>Expires on</th>
-        <th>Days left</th>
-        <!-- Add more table headers as needed -->
+        <th>Рецепта за лекарство:</th>
+        <th>Изтича на</th>
+        <th>Оставащи дни</th>
       </tr>
     </thead>
     <tbody>
@@ -14,10 +13,10 @@
         <td [ngClass]="recipe.fulfilledDate ? 'fulfilled centered' : 'centered'">{{ daysLeft(recipe.validTo) }}</td>
         <td *ngIf="recipe.fulfilledDate"
             [ngClass]="recipe.fulfilledDate ? 'fulfilled fulfilled-date centered' : 'centered'">
-            Fulfilled: {{recipe.fulfilledDate}}
+            Взета: {{recipe.fulfilledDate}}
         </td>
         <td *ngIf="!recipe.fulfilledDate" class="button">
-            <div (click)="fulfillRecipe(recipe.id)">Fulfill</div>
+            <div (click)="fulfillRecipe(recipe.id)">Вземи</div>
         </td>
         <td class="button"><div (click)="removeRecipe(recipe.id)">X</div></td>
       </tr>
