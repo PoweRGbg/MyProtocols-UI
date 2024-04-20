@@ -15,10 +15,12 @@
             [ngClass]="recipe.fulfilledDate ? 'fulfilled fulfilled-date centered' : 'centered'">
             Взета: {{recipe.fulfilledDate}}
         </td>
-        <td *ngIf="!recipe.fulfilledDate && !isExpired(recipe)" class="button">
-            <div (click)="fulfillRecipe(recipe.id)">Вземи</div>
+        <td *ngIf="!recipe.fulfilledDate && !isExpired(recipe)">
+            <button mat-flat-button color="primary" (click)="fulfillRecipe(recipe.id)">Вземи</button>
         </td>
-        <td class="button"><div (click)="removeRecipe(recipe.id)">X</div></td>
+        <td>
+            <button mat-flat-button color="warn" (click)="removeRecipe(recipe.id)">ИЗТРИЙ</button>
+        </td>
       </tr>
     </tbody>
   </table> 

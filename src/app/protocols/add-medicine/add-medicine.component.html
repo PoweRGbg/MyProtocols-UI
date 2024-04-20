@@ -1,2 +1,5 @@
-<input type="text" id="medicineName" name="medicineName" [(ngModel)]="medicineName">
-<button type="button" (click)="addToProtocol()">Добави към протокол</button>
+<mat-form-field>
+    <mat-label>Лекарство:</mat-label>
+    <input matInput id="medicineName" name="prescriptionName" [(ngModel)]="medicineName">
+</mat-form-field>
+<button mat-flat-button color="primary" type="button" (click)="addToProtocol()">Добави към протокол</button>

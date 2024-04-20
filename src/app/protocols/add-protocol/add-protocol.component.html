@@ -2,16 +2,13 @@
     <table>
         <tr>
             <td>
-                <label for="protocolValidity">Валидност (дни):</label>
-            </td>
-            <td>
-                <input type="text" id="protocolValidity" name="protocolValidity" [(ngModel)]="protocolValidity">
+                <mat-form-field>
+                    <mat-label>Валидност (дни):</mat-label>
+                    <input matInput id="protocolValidity" name="protocolValidity" [(ngModel)]="protocolValidity">
+                </mat-form-field>
             </td>
         </tr>
         <tr>
-            <td>
-                <label for="protocolFor">Лекарство:</label>
-            </td>
             <td>
                 <protocol-add-medicine (medicineAdded)="addMedicineToProtocol($event)">
                 </protocol-add-medicine>
@@ -19,27 +16,26 @@
         </tr>
         <tr *ngFor="let medicine of medicines">
             <td>
-                <label for="protocolValidity">Лекарство:</label>
+                <mat-label>{{medicine}}</mat-label>
             </td>
             <td>
-                {{medicine}}
-            </td>
-            <td>
-                <button type="button" (click)="removeMedicineFromProtocol(medicine)">Remove</button>
+                <button mat-flat-button color="primary" type="button" (click)="removeMedicineFromProtocol(medicine)">Изтрий от протокол</button>
             </td>
         </tr>
         <tr>
             <td>
-                <label for="protocolStart">Дата на издаване:</label>
-            </td>
-            <td>
-                <input type="date" id="protocolStart" name="protocolStart" [(ngModel)]="protocolStart">
+                <mat-form-field>
+                    <mat-label for="prescriptionStart">Дата на издаване:</mat-label>
+                    <input matInput [matDatepicker]="picker" id="protocolStart" name="protocolStart" [(ngModel)]="protocolStart">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
             </td>
         </tr>
         <tr>
-            <td></td>
             <td>
-                <button type="submit">Добави</button>
+                <button mat-flat-button color="primary" type="submit">Добави протокол</button>
             </td>
     </table>
 </form>

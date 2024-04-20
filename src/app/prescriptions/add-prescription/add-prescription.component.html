@@ -4,27 +4,34 @@
         <table>
             <tr>
                 <td>
-                    <label for="prescriptionName">Лекарство:</label>
-                </td>
-                <td>
-                    <input type="text" id="prescriptionName" name="prescriptionName" [(ngModel)]="prescriptionName">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="prescriptionValidity">Валидност:</label>
-                </td>
-                <td>
-                    <input type="text" id="prescriptionValidity" name="prescriptionValidity" [(ngModel)]="prescriptionValidity">
+                    <mat-form-field>
+                        <mat-label>Лекарство:</mat-label>
+                        <input matInput id="prescriptionName" name="prescriptionName" [(ngModel)]="prescriptionName">
+                    </mat-form-field>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label for="prescriptionStart">Дата на издаване:</label>
+                    <mat-form-field>
+                        <mat-label>Валидност:</mat-label>
+                        <input 
+                            matInput
+                            id="prescriptionValidity"
+                            name="prescriptionValidity"
+                            [(ngModel)]="prescriptionValidity">
+                    </mat-form-field>
                 </td>
+            </tr>
+            <tr>
                 <td>
-                    <input type="date" id="prescriptionStart" name="prescriptionStart" [(ngModel)]="prescriptionStart">
-                    <button type="submit">Добави</button>
+                    <mat-form-field>
+                        <mat-label for="prescriptionStart">Дата на издаване:</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="prescriptionStart">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    <button mat-flat-button color="primary" type="submit">Добави</button>
                 </td>
             </tr>
         </table>

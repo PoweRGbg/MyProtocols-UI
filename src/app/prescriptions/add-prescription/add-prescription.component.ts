@@ -30,7 +30,7 @@ export class AddPrescriptionComponent implements OnInit {
 
 	addPrescription() {
         if (this.prescriptionService.isThereAValidPrescription(this.prescriptionName)) {
-            alert('There is already a valid prescription for this medicine');
+            alert('Вече имате рецепта за този медикамент!');
             return;
         }
 
