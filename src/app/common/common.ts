@@ -8,3 +8,15 @@ export function convertDateFromEU(date: string): Date {
   const [day, month, year] = date.split('/');
   return new Date(Number(year), Number(month) - 1, Number(day));
 }
+
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'LL',
+    },
+    display: {
+      dateInput: 'LL',
+      monthYearLabel: 'MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM YYYY',
+    },
+  };

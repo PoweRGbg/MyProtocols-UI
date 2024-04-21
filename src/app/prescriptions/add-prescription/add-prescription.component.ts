@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PrescriptionService } from '../prescriptions-service/prescriptions.service';
 import { formatDate } from '../common';
 import { AuthService } from '../../public/auth.service';
+import { convertDateToEU } from '../../common/common';
 
 @Component({
 	selector: 'prescription-add',
@@ -10,20 +11,20 @@ import { AuthService } from '../../public/auth.service';
 })
 export class AddPrescriptionComponent implements OnInit {
 	now = new Date();
-	protected readonly todayAsString = formatDate(this.now);
+	protected readonly todayAsString = convertDateToEU(this.now.toISOString());
     @Input() medicineName: string | undefined;
 
     @Output() prescriptionAdded: EventEmitter<string> = new EventEmitter<string>();
     
 	protected prescriptionName: string = '';
-	protected prescriptionStart: string = this.todayAsString;
+	protected prescriptionStart: Date = this.now;
 	protected prescriptionValidity: number = 30;
 
 	constructor(
         private prescriptionService: PrescriptionService,
-        private authService: AuthService
+        private authService: AuthService,
     ) {}
-
+    
     ngOnInit(): void {
         this.prescriptionName = this.medicineName ?? '';
     }
@@ -38,7 +39,6 @@ export class AddPrescriptionComponent implements OnInit {
 
 		if (this.prescriptionName && this.prescriptionStart && this.prescriptionValidity) {
             console.log('Adding prescription', this.prescriptionName, this.prescriptionStart, this.prescriptionValidity);
-            
 			const validTo: Date = new Date(
 				new Date(this.prescriptionStart).getTime() + this.prescriptionValidity * 24 * 60 * 60 * 1000
 			);
@@ -51,7 +51,7 @@ export class AddPrescriptionComponent implements OnInit {
             this.prescriptionAdded.emit(this.prescriptionName);
 			// Clear form fields after adding prescription
 			this.prescriptionName = '';
-			this.prescriptionStart = this.todayAsString;
+			this.prescriptionStart = this.now;
 			this.prescriptionValidity = 30;
 		} else {
 			alert('Попълнете всички полета!');

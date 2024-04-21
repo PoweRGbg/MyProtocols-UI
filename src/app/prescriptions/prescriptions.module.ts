@@ -30,7 +30,7 @@ import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/cor
   providers: [
     AuthService,
     provideNativeDateAdapter(),
-    { provide: MAT_DATE_LOCALE, useValue: 'fr' }
+    { provide: MAT_DATE_LOCALE, useValue: 'bg' }
   ],
   exports: [
     AddPrescriptionComponent,

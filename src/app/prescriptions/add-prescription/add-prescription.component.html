@@ -26,7 +26,9 @@
                 <td>
                     <mat-form-field>
                         <mat-label for="prescriptionStart">Дата на издаване:</mat-label>
-                        <input matInput [matDatepicker]="picker" [(ngModel)]="prescriptionStart" name="prescription-start">
+                        <input matInput [matDatepicker]="picker" 
+                            [(ngModel)]="prescriptionStart"
+                            name="prescription-start">
                         <mat-hint>ДД/ММ/ГГГГ</mat-hint>
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>

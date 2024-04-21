@@ -30,7 +30,6 @@ export class ProtocolsService {
     getAllProtocols(): Protocol[] {
         this.user = this.authService.getLoggedInUser();
         this.getAllFromApi();
-        console.log('getti  ng all protocols for user', this.user);
 
         return this.protocols.filter((protocol) => protocol.user === this.user);
     }
@@ -43,7 +42,6 @@ export class ProtocolsService {
 
     addProtocolToAPI(protocol: Protocol): void {
         protocol.user = this.user;
-        console.log('adding protocol', protocol);
         
         this.http.post<Protocol>(this.apiUrl, protocol).subscribe(() => {
             this.getAllFromApi();

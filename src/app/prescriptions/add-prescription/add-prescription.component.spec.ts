@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+import {default as _rollupMoment} from 'moment';
 import { AddPrescriptionComponent } from './add-prescription.component';
 
 describe('AddPrescriptionComponent', () => {

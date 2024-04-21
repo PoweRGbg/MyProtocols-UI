@@ -5,11 +5,12 @@
                 <mat-form-field>
                     <mat-label for="prescriptionStart">Дата на издаване:</mat-label>
                     <input matInput [matDatepicker]="picker" id="protocolStart" name="protocolStart" [(ngModel)]="protocolStart">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
             </td>
+        </tr>
+        <tr>
             <td>
                 <mat-form-field>
                     <mat-label>Валидност (дни):</mat-label>
@@ -23,13 +24,23 @@
                 </protocol-add-medicine>
             </td>
         </tr>
-        <tr *ngFor="let medicine of medicines">
+        <tr *ngFor="let medicine of medicinesInProtocol">
             <td>
-                <mat-label>{{medicine}}</mat-label>
+                <mat-label>Включенo лекарствo:</mat-label>
             </td>
             <td>
-                <button mat-flat-button color="primary" type="button" (click)="removeMedicineFromProtocol(medicine)">Изтрий от протокол</button>
+                <table>
+                    <tr>
+                        <td>
+                            <mat-label>{{medicine}}</mat-label>
+                        </td>
+                        <td>
+                            <button mat-flat-button color="primary" type="button" (click)="removeMedicineFromProtocol(medicine)">Изтрий от протокол</button>
+                        </td>
+                    </tr>
+                </table>
             </td>
+            
         </tr>
         <tr>
             
