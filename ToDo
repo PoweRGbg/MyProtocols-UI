@@ -1,6 +1,4 @@
-- Create Protocols
-- each protocol should have:
-    - medicine and monthly dosage
-    - issue date ( default today)
-    - validity ( default 6 months)
-    - prescriptions ( default none )
+- renew protocols
+    - delete old/expired protocol after renew
+- add expired recipes/protocols to dashboard
+- add a popup for confirmation of adding protocols/recipes
