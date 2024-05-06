@@ -19,6 +19,7 @@
         <td class="centered">{{ daysLeft(protocol.validTo) }}</td>
         <td  class="centered">
             <button *ngIf="!isExpired(protocol)" mat-flat-button color="primary" (click)="addPrescriptions(protocol.medicines)">Добави рецепти</button>
+            <button *ngIf="isExpired(protocol)" mat-flat-button color="primary" (click)="renewProtocol(protocol)">Поднови</button>
             <button mat-flat-button color="warn" (click)="removeProtocol(protocol.id)">ИЗТРИЙ</button>
         </td>
       </tr>

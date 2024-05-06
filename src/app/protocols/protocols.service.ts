@@ -8,7 +8,7 @@ import { AuthService } from '../public/auth.service';
     providedIn: 'root'
 })
 export class ProtocolsService {
-    private apiUrl = 'http://localhost:3000/protocols';
+    private apiUrl = 'http://protocols.nightscout.bg/api/protocols';
     protocols$: Observable<Protocol[]>;
     private protocolsSubject = new Subject<Protocol[]>();
     private protocols: Protocol[] = [];
@@ -40,6 +40,29 @@ export class ProtocolsService {
         });
     }
 
+    renewProtocol(protocolId: number): number | undefined {
+        const protocolToRenew = this.protocols.find((protocol) => protocol.id === protocolId);
+        if (!protocolToRenew) {
+            console.log('No protocol to renew');
+            return;
+        }
+
+        const validityInDays = protocolToRenew.issued !== undefined ? 
+            (protocolToRenew.validTo.getTime() - protocolToRenew.issued.getTime()) / (1000 * 60 * 60 * 24):
+            120;
+        const renewedProtocol = {
+            ...protocolToRenew,
+            id: this.protocols[this.protocols.length - 1].id + 1,
+            validTo: new Date(new Date().getTime() + validityInDays * 24 * 60 * 60 * 1000),
+            issued: new Date(),
+        };
+        console.log('renewedProtocol', renewedProtocol);
+        
+        this.addProtocol(renewedProtocol);
+        this.removeProtocol(protocolId);
+        return renewedProtocol.id;
+    }
+
     addProtocolToAPI(protocol: Protocol): void {
         protocol.user = this.user;
         
@@ -53,7 +76,6 @@ export class ProtocolsService {
             this.protocols = protocols
                 .map(protocol => this.toProtocol(protocol))
                 .filter((protocol) => protocol.user === this.user);
-
             this.protocolsSubject.next([...this.protocols]);
         });
     }

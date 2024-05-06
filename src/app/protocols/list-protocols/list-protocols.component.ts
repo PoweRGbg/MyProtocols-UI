@@ -14,12 +14,14 @@ export class ListProtocolsComponent {
     protected medicinesForPrescriptions: string[] = [];
     protected protocols: Protocol[] = [];
 
-    constructor(private protocolsService: ProtocolsService) { }
+    constructor(private protocolsService: ProtocolsService) {}
 
     ngOnInit(): void {
         this.getAll();
         this.protocolsService.protocols$.subscribe((protocols) => {
             this.protocols = protocols.sort((a, b) => a.validTo.getTime() - b.validTo.getTime());
+            console.log('Protocols updated');
+            
         });
     }
 
@@ -42,8 +44,35 @@ export class ListProtocolsComponent {
     }
 
     protected removeProtocol(protocolId: number): void {
-        if (confirm("Сигурми ли сте, че искате да изтриете протокола? Не може да го възстановите след това!")) {
+        if (confirm("Сигурни ли сте, че искате да изтриете протокола? Не може да го възстановите след това!")) {
             this.protocolsService.removeProtocol(protocolId);
+        }
+    }
+
+    protected renewProtocol(protocol: Protocol): void {
+        if (confirm("Сигурни ли сте, че искате да подновите протокола? Не може да го възстановите след това!")) {
+            if (protocol.validTo > new Date()) {
+                console.log('Protocol is not expired');
+                return;
+            } else {
+                const renewdProtocolId = this.protocolsService.renewProtocol(protocol.id);
+
+                setTimeout(() => {
+                    this.getAll();
+                    const renewedProtocol = this.protocols.find((protocol) => protocol.id === renewdProtocolId);
+                    
+                    if (renewedProtocol !== undefined) {
+                        
+                        this.protocolsService.removeProtocol(protocol.id);
+                        this.getAll();
+                        if (this.protocols.find((protocolFormDatabase) => protocol.id === protocolFormDatabase.id) !== undefined) {
+                            console.log('Protocol not deleted!');
+                        }
+                    } else {
+                        console.log('Protocol not renewed!');
+                    }
+                }, 5000);
+            }
         }
     }
 

@@ -8,7 +8,7 @@ import { AuthService } from '../../public/auth.service';
 	providedIn: 'root'
 })
 export class PrescriptionService {
-	private apiUrl = 'http://localhost:3000/prescriptions';
+	private apiUrl = 'http://protocols.nightscout.bg/api/prescriptions';
 	prescriptions$: Observable<Prescription[]>;
 	private prescriptionsSubject = new Subject<Prescription[]>();
 	private prescriptions: Prescription[] = [];
