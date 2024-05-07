@@ -29,10 +29,13 @@ export class AddPrescriptionComponent implements OnInit {
     }
 
 	addPrescription() {
-        console.log('Adding prescription', this.prescriptionName, this.prescriptionStart, this.prescriptionValidity);
-        
-        if (this.prescriptionService.isThereAValidPrescription(this.prescriptionName)) {
+        if (this.prescriptionService.isThereAValidPrescription(this.prescriptionName, this.prescriptionValidity)) {
             alert('Вече имате рецепта за този медикамент!');
+            return;
+        }
+
+        if (this.prescriptionValidity <= 0) {
+            alert('Моля да бъдем сериозни!');
             return;
         }
 

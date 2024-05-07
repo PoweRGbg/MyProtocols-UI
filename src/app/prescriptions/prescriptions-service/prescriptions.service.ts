@@ -66,14 +66,21 @@ export class PrescriptionService {
 		});
 	}
 
-    isThereAValidPrescription(medicineName: string): boolean {
+    isThereAValidPrescription(medicineName: string, newValidityInDays?: number): boolean {
+        if (!newValidityInDays) {
+            newValidityInDays = 30;
+        } 
+        
         const prescriptionsForMedicine = this.prescriptions
             .filter(prescription => 
                 prescription.medicineName === medicineName && prescription.user === this.user);
-        const today = new Date();
-        const validPrescriptions = prescriptionsForMedicine
-            .filter(prescription => prescription.validTo >= today);
-        return validPrescriptions.length > 0;
+        const today = this.toDate(new Date());
+        return prescriptionsForMedicine
+            .some((prescription) => prescription.validTo >= new Date(today) 
+                && !prescription.fulfilledDate 
+                && prescription.validTo > new Date(new Date(today).getTime() + newValidityInDays * 24 * 60 * 60 * 1000));
+                // make it in days not to count hours and minutes
+
     }
 
     // method to get all prescriptions expiring in the next 7 days
@@ -107,4 +114,8 @@ export class PrescriptionService {
                 prescription.fulfilledDate ? new Date(prescription.fulfilledDate) : undefined,
 		}
 	}
+
+    toDate(date: Date): Date {
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
 }
