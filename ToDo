@@ -1,5 +1,7 @@
+- allow adding new recipe when old one is fulfilled
+- allow adding new recipe when we don't have one for this period
+- allow adding of tripple recipes
 - renew protocols
     - delete old/expired protocol after renew
 - add expired recipes/protocols to dashboard
 - add a popup for confirmation of adding protocols/recipes
-- chаnge app icon

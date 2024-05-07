@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PrescriptionService } from '../prescriptions-service/prescriptions.service';
-import { formatDate } from '../common';
 import { AuthService } from '../../public/auth.service';
 import { convertDateToEU } from '../../common/common';
 
