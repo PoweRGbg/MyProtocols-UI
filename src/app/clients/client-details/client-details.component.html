@@ -1,5 +1,9 @@
 <button mat-flat-button color="primary" (click)="goBack()">Назад</button>
 <button mat-flat-button color="primary" (click)="toggleAddPolicy()">Нова полица</button>
+<client-add-policy *ngIf="addProtocol" 
+    (policyAdded)="policyAdded($event)"
+    [clientId]="client?.id">
+</client-add-policy>
 
 <table>
     <th>Име</th>
@@ -45,14 +49,10 @@
             }"
             (click)="onPaymentClicked(policy.id, payment.id)"
         >
-            {{payment.date}} - {{payment.amount}}
+            {{payment.date}} - {{payment.amount}} лв.
         </td>
         <td>
             <button mat-flat-button color="primary" (click)="removePolicy(policy.id)">Изтрий</button>
         </td>
     </tr>
 </table>
-<client-add-policy *ngIf="addProtocol" 
-    (policyAdded)="policyAdded($event)"
-    [clientId]="client?.id">
-</client-add-policy>

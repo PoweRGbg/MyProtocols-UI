@@ -19,8 +19,15 @@ export class AddPolicyComponent {
     protected policyNumber: string = '';
     protected totalAmount: number = 0;
     protected numberOfPayments: number = 1;
-    protected endDate: string = '';
+    private readonly today = new Date();
+    protected oneYearFromNow = new Date(this.today.getFullYear() + 1, this.today.getMonth(),this.today.getDate()+1);
+    protected endDate: string = this.oneYearFromNow.toISOString().split('T')[0];
     protected payments: Payment[] = [];
+    protected policyTypes: string[] = [
+        'Каско',
+        'ГО',
+        'Карта СБА',
+    ];
 
     constructor(
         private clientsService: ClientsService,
@@ -34,11 +41,24 @@ export class AddPolicyComponent {
             alert('Клиентът не е намерен');
             return;
         }
+        this.payments = this.payments.map((payment) => {
+            payment.policyId = client.policies === undefined ? 1 : client.policies.length + 1;
+            return payment;
+        });
+        if (!this.validatePolicy()) {
+            alert('Моля попълнете всички полета');
+            return;
+        }
+
         if (client.policies === undefined) {
-            console.log('Client has no policies');
-            
             client.policies = [];
         }
+
+        this.payments = this.payments.map((payment) => {
+            payment.policyId = client.policies === undefined ? 1 : client.policies.length + 1;
+            return payment;
+        });
+
         const policy: Policy = {
             id: client.policies.length + 1,
             type: 'vehicle',
@@ -103,5 +123,15 @@ export class AddPolicyComponent {
 
     protected getDateDashed(date: Date): string {
         return  date.getUTCDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    }
+
+    protected validatePolicy(): boolean {
+        return this.vehicleId.length > 0
+            && this.policyName.length > 0
+            && this.broker.length > 0
+            && this.policyNumber.length > 0
+            && this.totalAmount > 0
+            && this.endDate.length > 0
+            && this.payments.length > 0;
     }
 }

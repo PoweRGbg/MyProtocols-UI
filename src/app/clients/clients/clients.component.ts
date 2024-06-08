@@ -19,8 +19,7 @@ export interface Policy {
     policyBroker: string;
     amount: number;
     validTo: Date;
-    medicines?: string;
-    payments?: Payment[];
+    payments: Payment[];
 }
 
 export interface Payment {

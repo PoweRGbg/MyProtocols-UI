@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AddPolicyComponent } from './add-policy/add-policy.component';
 import { ClientDetailsComponent } from './client-details/client-details.component';
@@ -32,6 +33,7 @@ import { ClientDetailsComponent } from './client-details/client-details.componen
         MatDatepickerModule,
         MatRadioButton,
         MatRadioGroup,
+        MatSelectModule,
     ],
     providers: [
         AuthService,

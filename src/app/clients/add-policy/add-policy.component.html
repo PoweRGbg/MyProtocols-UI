@@ -1,18 +1,21 @@
 <div>
+    Добавяне на полица:
+</div>
+
+<div>
     <mat-form-field>
         <mat-label>ДКН</mat-label>
         <input matInput id="vehicle" name="vehicle" [(ngModel)]="vehicleId">
     </mat-form-field>
-</div>
-<div>
     <mat-form-field>
-        <mat-label>Тип</mat-label>
-        <input matInput id="policyType" name="policytype" [(ngModel)]="policyName">
-    </mat-form-field>
-</div>
-<div>
+        <mat-label>Изберете тип</mat-label>
+        <mat-select [(value)]="policyName">
+          <mat-option>Няма</mat-option>
+          <mat-option *ngFor="let type of policyTypes" [value]="type">{{type}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     <mat-form-field>
-        <mat-label>Полица</mat-label>
+        <mat-label>Полица номер</mat-label>
         <input matInput id="policyNumber" name="policyNumber" [(ngModel)]="policyNumber">
     </mat-form-field>
 </div>
@@ -21,9 +24,6 @@
         <mat-label>Брокер</mat-label>
         <input matInput id="broker" name="broker" [(ngModel)]="broker">
     </mat-form-field>
-</div>
-
-<div>
     <mat-form-field>
         <mat-label for="prescriptionStart">Дата на падеж:</mat-label>
         <input matInput [matDatepicker]="picker" 
@@ -33,13 +33,13 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-<div>
     <mat-form-field>
         <mat-label>Премия</mat-label>
-        <input matInput id="totalAmount" name="totalAmount" [(ngModel)]="totalAmount">
+        <input matInput id="totalAmount" name="totalAmount" [(ngModel)]="totalAmount" type="number">
     </mat-form-field>
 </div>
 <div>
+    <mat-label for="payments">Брой вноски:</mat-label>
     <mat-radio-group aria-label="Select an option" 
         [(ngModel)]="numberOfPayments"
         (change)="onPaymentNumberChange()">

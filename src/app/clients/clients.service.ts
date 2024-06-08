@@ -40,9 +40,6 @@ export class ClientsService {
 
     getClientByName(name: string): Client | undefined {
         this.getAllFromApi();
-        console.log('returning', this.clients.find((client) => 
-            client.user === this.user && client.clientName === name
-        ));
         
         return this.clients.filter((protocol) => 
             protocol.user === this.user && protocol.clientName === name
@@ -57,7 +54,6 @@ export class ClientsService {
 
     addClientToAPI(client: Client): void {
         client.user = this.user;
-        console.log('addClientToAPI', client);
         
         this.http.post<Client>(this.apiUrl, client).subscribe(() => {
             this.getAllFromApi();
@@ -66,7 +62,6 @@ export class ClientsService {
 
     updateClientToAPI(client: Client): void {
         client.user = this.user;
-        console.log('updateClientAPI', client);
         
         this.http.put<Client>(this.apiUrl, client).subscribe(() => {
             this.getAllFromApi();
@@ -74,12 +69,17 @@ export class ClientsService {
     }
 
     addPolicy(clientId: number, policy: Policy): void {
-        console.log('service addPolicy', clientId, policy);
         
         const client = this.clients.find((client) => client.id === clientId);
+        policy.payments = policy.payments.map((payment) => {
+            payment.issued = false;
+            payment.clientInformed = false;
+            payment.sent = false;
+            payment.paid = false;
+            payment.policyId = policy.id;
+            return payment;
+        });
         if (!client) {
-            console.log('Client not found', clientId);
-            
             return;
         }  
 
@@ -99,6 +99,67 @@ export class ClientsService {
         });
     }
 
+    clientsWithOverdues(): Client[] {
+        const now = new Date();
+        const clientsWithOverduePayments = this.clients.map((client) => {
+            const policiesWithOverduePayments = client.policies?.map((policy) => {
+                const payments = policy.payments.filter((payment) => {
+                    const paymentDate = this.euStringToDate(payment.date);
+                    return paymentDate < now && payment.paid === false;
+                });
+                return { ...policy, payments };
+            });
+            return { ...client, policies: policiesWithOverduePayments };
+        });
+
+        return clientsWithOverduePayments
+            .map((client) => {
+                let policiesOverdue: Policy[] = [];
+                client.policies?.forEach((policy) => {
+                    if (policy.payments.length > 0) {
+                        policiesOverdue.push(policy);
+                    }
+                });
+                return { ...client, policies: policiesOverdue};
+            })
+            .filter((client) => this.clientHasPayments(client) === true);
+    }
+
+    clientsWithDuesNextDays(numberOfDays: number): Client[] {
+        const now = new Date();
+        const daysFromNow = new Date(now.setDate(now.getDate() + numberOfDays));
+        const clientsWithOverduePayments = this.clients.map((client) => {
+            const policiesWithOverduePayments = client.policies?.map((policy) => {
+                const payments = policy.payments.filter((payment) => {
+                    const paymentDate = this.euStringToDate(payment.date);
+                    if (client.clientName === 'Румен') {
+                        console.log('Payment date', this.formatDate(paymentDate),
+                            'Now', this.formatDate(now),
+                            'Days from now', this.formatDate(daysFromNow));
+                    }
+                    return paymentDate <= daysFromNow
+                        && paymentDate >= new Date() 
+                        && payment.paid === false;
+                });
+                return { ...policy, payments };
+            });
+
+            return { ...client, policies: policiesWithOverduePayments };
+        });
+
+        return clientsWithOverduePayments
+            .map((client) => {
+                let policiesOverdue: Policy[] = [];
+                client.policies?.forEach((policy) => {
+                    if (policy.payments.length > 0) {
+                        policiesOverdue.push(policy);
+                    }
+                });
+                return { ...client, policies: policiesOverdue};
+            })
+            .filter((client) => this.clientHasPayments(client) === true);
+    }
+
     toClient(protocol: any): Client {
         return {
             id: protocol.id,
@@ -109,5 +170,20 @@ export class ClientsService {
             comment: protocol.comment ?? '',
             policies: protocol.policies ?? [],
         }
+    }
+    
+    protected euStringToDate(targetDate: string): Date {
+        return new Date(targetDate.split('/').reverse().join('/'));
+    }
+    
+    protected clientHasPayments(client: Client): boolean {
+        if (!client.policies) {
+            return false;
+        }
+        return client.policies?.some((policy) => policy.payments.length > 0);
+    }
+
+    protected formatDate(targetDate: Date): string {
+        return targetDate.getDate() + '/' + (targetDate.getMonth() + 1) + '/' + targetDate.getFullYear();
     }
 }

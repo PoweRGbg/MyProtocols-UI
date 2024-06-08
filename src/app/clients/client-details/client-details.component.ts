@@ -53,7 +53,7 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
     }
 
     protected goBack(): void {
-        this.router.navigate(['/protected/clients']);
+        this.router.navigate(['/protected/dashboard']);
     }
 
     protected onPaymentClicked(policyId: number, paymentId: number): void {
@@ -112,12 +112,8 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
 
     protected isPaymentOverdue(payment: Payment): boolean {
         const today = new Date(); // today + 15 days
-        // payment date is sting in format 'DD/MM/YYYY'
         const paymentDate = new Date(payment.date.split('/').reverse().join('-'));
 
-        // const paymentDate = new Date(payment.date);
-        console.log('Payment date', paymentDate, today);
-        
         return paymentDate < today && !payment.paid;
     }
 
