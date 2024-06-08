@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProtocolsService } from '../protocols.service';
 import { formatDate } from '../../prescriptions/common';
 import { AuthService } from '../../public/auth.service';
+import { defaultProtocolValidityInDays } from '../../common/common';
 
 @Component({
   selector: 'add-protocol',
@@ -14,7 +15,7 @@ export class AddProtocolComponent {
 	now = new Date();
 	protected readonly todayAsString = formatDate(this.now);
 	protocolStart: string = this.todayAsString;
-	protocolValidity: number = 90;
+	protocolValidity: number = defaultProtocolValidityInDays;
 	medicinesInProtocol: string[] = [];
 	medicine: string = '';
     

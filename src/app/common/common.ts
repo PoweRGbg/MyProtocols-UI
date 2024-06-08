@@ -1,3 +1,4 @@
+export const defaultProtocolValidityInDays = 180;
 // function to convert date to EU format
 export function convertDateToEU(date: string): string {
   const dateObj = new Date(date);

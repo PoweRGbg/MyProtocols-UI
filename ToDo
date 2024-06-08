@@ -1,7 +1,7 @@
 
 - allow adding of tripple recipes
-- renew protocols
-    - delete old/expired protocol after renew
+- change renew protocols to allow with expiry in 1/3 in their time left or expired
+- implement defaults for protocol validity and recipes validity
 - add expired recipes/protocols to dashboard
 - add a popup for confirmation of adding protocols/recipes
 - Send emails

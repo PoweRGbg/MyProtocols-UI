@@ -1,0 +1,4 @@
+<button mat-flat-button color="primary" (click)="showAddClient()">Нов клиент</button>
+
+<list-clients *ngIf="!addClient"></list-clients>
+<add-client *ngIf="addClient" (clientAdded)="clientAdded($event)"></add-client>

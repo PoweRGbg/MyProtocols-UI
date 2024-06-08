@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Protocol } from '../protocols/protocols/protocols.component';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../public/auth.service';
+import { defaultProtocolValidityInDays } from '../common/common';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProtocolsService {
-    private apiUrl = 'https://protocols.nightscout.bg/api/protocols';
+    // private apiUrl = 'https://protocols.nightscout.bg/api/protocols';
+    private apiUrl = 'http://localhost:3030/protocols';
     protocols$: Observable<Protocol[]>;
     private protocolsSubject = new Subject<Protocol[]>();
     private protocols: Protocol[] = [];
@@ -43,20 +45,18 @@ export class ProtocolsService {
     renewProtocol(protocolId: number): number | undefined {
         const protocolToRenew = this.protocols.find((protocol) => protocol.id === protocolId);
         if (!protocolToRenew) {
-            console.log('No protocol to renew');
             return;
         }
 
         const validityInDays = protocolToRenew.issued !== undefined ? 
             (protocolToRenew.validTo.getTime() - protocolToRenew.issued.getTime()) / (1000 * 60 * 60 * 24):
-            120;
+            defaultProtocolValidityInDays;
         const renewedProtocol = {
             ...protocolToRenew,
             id: this.protocols[this.protocols.length - 1].id + 1,
             validTo: new Date(new Date().getTime() + validityInDays * 24 * 60 * 60 * 1000),
             issued: new Date(),
         };
-        console.log('renewedProtocol', renewedProtocol);
         
         this.addProtocol(renewedProtocol);
         this.removeProtocol(protocolId);

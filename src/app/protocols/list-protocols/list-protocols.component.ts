@@ -19,6 +19,9 @@ export class ListProtocolsComponent {
     ngOnInit(): void {
         this.getAll();
         this.protocolsService.protocols$.subscribe((protocols) => {
+            if (protocols.length === 0) {
+                return;
+            }
             this.protocols = protocols.sort((a, b) => a.validTo.getTime() - b.validTo.getTime());
             console.log('Protocols updated');
             

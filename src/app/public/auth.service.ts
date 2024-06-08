@@ -28,7 +28,8 @@ export const fakeRegisterResponse: RegisterResponse = {
     providedIn: 'root'
 })
 export class AuthService {
-    private apiUrl = 'https://protocols.nightscout.bg/api/auth';
+    // private apiUrl = 'https://protocols.nightscout.bg/api/auth';
+    private apiUrl = 'http://localhost:3030/auth';
 
     constructor(
         private http: HttpClient,
@@ -83,6 +84,7 @@ export class AuthService {
 
     getTokenExpirationDate(): Date | null{
         const decodedToken = this.jwtService.decodeToken();
+        console.log('decoded token ', decodedToken);
         if (decodedToken.exp === undefined) return null;
         const date = new Date(0);
         date.setUTCSeconds(decodedToken.exp);

@@ -1,0 +1,61 @@
+<div>
+    <mat-form-field>
+        <mat-label>ДКН</mat-label>
+        <input matInput id="vehicle" name="vehicle" [(ngModel)]="vehicleId">
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field>
+        <mat-label>Тип</mat-label>
+        <input matInput id="policyType" name="policytype" [(ngModel)]="policyName">
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field>
+        <mat-label>Полица</mat-label>
+        <input matInput id="policyNumber" name="policyNumber" [(ngModel)]="policyNumber">
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field>
+        <mat-label>Брокер</mat-label>
+        <input matInput id="broker" name="broker" [(ngModel)]="broker">
+    </mat-form-field>
+</div>
+
+<div>
+    <mat-form-field>
+        <mat-label for="prescriptionStart">Дата на падеж:</mat-label>
+        <input matInput [matDatepicker]="picker" 
+            [(ngModel)]="endDate"
+            name="prescription-start">
+        <mat-hint>ДД/ММ/ГГГГ</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+<div>
+    <mat-form-field>
+        <mat-label>Премия</mat-label>
+        <input matInput id="totalAmount" name="totalAmount" [(ngModel)]="totalAmount">
+    </mat-form-field>
+</div>
+<div>
+    <mat-radio-group aria-label="Select an option" 
+        [(ngModel)]="numberOfPayments"
+        (change)="onPaymentNumberChange()">
+        <mat-radio-button value="1">1</mat-radio-button>
+        <mat-radio-button value="2">2</mat-radio-button>
+        <mat-radio-button value="4">4</mat-radio-button>
+    </mat-radio-group>
+</div>
+<div *ngFor="let payment of payments; index as i">
+    <mat-form-field>
+        <mat-label>Вноска {{i+1}}</mat-label>
+        <input matInput id="comment" name="comment" [(ngModel)]="payments[i].date">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Сума {{i+1}}</mat-label>
+        <input matInput id="amount" name="amount" [(ngModel)]="payments[i].amount">
+    </mat-form-field>
+</div>
+<button mat-flat-button color="primary" type="button" (click)="addPolicy()">Добави полица</button>
