@@ -28,8 +28,8 @@ export const fakeRegisterResponse: RegisterResponse = {
     providedIn: 'root'
 })
 export class AuthService {
-    // private apiUrl = 'https://protocols.nightscout.bg/api/auth';
-    private apiUrl = 'http://localhost:3030/auth';
+    private apiUrl = 'https://protocols.nightscout.bg/api/auth';
+    // private apiUrl = 'http://localhost:3030/auth';
 
     constructor(
         private http: HttpClient,
