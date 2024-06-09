@@ -4,8 +4,14 @@
 </div> -->
 <mat-form-field>
     <mat-label for="search">Търсене:</mat-label>
-    <input matInput id="search" name="search" [(ngModel)]="searchText" (keyup)="onSearch()">
-  </mat-form-field>
+    <input matInput
+        id="search"
+        name="search"
+        size="10"
+        [(ngModel)]="searchText"
+        (keyup)="onSearch()"
+    >
+</mat-form-field>
 <table *ngIf="clients.length">
     <thead>
       <tr>

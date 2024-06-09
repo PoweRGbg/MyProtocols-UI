@@ -5,7 +5,11 @@
 <div>
     <mat-form-field>
         <mat-label>ДКН</mat-label>
-        <input matInput id="vehicle" name="vehicle" [(ngModel)]="vehicleId">
+        <input 
+            matInput id="vehicle"
+            name="vehicle"
+            [(ngModel)]="vehicleId"
+            (focusout)="valideVehicleId()">
     </mat-form-field>
     <mat-form-field>
         <mat-label>Изберете тип</mat-label>
@@ -17,6 +21,10 @@
     <mat-form-field>
         <mat-label>Полица номер</mat-label>
         <input matInput id="policyNumber" name="policyNumber" [(ngModel)]="policyNumber">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Компания</mat-label>
+        <input matInput id="company" name="company" [(ngModel)]="company">
     </mat-form-field>
 </div>
 <div>

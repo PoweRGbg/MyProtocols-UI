@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ClientsService } from '../clients.service';
 import { Client, Payment, Policy } from '../clients/clients.component';
 import { log } from 'console';
+import { convertDateToEU } from '../../common/common';
 
 
 @Component({
@@ -111,10 +112,16 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
     }
 
     protected isPaymentOverdue(payment: Payment): boolean {
-        const today = new Date(); // today + 15 days
+        const today = new Date(); 
+        const tomorrow = new Date(today.setDate(today.getDate() - 15));
+        // payment date + 15 days
+
+
+        console.log('Tomorrow', convertDateToEU(tomorrow));
+        
         const paymentDate = new Date(payment.date.split('/').reverse().join('-'));
 
-        return paymentDate < today && !payment.paid;
+        return paymentDate < tomorrow && !payment.paid;
     }
 
     private updatePaymentStatus(payment: Payment): Payment {

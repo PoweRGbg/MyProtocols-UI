@@ -29,13 +29,15 @@
 <table>
     <th>ДКН</th>
     <th>Тип</th>
+    <th>Компания</th>
     <th>Брокер</th>
     <th>Номер</th>
     <th>Вноски</th>
     <tr *ngFor="let policy of policies; index as policyIndex">
         <td>{{policy.vehicleId}}</td>
         <td>{{policy.policyName}}</td>
-        <td>{{policy.policyBroker}}</td>
+        <td>{{policy.company}}</td>
+        <td>{{policy.broker}}</td>
         <td>{{policy.policyNumber}}</td>
         <td 
             *ngFor="let payment of policy.payments; index as i"

@@ -8,6 +8,7 @@ import { AuthService } from '../public/auth.service';
     providedIn: 'root'
 })
 export class ClientsService {
+    // private apiUrl = 'https://protocols.nightscout.bg/api/clients';
     private apiUrl = 'http://localhost:3030/clients';
     clients$: Observable<Client[]>;
     private clientsSubject = new Subject<Client[]>();

@@ -7,7 +7,6 @@ export interface Client {
     identifier: string;
     comment?: string;
     contact?: string;
-    vehicles?: string[];
     policies?: Policy[];
 }
 
@@ -16,7 +15,8 @@ export interface Policy {
     vehicleId: string;
     policyName: string;
     policyNumber: string;
-    policyBroker: string;
+    broker: string;
+    company: string;
     amount: number;
     validTo: Date;
     payments: Payment[];
@@ -31,6 +31,7 @@ export interface Payment {
     sent: boolean;
     paid: boolean;
     policyId: number;
+    vehicleId: string;
 }
 
 @Component({

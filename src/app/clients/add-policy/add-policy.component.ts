@@ -15,6 +15,7 @@ export class AddPolicyComponent {
 
     protected vehicleId: string = '';
     protected policyName: string = '';
+    protected company: string = '';
     protected broker: string = '';
     protected policyNumber: string = '';
     protected totalAmount: number = 0;
@@ -46,7 +47,6 @@ export class AddPolicyComponent {
             return payment;
         });
         if (!this.validatePolicy()) {
-            alert('Моля попълнете всички полета');
             return;
         }
 
@@ -65,7 +65,8 @@ export class AddPolicyComponent {
             vehicleId: this.vehicleId,
             policyName: this.policyName,
             policyNumber: this.policyNumber,
-            policyBroker: this.broker,
+            broker: this.broker,
+            company: this.company,
             amount: this.totalAmount,
             validTo: new Date(this.endDate),
             payments: this.payments,
@@ -97,16 +98,13 @@ export class AddPolicyComponent {
             
             let paymentDate = new Date(endDate.getTime());
             paymentDate.setFullYear(paymentDate.getFullYear() - 1);
-            console.log('End date', this.getDateDashed(endDate));
             
             const paymentMonth = (12 / this.numberOfPayments);
             let extraYears = paymentMonth > 12 ? Math.floor(paymentMonth / 12) : 0;
             if (extraYears > 0) {
                 paymentDate.setFullYear(paymentDate.getFullYear() + extraYears);
-                console.log('Extra years', extraYears, paymentDate.getFullYear());
             }
             paymentDate.setMonth(paymentDate.getMonth() + paymentMonth * i);
-            console.log('Payment date', this.getDateDashed(paymentDate));
             this.payments.push({
                 id: i,
                 date: this.getDateDashed(paymentDate),
@@ -116,6 +114,7 @@ export class AddPolicyComponent {
                 paid: false,
                 clientInformed: false,
                 policyId: 0,
+                vehicleId: this.vehicleId,
             });
             
         }
@@ -126,12 +125,55 @@ export class AddPolicyComponent {
     }
 
     protected validatePolicy(): boolean {
+        let errorMessages = [];
+        if (this.vehicleId.length < 1) {
+            errorMessages.push('Моля въведете регистрационен номер');
+        }
+        if (this.policyName.length < 1) {
+            errorMessages.push('Моля въведете име на полицата');
+        }
+        if (this.company.length < 1) {
+            errorMessages.push('Моля въведете застрахователна компания');
+        }
+        if (this.broker.length < 1) {
+            errorMessages.push('Моля въведете брокер');
+        }
+        if (this.policyNumber.length < 1) {
+            errorMessages.push('Моля въведете номер на полицата');
+        }
+        if (this.totalAmount < 1) {
+            errorMessages.push('Моля въведете премия');
+        }
+        if (this.endDate.length < 1) {
+            errorMessages.push('Моля въведете край на полицата');
+        }
+        if (this.payments.length < 1) {
+            errorMessages.push('Моля въведете поне едно плащане');
+        }
+        if (errorMessages.length > 0) {
+            alert(errorMessages.join('\n'));
+            return false;
+        }
+
+
+        
         return this.vehicleId.length > 0
+            && this.valideVehicleId()
             && this.policyName.length > 0
+            && this.company.length > 0
             && this.broker.length > 0
             && this.policyNumber.length > 0
             && this.totalAmount > 0
-            && this.endDate.length > 0
+            && this.endDate.toString().length > 0
             && this.payments.length > 0;
+    }
+
+    protected valideVehicleId(): boolean {
+        const vehicleIdPattern = /^[A-Za-z0-9]+$/;
+        if (!vehicleIdPattern.test(this.vehicleId)) {
+            alert('Регистрационният номер трябва да съдържа само латински букви и цифри');
+            return false;
+        }
+        return true;
     }
 }
