@@ -5,6 +5,8 @@ import { ClientsService } from '../clients.service';
 import { Client, Payment, Policy } from '../clients/clients.component';
 import { log } from 'console';
 import { convertDateToEU } from '../../common/common';
+import { isPaymentOverdue, updatePaymentStatus } from '../common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -23,6 +25,7 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
     constructor(
         private route: ActivatedRoute,
         private clientsService: ClientsService,
+        private snackbar: MatSnackBar,
         private router: Router,
     ) {}
 
@@ -70,7 +73,7 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
             console.error('Payment not found');
             return;
         }
-        const updatedPayment = this.updatePaymentStatus(payment);
+        const updatedPayment = updatePaymentStatus(payment, this.snackbar);
         const updatedPolicy = this.client?.policies?.find((p) => p.id === policyId);
         if (!updatedPolicy) {
             console.error('Policy not found when updating payment');
@@ -94,7 +97,6 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
             }
             return p;
         });
-        console.log('Updated policies', this.client.policies);
         
         this.clientsService.updateClient(this.client);
         this.ngOnChanges();
@@ -112,38 +114,6 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
     }
 
     protected isPaymentOverdue(payment: Payment): boolean {
-        const today = new Date(); 
-        const tomorrow = new Date(today.setDate(today.getDate() - 15));
-        // payment date + 15 days
-
-
-        console.log('Tomorrow', convertDateToEU(tomorrow));
-        
-        const paymentDate = new Date(payment.date.split('/').reverse().join('-'));
-
-        return paymentDate < tomorrow && !payment.paid;
-    }
-
-    private updatePaymentStatus(payment: Payment): Payment {
-        if (!payment.clientInformed) {
-            payment.clientInformed = true;
-            console.log('Client informed');
-        } else if (payment.clientInformed && !payment.issued) {
-            payment.issued = true;
-            console.log('Payment issued');
-        } else if (payment.issued && !payment.sent) {
-            payment.sent = true;
-            console.log('Payment sent');
-        } else if (payment.sent && !payment.paid) {
-            console.log('Payment paid');
-            payment.paid = true;
-        } else if (payment.paid) {
-            payment.clientInformed = false;
-            payment.issued = false;
-            payment.sent = false;
-            payment.paid = false;
-            return payment;
-        }
-        return payment;
+        return isPaymentOverdue(payment);
     }
 }

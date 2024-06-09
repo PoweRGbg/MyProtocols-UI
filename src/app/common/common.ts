@@ -20,4 +20,4 @@ export const MY_FORMATS = {
       dateA11yLabel: 'LL',
       monthYearA11yLabel: 'MMMM YYYY',
     },
-  };
+};

@@ -76,10 +76,6 @@ export class DashboardNotificationsComponent {
         return convertDateToEU(targetDate.toISOString());
     }
 
-    protected euStringToDate(targetDate: string): Date {
-        return new Date(targetDate.split('/').reverse().join('/'));
-    }
-
     protected clientHasPayments(client: Client): boolean {
         if (!client.policies) {
             return false;

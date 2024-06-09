@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Client, Policy } from '../clients/clients/clients.component';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../public/auth.service';
+import { convertEUStringToDate } from './common';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClientsService {
     private apiUrl = 'https://protocols.nightscout.bg/api/clients';
-    //private apiUrl = 'http://localhost:3030/clients';
+    // private apiUrl = 'http://localhost:3030/clients';
     clients$: Observable<Client[]>;
     private clientsSubject = new Subject<Client[]>();
     private clients: Client[] = [];
@@ -105,7 +106,7 @@ export class ClientsService {
         const clientsWithOverduePayments = this.clients.map((client) => {
             const policiesWithOverduePayments = client.policies?.map((policy) => {
                 const payments = policy.payments.filter((payment) => {
-                    const paymentDate = this.euStringToDate(payment.date);
+                    const paymentDate = convertEUStringToDate(payment.date);
                     return paymentDate < now && payment.paid === false;
                 });
                 return { ...policy, payments };
@@ -132,7 +133,7 @@ export class ClientsService {
         const clientsWithOverduePayments = this.clients.map((client) => {
             const policiesWithOverduePayments = client.policies?.map((policy) => {
                 const payments = policy.payments.filter((payment) => {
-                    const paymentDate = this.euStringToDate(payment.date);
+                    const paymentDate = convertEUStringToDate(payment.date);
                     if (client.clientName === 'Румен') {
                         console.log('Payment date', this.formatDate(paymentDate),
                             'Now', this.formatDate(now),
@@ -171,10 +172,6 @@ export class ClientsService {
             comment: protocol.comment ?? '',
             policies: protocol.policies ?? [],
         }
-    }
-    
-    protected euStringToDate(targetDate: string): Date {
-        return new Date(targetDate.split('/').reverse().join('/'));
     }
     
     protected clientHasPayments(client: Client): boolean {
