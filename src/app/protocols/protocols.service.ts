@@ -4,13 +4,13 @@ import { Protocol } from '../protocols/protocols/protocols.component';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../public/auth.service';
 import { defaultProtocolValidityInDays } from '../common/common';
+import { apiUrl } from '../clients/common';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProtocolsService {
-    private apiUrl = 'https://protocols.nightscout.bg/api/protocols';
-    // private apiUrl = 'http://localhost:3030/protocols';
+    private apiUrl = apiUrl + 'protocols';
     protocols$: Observable<Protocol[]>;
     private protocolsSubject = new Subject<Protocol[]>();
     private protocols: Protocol[] = [];

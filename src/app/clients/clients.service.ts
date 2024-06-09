@@ -3,14 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Client, Policy } from '../clients/clients/clients.component';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../public/auth.service';
-import { convertEUStringToDate } from './common';
+import { apiUrl, convertEUStringToDate } from './common';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClientsService {
-    private apiUrl = 'https://protocols.nightscout.bg/api/clients';
-    // private apiUrl = 'http://localhost:3030/clients';
+    private apiUrl = apiUrl + 'clients';
     clients$: Observable<Client[]>;
     private clientsSubject = new Subject<Client[]>();
     private clients: Client[] = [];

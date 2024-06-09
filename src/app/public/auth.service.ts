@@ -5,6 +5,7 @@ import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from './interfaces';
+import { apiUrl } from '../clients/common';
 
 export const fakeLoginResponse: LoginResponse = {
     // fakeAccessToken.....should all come from real backend
@@ -28,8 +29,7 @@ export const fakeRegisterResponse: RegisterResponse = {
     providedIn: 'root'
 })
 export class AuthService {
-    private apiUrl = 'https://protocols.nightscout.bg/api/auth';
-    // private apiUrl = 'http://localhost:3030/auth';
+    private apiUrl = apiUrl + 'auth';
 
     constructor(
         private http: HttpClient,
