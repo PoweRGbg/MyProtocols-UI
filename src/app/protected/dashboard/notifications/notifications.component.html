@@ -31,7 +31,7 @@
                     Падежи за {{policy.vehicleId}} за полица {{policy.policyName}}:
                     <ul>
                         <li *ngFor="let payment of policy.payments"
-                            (click)="navigate(client.clientName)"
+                            (click)="navigate(client.clientName, policy.id)"
                             class="payment-cell"
                         >
                             Падеж {{payment.amount}} лв. на {{payment.date}} - {{getPaymentStatus(payment)}}
@@ -54,7 +54,7 @@
                         <ul>
                             <li 
                                 *ngFor="let payment of policy.payments"
-                                (click)="navigate(client.clientName)"
+                                (click)="navigate(client.clientName, policy.id)"
                                 class="payment-cell"
                             >
                                 Падеж {{policy.policyName}} - {{payment.amount}} лв. на {{payment.date}} - {{getPaymentStatus(payment)}}

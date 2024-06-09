@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { AddPolicyComponent } from './add-policy/add-policy.component';
 import { ClientDetailsComponent } from './client-details/client-details.component';
+import { PolicyDetailsComponent } from './policy-details/policy-details.component';
 @NgModule({
     declarations: [
         ClientsComponent,
@@ -22,6 +23,7 @@ import { ClientDetailsComponent } from './client-details/client-details.componen
         ListClientsComponent,
         AddPolicyComponent,
         ClientDetailsComponent,
+        PolicyDetailsComponent,
     ],
     imports: [
         CommonModule,
@@ -44,6 +46,7 @@ import { ClientDetailsComponent } from './client-details/client-details.componen
         ClientDetailsComponent,
         AddClientComponent,
         AddPolicyComponent,
+        PolicyDetailsComponent,
     ]
 })
 export class ClientsModule { }
