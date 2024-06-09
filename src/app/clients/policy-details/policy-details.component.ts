@@ -65,6 +65,8 @@ export class PolicyDetailsComponent implements OnInit, OnChanges, OnDestroy{
 
     protected onPaymentClicked(policyId: number, paymentId: number): void {
         // update payment status
+        console.log('Payment clicked', policyId, paymentId);
+        
         const policy = this.policies?.find((p) => p.id === policyId);
         if (!policy ) {
             console.error('Policy not found');
