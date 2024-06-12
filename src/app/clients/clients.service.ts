@@ -36,7 +36,7 @@ export class ClientsService {
     getAllClients(): Client[] {
         this.user = this.authService.getLoggedInUser();
         this.getAllFromApi();
-        return this.clients.filter((protocol) => protocol.user === this.user);
+        return this.clients.filter((client) => client.user === this.user);
     }
 
     getClientByName(name: string): Client | undefined {
@@ -95,7 +95,9 @@ export class ClientsService {
         this.http.get<Client[]>(this.apiUrl).subscribe((clients) => {
             this.clients = clients
                 .map(client => this.toClient(client))
-                .filter((protocol) => protocol.user === this.user);
+                .filter((client) => client.user === this.user);
+                console.log('Clients', this.clients);
+                
             this.clientsSubject.next([...this.clients]);
         });
     }

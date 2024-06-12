@@ -32,7 +32,6 @@ export class AddPolicyComponent {
 
     constructor(
         private clientsService: ClientsService,
-        private authService: AuthService
     ) {}
 
 	addPolicy() {
@@ -105,10 +104,13 @@ export class AddPolicyComponent {
                 paymentDate.setFullYear(paymentDate.getFullYear() + extraYears);
             }
             paymentDate.setMonth(paymentDate.getMonth() + paymentMonth * i);
+            const remainder = ((this.totalAmount * 100) % this.numberOfPayments) / 100;
+            console.log('Remainder', remainder.toFixed(2));
+            
             this.payments.push({
                 id: i,
                 date: this.getDateDashed(paymentDate),
-                amount: this.totalAmount / this.numberOfPayments,
+                amount: Math.floor((this.totalAmount / this.numberOfPayments) * 100) / 100,
                 issued: false,
                 sent: false,
                 paid: false,
@@ -116,6 +118,10 @@ export class AddPolicyComponent {
                 policyId: 0,
                 vehicleId: this.vehicleId,
             });
+
+            if (remainder > 0 && this.numberOfPayments > 1) {
+                this.payments[0].amount = Number((this.payments[i].amount + remainder).toFixed(2));
+            }
             
         }
     }

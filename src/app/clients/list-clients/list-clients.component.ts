@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ClientsService } from '../clients.service';
 import { Client } from '../clients/clients.component';
-import { formatDate } from '../../prescriptions/common';
 import { convertDateToEU } from '../../common/common';
 import { NavigationExtras, Router } from '@angular/router';
 
@@ -19,11 +18,16 @@ export class ListClientsComponent {
     constructor(private clientsService: ClientsService, private router: Router) {}
 
     ngOnInit(): void {
-        this.getAll();
+        if (this.clients.length === 0) {
+            this.getAll();
+        }
+        console.log('ListClientsComponent: ngOnInit');
+        
         this.clientsService.clients$.subscribe((clients) => {
             this.clients = clients;
         });
     }
+
 
     onSearch(): void {
         if (this.searchText === '') {

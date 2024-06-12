@@ -46,7 +46,7 @@
         <input matInput id="totalAmount" name="totalAmount" [(ngModel)]="totalAmount" type="number">
     </mat-form-field>
 </div>
-<div>
+<div *ngIf="totalAmount !== 0">
     <mat-label for="payments">Брой вноски:</mat-label>
     <mat-radio-group aria-label="Select an option" 
         [(ngModel)]="numberOfPayments"
