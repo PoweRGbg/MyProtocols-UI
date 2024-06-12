@@ -27,7 +27,19 @@ export class DashboardNotificationsComponent {
         private router: Router,
     ) { }
 
+    ngOnInit(): void {
+        console.log('NotificationsComponent: ngOnInit');
+        this.clientsService.clients$.subscribe((clients) => {
+            this.clients = clients;
+            this.paymentsIn15Days = this.getPaymentsInDays(15);
+            this.paymentsOverdue = this.getPaymentsOverdue();
+        });
+    }
+
     ngOnChanges(): void {
+        console.log('NotificationsComponent: ngOnChanges');
+        // change it to always use latest clients not only the latest emitted ones
+        this.clientsService.getAllClients();
         this.clientsService.clients$.subscribe((clients) => {
             this.clients = clients;
             this.paymentsIn15Days = this.getPaymentsInDays(15);

@@ -5,7 +5,9 @@
     </span>
 </div>
 <div>
-    <dashboard-notifications
+    Справка:
+    <button mat-flat-button color="primary" (click)="toggleNotifications()">Покажи/Скрий</button>
+    <dashboard-notifications *ngIf="showNotifications"
         [prescriptions]="prescriptions"
         [protocols]="protocols"
     ></dashboard-notifications>

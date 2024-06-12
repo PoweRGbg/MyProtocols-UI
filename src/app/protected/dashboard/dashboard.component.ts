@@ -20,6 +20,7 @@ export class DashboardComponent {
     protected sessionExpiry: string;
     protected prescriptions: Prescription[] = [];
     protected protocols: Protocol[] = [];
+    protected showNotifications: boolean = true;
 
     constructor(
         private router: Router,
@@ -65,6 +66,10 @@ export class DashboardComponent {
     logout() {
         this.authService.logout();
         this.router.navigate(['../../']);
+    }
+
+    protected toggleNotifications(): void {
+        this.showNotifications = !this.showNotifications;
     }
 
 }
