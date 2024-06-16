@@ -16,6 +16,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { AddPolicyComponent } from './add-policy/add-policy.component';
 import { ClientDetailsComponent } from './client-details/client-details.component';
 import { PolicyDetailsComponent } from './policy-details/policy-details.component';
+import { EditClientComponent } from './client-edit/edit-client.component';
 @NgModule({
     declarations: [
         ClientsComponent,
@@ -24,6 +25,7 @@ import { PolicyDetailsComponent } from './policy-details/policy-details.componen
         AddPolicyComponent,
         ClientDetailsComponent,
         PolicyDetailsComponent,
+        EditClientComponent,
     ],
     imports: [
         CommonModule,

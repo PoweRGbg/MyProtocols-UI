@@ -84,7 +84,6 @@ export class AuthService {
 
     getTokenExpirationDate(): Date | null{
         const decodedToken = this.jwtService.decodeToken();
-        console.log('decoded token ', decodedToken);
         if (decodedToken.exp === undefined) return null;
         const date = new Date(0);
         date.setUTCSeconds(decodedToken.exp);

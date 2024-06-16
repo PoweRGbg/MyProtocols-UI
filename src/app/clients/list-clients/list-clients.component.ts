@@ -21,7 +21,6 @@ export class ListClientsComponent {
         if (this.clients.length === 0) {
             this.getAll();
         }
-        console.log('ListClientsComponent: ngOnInit');
         
         this.clientsService.clients$.subscribe((clients) => {
             this.clients = clients;
@@ -42,8 +41,6 @@ export class ListClientsComponent {
             console.log('No search results');
         } else 
         this.clients = seatchResult;
-
-        console.log('Search done', this.searchText, this.clients);
     }
 
     getAll() {
@@ -81,6 +78,15 @@ export class ListClientsComponent {
     
     protected formatDate(targetDate: Date): string {
         return convertDateToEU(targetDate.toISOString());
+    }
+
+    protected updateClient(clientId: number): void {
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                clientId: clientId,
+            }
+        }
+        this.router.navigate([`/protected/client/update/${clientId}`], navigationExtras);
     }
 
     protected navigate(clientName: string): void {

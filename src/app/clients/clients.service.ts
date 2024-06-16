@@ -30,7 +30,6 @@ export class ClientsService {
 
     updateClient(client: Client) {
         this.updateClientToAPI(client);
-
     }
 
     getAllClients(): Client[] {
@@ -96,7 +95,6 @@ export class ClientsService {
             this.clients = clients
                 .map(client => this.toClient(client))
                 .filter((client) => client.user === this.user);
-                console.log('Clients', this.clients);
                 
             this.clientsSubject.next([...this.clients]);
         });

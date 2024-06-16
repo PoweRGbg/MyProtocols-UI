@@ -1,0 +1,42 @@
+<form (ngSubmit)="updateClient()">
+    <table>
+        <tr>
+            <td>
+                <mat-form-field>
+                    <mat-label for="clientName">Клиент:</mat-label>
+                    <input matInput id="clientName" name="clientName" [(ngModel)]="clientName">
+                  </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <mat-form-field>
+                    <mat-label for="identifier">ЕГН/Булстат:</mat-label>
+                    <input matInput id="identifier" name="identifier" [(ngModel)]="identifier">
+                  </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <mat-form-field>
+                    <mat-label for="contact">Контакт:</mat-label>
+                    <input matInput id="contact" name="contact" [(ngModel)]="contact">
+                  </mat-form-field>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                <mat-form-field>
+                    <mat-label for="comment">Коментар:</mat-label>
+                    <input matInput id="comment" name="comment" [(ngModel)]="comment">
+                  </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button mat-flat-button color="primary" type="submit">Редактирай клиент</button>
+            </td>
+        </tr>
+    </table>
+</form>

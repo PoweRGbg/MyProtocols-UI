@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ClientsService } from '../clients.service';
 import { Client, Payment, Policy } from '../clients/clients.component';
@@ -111,6 +111,16 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
         this.client.policies = updatedPolicies;
         this.clientsService.updateClient(this.client);
         this.ngOnChanges();
+    }
+
+    
+    protected updateClient(): void {
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                clientId: this.client?.id,
+            }
+        }
+        this.router.navigate([`/protected/client/update/${this.client?.id}`], navigationExtras);
     }
 
     protected isPaymentOverdue(payment: Payment): boolean {

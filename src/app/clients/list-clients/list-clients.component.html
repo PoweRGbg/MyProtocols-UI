@@ -42,6 +42,7 @@
             {{getClientVehicles(client)}}
         </td>
         <td  class="centered">
+            <button mat-flat-button color="primary" (click)="updateClient(client.id)">Редакция</button>
             <button mat-flat-button color="warn" (click)="removeClient(client.id)">ИЗТРИЙ</button>
         </td>
       </tr>

@@ -1,4 +1,5 @@
 <button mat-flat-button color="primary" (click)="goBack()">Назад</button>
+<button mat-flat-button color="primary" (click)="updateClient()">Редактирай клиент</button>
 <button mat-flat-button color="primary" (click)="toggleAddPolicy()">Нова полица</button>
 <client-add-policy *ngIf="addProtocol" 
     (policyAdded)="policyAdded($event)"

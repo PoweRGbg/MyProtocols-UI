@@ -33,9 +33,9 @@
         <input matInput id="broker" name="broker" [(ngModel)]="broker">
     </mat-form-field>
     <mat-form-field>
-        <mat-label for="prescriptionStart">Дата на падеж:</mat-label>
+        <mat-label for="prescriptionStart">Дата на старт:</mat-label>
         <input matInput [matDatepicker]="picker" 
-            [(ngModel)]="endDate"
+            [(ngModel)]="startDate"
             name="prescription-start">
         <mat-hint>ДД/ММ/ГГГГ</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>

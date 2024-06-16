@@ -28,7 +28,6 @@ export class DashboardNotificationsComponent {
     ) { }
 
     ngOnInit(): void {
-        console.log('NotificationsComponent: ngOnInit');
         this.clientsService.clients$.subscribe((clients) => {
             this.clients = clients;
             this.paymentsIn15Days = this.getPaymentsInDays(15);
@@ -37,7 +36,6 @@ export class DashboardNotificationsComponent {
     }
 
     ngOnChanges(): void {
-        console.log('NotificationsComponent: ngOnChanges');
         // change it to always use latest clients not only the latest emitted ones
         this.clientsService.getAllClients();
         this.clientsService.clients$.subscribe((clients) => {
