@@ -1,8 +1,8 @@
 import { Payment } from './clients/clients.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-// export const apiUrl: string = 'http://localhost:3030/';
-export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
+export const apiUrl: string = 'http://localhost:3030/';
+// export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
 
 
 export function updatePaymentStatus(payment: Payment, snackBar: MatSnackBar): Payment {

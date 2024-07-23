@@ -27,20 +27,24 @@ export class ListClientsComponent {
         });
     }
 
-
     onSearch(): void {
         if (this.searchText === '') {
             this.getAll();
             return;
         }
-        const seatchResult = 
+        const searchResult = 
             this.clients.filter((client) => 
-                client.clientName.toLowerCase().includes(this.searchText.toLowerCase())
+                client.clientName.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                client.contact?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                client.identifier.toLowerCase().includes(this.searchText.toLowerCase()) ||
+                client.policies?.some((policy) => 
+                    policy.vehicleId.toLowerCase().includes(this.searchText.toLowerCase()))
         );
-        if (seatchResult.length === 0 && this.searchText !== '') {
+
+        if (searchResult.length === 0 && this.searchText !== '') {
             console.log('No search results');
         } else 
-        this.clients = seatchResult;
+        this.clients = searchResult;
     }
 
     getAll() {

@@ -35,7 +35,7 @@ export class ClientsService {
     getAllClients(): Client[] {
         this.user = this.authService.getLoggedInUser();
         this.getAllFromApi();
-        return this.clients.filter((client) => client.user === this.user);
+        return this.clients;
     }
 
     getClientByName(name: string): Client | undefined {
@@ -93,8 +93,7 @@ export class ClientsService {
     getAllFromApi(): void {
         this.http.get<Client[]>(this.apiUrl).subscribe((clients) => {
             this.clients = clients
-                .map(client => this.toClient(client))
-                .filter((client) => client.user === this.user);
+                .map(client => this.toClient(client));
                 
             this.clientsSubject.next([...this.clients]);
         });
