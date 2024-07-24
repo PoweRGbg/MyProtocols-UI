@@ -1,0 +1,17 @@
+<div>
+    Месечна справка:
+<div>
+    <mat-form-field>
+        <mat-label for="prescriptionStart">Месец за справката:</mat-label>
+        <!-- <input matInput [matDatepicker]="picker" 
+            [(ngModel)]="date"
+            name="prescription-start"> -->
+        <input matInput [matDatepicker]="dp" [formControl]="date">
+        <mat-hint>ММ/ГГГГ</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+        startView="multi-year"
+                  (monthSelected)="setMonthAndYear($event, dp)"
+                  panelClass="example-month-picker"></mat-datepicker>
+      </mat-form-field>
+</div>

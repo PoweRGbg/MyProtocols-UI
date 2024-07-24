@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AddClientComponent } from './add-client/add-client.component';
 import { ClientsComponent } from './clients/clients.component';
@@ -17,6 +17,7 @@ import { AddPolicyComponent } from './add-policy/add-policy.component';
 import { ClientDetailsComponent } from './client-details/client-details.component';
 import { PolicyDetailsComponent } from './policy-details/policy-details.component';
 import { EditClientComponent } from './client-edit/edit-client.component';
+import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
 @NgModule({
     declarations: [
         ClientsComponent,
@@ -26,6 +27,7 @@ import { EditClientComponent } from './client-edit/edit-client.component';
         ClientDetailsComponent,
         PolicyDetailsComponent,
         EditClientComponent,
+        MonthlyReportComponent,
     ],
     imports: [
         CommonModule,
@@ -38,6 +40,7 @@ import { EditClientComponent } from './client-edit/edit-client.component';
         MatRadioButton,
         MatRadioGroup,
         MatSelectModule,
+        ReactiveFormsModule,
     ],
     providers: [
         AuthService,
@@ -49,6 +52,7 @@ import { EditClientComponent } from './client-edit/edit-client.component';
         AddClientComponent,
         AddPolicyComponent,
         PolicyDetailsComponent,
+        MonthlyReportComponent,
     ]
 })
 export class ClientsModule { }

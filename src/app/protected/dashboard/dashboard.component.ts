@@ -7,6 +7,7 @@ import { Prescription } from '../../prescriptions/prescriptions.component';
 import { Protocol } from '../../protocols/protocols/protocols.component';
 import { PrescriptionService } from '../../prescriptions/prescriptions-service/prescriptions.service';
 import { ProtocolsService } from '../../protocols/protocols.service';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
     selector: 'app-dashboard',
@@ -21,6 +22,7 @@ export class DashboardComponent {
     protected prescriptions: Prescription[] = [];
     protected protocols: Protocol[] = [];
     protected showNotifications: boolean = true;
+    protected date: FormControl = new FormControl();
 
     constructor(
         private router: Router,
