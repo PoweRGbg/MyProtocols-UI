@@ -12,6 +12,20 @@
         (keyup)="onSearch()"
     >
 </mat-form-field>
+<mat-form-field>
+    <mat-label>Month and Year</mat-label>
+    <input matInput [matDatepicker]="dp" [formControl]="filterDate">
+    <mat-hint>MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp
+        startView="multi-year"
+        (monthSelected)="setFilterDate($event, dp)"
+        panelClass="example-month-picker">
+    </mat-datepicker>
+</mat-form-field>
+<button mat-icon-button (click)="clearFilter()" aria-label="Clear filter">
+    <mat-icon style="color: red;">clear</mat-icon>
+</button>
 <table *ngIf="clients.length">
     <thead>
       <tr>

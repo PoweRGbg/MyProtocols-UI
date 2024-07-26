@@ -1,21 +1,43 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ClientsService } from '../clients.service';
 import { Client } from '../clients/clients.component';
 import { convertDateToEU } from '../../common/common';
 import { NavigationExtras, Router } from '@angular/router';
+import * as moment from 'moment';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { FormControl } from '@angular/forms';
+import {default as _rollupMoment, Moment} from 'moment';
+import 'moment/locale/bg';
+
+const momentConst = _rollupMoment || moment;
+export const MY_FORMATS_MONTH = {
+    parse: {
+      dateInput: 'MM/YYYY',
+    },
+    display: {
+      dateInput: 'MM/YYYY',
+      monthYearLabel: 'MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
+  
 
 @Component({
     selector: 'list-clients',
     templateUrl: './list-clients.component.html',
-    styleUrl: './list-clients.component.scss'
+    styleUrl: './list-clients.component.scss',
 })
 
 export class ListClientsComponent {
     protected medicinesForPrescriptions: string[] = [];
     protected clients: Client[] = [];
     protected searchText: string = '';
+    readonly filterDate = new FormControl(momentConst());
 
-    constructor(private clientsService: ClientsService, private router: Router) {}
+    constructor(private clientsService: ClientsService, private router: Router) {
+        moment.locale('bg'); // Set moment.js locale globally
+    }
 
     ngOnInit(): void {
         if (this.clients.length === 0) {
@@ -100,5 +122,38 @@ export class ListClientsComponent {
             }
         }
         this.router.navigate([`/protected/client/${clientName}`], navigationExtras);
+    }
+
+    protected setFilterDate(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
+        const ctrlValue = this.filterDate.value ?? momentConst();
+        ctrlValue.month(normalizedMonthAndYear.month());
+        ctrlValue.year(normalizedMonthAndYear.year());
+        this.filterDate.setValue(ctrlValue);
+        datepicker.close();
+        this.filterByDate();
+    }
+
+    protected filterByDate(): void {
+        
+        if (this.filterDate.value !== null) {
+            const date = this.filterDate.value.toDate();
+            const filteredClients = this.clients.filter((client) => {
+                return client.policies?.some((policy) => {
+                    return policy.payments?.some((payment) => {
+                        const paymentDate = payment.date.split('/');
+                        const filterDate = this.formatDate(date).split('/');
+                        
+                        return paymentDate[1] === filterDate[1] && paymentDate[2] === filterDate[2];
+                    });
+                });
+            });
+            
+            this.clients = [...filteredClients];
+        }
+    }
+
+    protected clearFilter(): void {
+        this.filterDate.setValue(momentConst());
+        this.getAll();
     }
 }

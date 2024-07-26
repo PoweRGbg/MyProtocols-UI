@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -6,8 +6,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { registerLocaleData } from '@angular/common';
 
+import localeBg from '@angular/common/locales/bg';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 // specify the key where the token is stored in the local storage
 export const LOCALSTORAGE_TOKEN_KEY = 'myprotocols-token';
@@ -37,7 +40,10 @@ export function tokenGetter() {
             }
         })
     ],
-    providers: [],
+    providers: [
+        { provide: LOCALE_ID, useValue: 'bg' },
+        { provide: MAT_DATE_LOCALE, useValue: 'bg-BG' }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

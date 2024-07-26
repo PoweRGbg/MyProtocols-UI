@@ -91,6 +91,8 @@ export class ClientsService {
     }
 
     getAllFromApi(): void {
+        console.log('Getting all clients from API');
+        
         this.http.get<Client[]>(this.apiUrl).subscribe((clients) => {
             this.clients = clients
                 .map(client => this.toClient(client));
@@ -158,6 +160,24 @@ export class ClientsService {
                 return { ...client, policies: policiesOverdue};
             })
             .filter((client) => this.clientHasPayments(client) === true);
+    }
+
+    filterClientsByDate(date: Date): Client[] {
+        this.getAllFromApi();
+        const filteredClients = this.clients.filter((client) => {
+            return client.policies?.some((policy) => {
+                return policy.payments?.some((payment) => {
+                    const paymentDate = payment.date.split('/');
+                    const filterDate = this.formatDate(date).split('/');
+                    
+                    return paymentDate[1] === filterDate[1] && paymentDate[2] === filterDate[2];
+                });
+            });
+        });
+        console.log('Filtered clients', filteredClients);
+        
+        this.clientsSubject.next([...filteredClients]);
+        return filteredClients;
     }
 
     toClient(protocol: any): Client {
