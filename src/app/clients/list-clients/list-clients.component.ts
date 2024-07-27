@@ -3,22 +3,21 @@ import { ClientsService } from '../clients.service';
 import { Client } from '../clients/clients.component';
 import { convertDateToEU } from '../../common/common';
 import { NavigationExtras, Router } from '@angular/router';
-import * as moment from 'moment';
+import * as _moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import {default as _rollupMoment, Moment} from 'moment';
-import 'moment/locale/bg';
 
-const momentConst = _rollupMoment || moment;
+const moment = _rollupMoment || _moment;
 export const MY_FORMATS_MONTH = {
     parse: {
       dateInput: 'MM/YYYY',
     },
     display: {
       dateInput: 'MM/YYYY',
-      monthYearLabel: 'MMM YYYY',
+      monthYearLabel: 'MMM ГГГГ',
       dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'MMMM YYYY',
+      monthYearA11yLabel: 'MMMM ГГГГ',
     },
 };
   
@@ -33,11 +32,9 @@ export class ListClientsComponent {
     protected medicinesForPrescriptions: string[] = [];
     protected clients: Client[] = [];
     protected searchText: string = '';
-    readonly filterDate = new FormControl(momentConst());
+    readonly filterDate = new FormControl();
 
-    constructor(private clientsService: ClientsService, private router: Router) {
-        moment.locale('bg'); // Set moment.js locale globally
-    }
+    constructor(private clientsService: ClientsService, private router: Router) {}
 
     ngOnInit(): void {
         if (this.clients.length === 0) {
@@ -96,7 +93,8 @@ export class ListClientsComponent {
         return vehicles.join(', ');
     }
 
-    protected removeClient(clientId: number): void {
+    protected removeClient(event: Event, clientId: number): void {
+        event.stopPropagation();
         if (confirm("Сигурни ли сте, че искате да изтриете клиента? Не може да го възстановите след това!")) {
             this.clientsService.removeClient(clientId);
         }
@@ -106,7 +104,8 @@ export class ListClientsComponent {
         return convertDateToEU(targetDate.toISOString());
     }
 
-    protected updateClient(clientId: number): void {
+    protected updateClient(event: Event, clientId: number): void {
+        event.stopPropagation();
         let navigationExtras: NavigationExtras = {
             queryParams: {
                 clientId: clientId,
@@ -125,7 +124,7 @@ export class ListClientsComponent {
     }
 
     protected setFilterDate(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
-        const ctrlValue = this.filterDate.value ?? momentConst();
+        const ctrlValue = this.filterDate.value ?? moment();
         ctrlValue.month(normalizedMonthAndYear.month());
         ctrlValue.year(normalizedMonthAndYear.year());
         this.filterDate.setValue(ctrlValue);
@@ -153,7 +152,7 @@ export class ListClientsComponent {
     }
 
     protected clearFilter(): void {
-        this.filterDate.setValue(momentConst());
+        this.filterDate.setValue(null);
         this.getAll();
     }
 }

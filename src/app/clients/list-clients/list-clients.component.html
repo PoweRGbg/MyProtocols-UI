@@ -13,9 +13,9 @@
     >
 </mat-form-field>
 <mat-form-field>
-    <mat-label>Month and Year</mat-label>
+    <mat-label>Филтър по месец и година</mat-label>
     <input matInput [matDatepicker]="dp" [formControl]="filterDate">
-    <mat-hint>MM/YYYY</mat-hint>
+    <mat-hint>MM/ГГГГ</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp
         startView="multi-year"
@@ -23,7 +23,10 @@
         panelClass="example-month-picker">
     </mat-datepicker>
 </mat-form-field>
-<button mat-icon-button (click)="clearFilter()" aria-label="Clear filter">
+<button *ngIf="filterDate.value"
+    mat-icon-button
+    (click)="clearFilter()"
+    aria-label="Clear filter">
     <mat-icon style="color: red;">clear</mat-icon>
 </button>
 <table *ngIf="clients.length">
@@ -36,7 +39,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of clients">
+      <tr *ngFor="let client of clients"
+        class="client"
+        (click)="navigate(client.clientName)">
         <td 
             class="client"
             (click)="navigate(client.clientName)"
@@ -56,8 +61,8 @@
             {{getClientVehicles(client)}}
         </td>
         <td  class="centered">
-            <button mat-flat-button color="primary" (click)="updateClient(client.id)">Редакция</button>
-            <button mat-flat-button color="warn" (click)="removeClient(client.id)">ИЗТРИЙ</button>
+            <button mat-flat-button color="primary" (click)="updateClient($event, client.id)">Редакция</button>
+            <button mat-flat-button color="warn" (click)="removeClient($event, client.id)">ИЗТРИЙ</button>
         </td>
       </tr>
     </tbody>
