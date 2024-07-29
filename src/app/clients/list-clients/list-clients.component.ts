@@ -11,13 +11,13 @@ import {default as _rollupMoment, Moment} from 'moment';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS_MONTH = {
     parse: {
-      dateInput: 'MM/YYYY',
+        dateInput: 'MM/YYYY',
     },
     display: {
-      dateInput: 'MM/YYYY',
-      monthYearLabel: 'MMM ГГГГ',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'MMMM ГГГГ',
+        dateInput: 'MM/YYYY',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
     },
 };
   
@@ -34,8 +34,10 @@ export class ListClientsComponent {
     protected searchText: string = '';
     readonly filterDate = new FormControl();
 
-    constructor(private clientsService: ClientsService, private router: Router) {}
-
+    constructor(private clientsService: ClientsService, private router: Router) {
+        moment.locale('bg'); // Set moment.js locale globally
+    }
+    
     ngOnInit(): void {
         if (this.clients.length === 0) {
             this.getAll();

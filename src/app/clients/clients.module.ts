@@ -48,7 +48,7 @@ import { MatIcon } from '@angular/material/icon';
     providers: [
         AuthService,
         provideNativeDateAdapter(),
-        { provide: MAT_DATE_LOCALE, useValue: 'bg-BG' },
+        { provide: MAT_DATE_LOCALE, useValue: 'bg' },
         {
         provide: DateAdapter,
         useClass: MomentDateAdapter,

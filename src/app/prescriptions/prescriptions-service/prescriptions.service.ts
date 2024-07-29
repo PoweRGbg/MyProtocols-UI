@@ -57,7 +57,6 @@ export class PrescriptionService {
 
 	getAllFromApi(): void {
         this.user = this.authService.getLoggedInUser();
-        console.log('getting all prescriptions from API for user', this.user);
 		this.http.get<Prescription[]>(this.apiUrl).subscribe((prescriptions) => {
 			this.prescriptions = prescriptions
                 .filter(prescription => prescription.user === this.user)
