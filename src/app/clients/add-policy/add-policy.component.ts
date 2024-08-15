@@ -98,7 +98,7 @@ export class AddPolicyComponent {
             const startDate = new Date(this.startDate);
             const oneYearFromNow = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()+1);
             
-            let paymentDate = new Date(startDate.getTime() - (1 * 24 * 60 * 60 * 1000));
+            let paymentDate = new Date(startDate.getTime()+3*1000*60*60);
             
             const paymentMonth = (12 / this.numberOfPayments);
             let extraYears = paymentMonth > 12 ? Math.floor(paymentMonth / 12) : 0;
@@ -106,11 +106,9 @@ export class AddPolicyComponent {
                 paymentDate.setFullYear(paymentDate.getFullYear() + extraYears);
             }
             paymentDate.setMonth(paymentDate.getMonth() + paymentMonth * i);
-            console.log('end date', startDate);
             
             paymentDate.setDate(paymentDate.getDate());
             const remainder = ((this.totalAmount * 100) % this.numberOfPayments) / 100;
-            console.log('Remainder', remainder.toFixed(2));
             
             this.payments.push({
                 id: i,
@@ -128,6 +126,12 @@ export class AddPolicyComponent {
                 this.payments[0].amount = Number((this.payments[i].amount + remainder).toFixed(2));
             }
             
+        }
+    }
+
+    onStartDateChange(): void {
+        if (this.totalAmount > 0) {
+            this.onPaymentNumberChange();
         }
     }
 

@@ -7,6 +7,8 @@ import * as _moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import {default as _rollupMoment, Moment} from 'moment';
+import { getMonthAndYear } from '../common';
+import { get } from 'http';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS_MONTH = {
@@ -140,12 +142,13 @@ export class ListClientsComponent {
             const date = this.filterDate.value.toDate();
             const filteredClients = this.clients.filter((client) => {
                 return client.policies?.some((policy) => {
+                    const filterDate = this.formatDate(date).split('/');
+                    const policyValidTo = getMonthAndYear(new Date(policy.validTo)).split('/');
+                    
                     return policy.payments?.some((payment) => {
                         const paymentDate = payment.date.split('/');
-                        const filterDate = this.formatDate(date).split('/');
-                        
                         return paymentDate[1] === filterDate[1] && paymentDate[2] === filterDate[2];
-                    });
+                    }) || policyValidTo[0] === filterDate[1] && policyValidTo[1] === filterDate[2]; // Check if the policy is valid for the selected month
                 });
             });
             

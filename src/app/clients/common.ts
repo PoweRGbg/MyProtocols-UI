@@ -55,5 +55,8 @@ export function isPaymentOverdue(payment: Payment): boolean {
 }
 
 export function convertEUStringToDate(targetDate: string): Date {
-        return new Date(targetDate.split('/').reverse().join('/'));
+    return new Date(targetDate.split('/').reverse().join('/'));
 }
+ export function getMonthAndYear(date: Date): string {
+    return `${date.getMonth() + 1}/${date.getFullYear()}`;
+ }
