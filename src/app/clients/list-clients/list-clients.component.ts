@@ -137,18 +137,19 @@ export class ListClientsComponent {
     }
 
     protected filterByDate(): void {
-        
         if (this.filterDate.value !== null) {
             const date = this.filterDate.value.toDate();
             const filteredClients = this.clients.filter((client) => {
                 return client.policies?.some((policy) => {
                     const filterDate = this.formatDate(date).split('/');
                     const policyValidTo = getMonthAndYear(new Date(policy.validTo)).split('/');
+                    console.log('Vehicle:', policy.vehicleId, 'Policy valid to', policyValidTo);
                     
                     return policy.payments?.some((payment) => {
                         const paymentDate = payment.date.split('/');
-                        return paymentDate[1] === filterDate[1] && paymentDate[2] === filterDate[2];
-                    }) || policyValidTo[0] === filterDate[1] && policyValidTo[1] === filterDate[2]; // Check if the policy is valid for the selected month
+                        return (paymentDate[1] === filterDate[1] && paymentDate[2] === filterDate[2])
+                            || (policyValidTo[0] === filterDate[1] && policyValidTo[1] === filterDate[2]);;
+                    });
                 });
             });
             

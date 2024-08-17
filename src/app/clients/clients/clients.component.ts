@@ -15,8 +15,8 @@ export interface Policy {
     vehicleId: string;
     policyName: string;
     policyNumber: string;
-    broker: string;
-    company: string;
+    broker?: string;
+    company?: string;
     amount: number;
     validTo: Date;
     payments: Payment[];

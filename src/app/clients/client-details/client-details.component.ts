@@ -3,8 +3,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ClientsService } from '../clients.service';
 import { Client, Payment, Policy } from '../clients/clients.component';
-import { log } from 'console';
-import { convertDateToEU } from '../../common/common';
+import { convertDateToEU as convertDateToEU } from '../../common/common';
 import { isPaymentOverdue, updatePaymentStatus } from '../common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -125,5 +124,9 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
 
     protected isPaymentOverdue(payment: Payment): boolean {
         return isPaymentOverdue(payment);
+    }
+
+    protected formatDate(targetDate: Date): string {
+        return convertDateToEU(targetDate);
     }
 }

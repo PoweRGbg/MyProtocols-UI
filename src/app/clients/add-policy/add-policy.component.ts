@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output, SimpleChange } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ClientsService } from '../clients.service';
-import { AuthService } from '../../public/auth.service';
 import { Payment, Policy } from '../clients/clients.component';
-import { get } from 'http';
+import { oneYearFromDate } from '../common';
 
 @Component({
 	selector: 'client-add-policy',
@@ -15,16 +14,15 @@ export class AddPolicyComponent {
 
     protected vehicleId: string = '';
     protected policyName: string = '';
-    protected company: string = '';
-    protected broker: string = '';
+    protected company: string | undefined;
+    protected broker: string | undefined;
     protected policyNumber: string = '';
     protected totalAmount: number = 0;
     protected numberOfPayments: number = 1;
     private readonly today = new Date();
     protected tomorrow = new Date(this.today.setDate(this.today.getDate() + 1));
     protected startDate: string = this.tomorrow.toISOString().split('T')[0];
-    protected oneYearFromNow = new Date(this.tomorrow.getFullYear() + 1, this.today.getMonth(),this.today.getDate()+1);
-    protected endDate: string = this.oneYearFromNow.toISOString().split('T')[0];
+    protected endDate: Date = oneYearFromDate(this.tomorrow);
     protected payments: Payment[] = [];
     protected policyTypes: string[] = [
         'Каско',
@@ -47,6 +45,7 @@ export class AddPolicyComponent {
             payment.policyId = client.policies === undefined ? 1 : client.policies.length + 1;
             return payment;
         });
+
         if (!this.validatePolicy()) {
             return;
         }
@@ -76,14 +75,14 @@ export class AddPolicyComponent {
             alert('Моля изберете клиент');
             return;
         }
-
+        console.log('Adding policy to client: ', client);
         client.policies.push(policy);
 		this.clientsService.updateClient(client);
         this.policyAdded.emit(true);
 	}
 
     onPaymentNumberChange(): void {
-        if (this.endDate.length < 1) {
+        if (!this.endDate) {
             alert('Моля изберете край на полицата');
             return;
         }
@@ -130,6 +129,9 @@ export class AddPolicyComponent {
     }
 
     onStartDateChange(): void {
+        this.endDate = oneYearFromDate(new Date(this.startDate));
+        console.log('end date is: ', this.endDate);
+        
         if (this.totalAmount > 0) {
             this.onPaymentNumberChange();
         }
@@ -147,19 +149,13 @@ export class AddPolicyComponent {
         if (this.policyName.length < 1) {
             errorMessages.push('Моля въведете име на полицата');
         }
-        if (this.company.length < 1) {
-            errorMessages.push('Моля въведете застрахователна компания');
-        }
-        if (this.broker.length < 1) {
-            errorMessages.push('Моля въведете брокер');
-        }
         if (this.policyNumber.length < 1) {
             errorMessages.push('Моля въведете номер на полицата');
         }
         if (this.totalAmount < 1) {
             errorMessages.push('Моля въведете премия');
         }
-        if (this.endDate.length < 1) {
+        if (!this.endDate) {
             errorMessages.push('Моля въведете край на полицата');
         }
         if (this.payments.length < 1) {
@@ -175,8 +171,6 @@ export class AddPolicyComponent {
         return this.vehicleId.length > 0
             && this.valideVehicleId()
             && this.policyName.length > 0
-            && this.company.length > 0
-            && this.broker.length > 0
             && this.policyNumber.length > 0
             && this.totalAmount > 0
             && this.endDate.toString().length > 0

@@ -33,6 +33,7 @@
     <th>Компания</th>
     <th>Брокер</th>
     <th>Номер</th>
+    <th>До</th>
     <th>Вноски</th>
     <tr *ngFor="let policy of policies; index as policyIndex">
         <td>{{policy.vehicleId}}</td>
@@ -40,6 +41,7 @@
         <td>{{policy.company}}</td>
         <td>{{policy.broker}}</td>
         <td>{{policy.policyNumber}}</td>
+        <td>{{formatDate(policy.validTo)}}</td>
         <td 
             *ngFor="let payment of policy.payments; index as i"
             class="payment-cell" 

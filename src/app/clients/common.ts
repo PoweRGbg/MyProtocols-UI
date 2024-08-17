@@ -1,8 +1,8 @@
 import { Payment } from './clients/clients.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-// export const apiUrl: string = 'http://localhost:3030/';
-export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
+export const apiUrl: string = 'http://localhost:3030/';
+// export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
 
 
 export function updatePaymentStatus(payment: Payment, snackBar: MatSnackBar): Payment {
@@ -57,6 +57,11 @@ export function isPaymentOverdue(payment: Payment): boolean {
 export function convertEUStringToDate(targetDate: string): Date {
     return new Date(targetDate.split('/').reverse().join('/'));
 }
- export function getMonthAndYear(date: Date): string {
+
+export function getMonthAndYear(date: Date): string {
     return `${date.getMonth() + 1}/${date.getFullYear()}`;
- }
+}
+
+export function oneYearFromDate(date: Date): Date {
+    return new Date(date.setFullYear(date.getFullYear() + 1));
+}
