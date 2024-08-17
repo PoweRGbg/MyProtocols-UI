@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { ClientsService } from '../clients.service';
 import { Client } from '../clients/clients.component';
-import { convertDateToEU } from '../../common/common';
+import { convertDateToEU, convertDateFromEU } from '../../common/common';
 import { NavigationExtras, Router } from '@angular/router';
 import * as _moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import {default as _rollupMoment, Moment} from 'moment';
 import { getMonthAndYear } from '../common';
-import { get } from 'http';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS_MONTH = {
@@ -142,13 +141,16 @@ export class ListClientsComponent {
             const filteredClients = this.clients.filter((client) => {
                 return client.policies?.some((policy) => {
                     const filterDate = this.formatDate(date).split('/');
-                    const policyValidTo = getMonthAndYear(new Date(policy.validTo)).split('/');
-                    console.log('Vehicle:', policy.vehicleId, 'Policy valid to', policyValidTo);
+                    const lastPaymentDate = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
+                    const paymentEveryMonths = 12 / policy.payments.length;
+                    let calculatedPolicyEnd = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
+                    calculatedPolicyEnd.setMonth(lastPaymentDate.getMonth() + paymentEveryMonths);
+                    const calculatedEndDate = getMonthAndYear(calculatedPolicyEnd).split('/');
                     
                     return policy.payments?.some((payment) => {
                         const paymentDate = payment.date.split('/');
                         return (paymentDate[1] === filterDate[1] && paymentDate[2] === filterDate[2])
-                            || (policyValidTo[0] === filterDate[1] && policyValidTo[1] === filterDate[2]);;
+                            || (calculatedEndDate[0] === filterDate[1] && calculatedEndDate[1] === filterDate[2]);
                     });
                 });
             });

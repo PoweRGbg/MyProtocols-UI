@@ -91,8 +91,6 @@ export class ClientsService {
     }
 
     getAllFromApi(): void {
-        console.log('Getting all clients from API');
-        
         this.http.get<Client[]>(this.apiUrl).subscribe((clients) => {
             this.clients = clients
                 .map(client => this.toClient(client));
