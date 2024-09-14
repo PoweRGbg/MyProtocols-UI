@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class PolicyDetailsComponent implements OnInit, OnChanges, OnDestroy{
     addProtocol: boolean = false;
 
-    protected clientName: string = '';
+    protected clientId: number = 0;
     protected policyRequested: string = '';
     protected client: Client | undefined;
     private sub: Subscription = new Subscription();
@@ -30,18 +30,18 @@ export class PolicyDetailsComponent implements OnInit, OnChanges, OnDestroy{
     ) {}
 
     async ngOnInit() {
-        this.clientName = this.route.snapshot.paramMap.get('clientName') ?? '';
+        this.clientId = Number(this.route.snapshot.paramMap.get('clientId')) ?? 0;
         this.policyRequested = this.route.snapshot.paramMap.get('policyId') ?? '';
         this.clientsService.getAllClients();
         this.clientsService.clients$.subscribe((clients) => {
-            this.client = clients.find((c) => c.clientName === this.clientName);
+            this.client = clients.find((c) => c.id === Number(this.clientId));
             this.policies = this.client?.policies?.sort() || [];
             this.policy = this.client?.policies?.find((p) => p.id === Number(this.policyRequested));
         });
     }
 
     async ngOnChanges() {
-        this.client = this.clientsService.getClientByName(this.clientName);
+        this.client = this.clientsService.getClientById(this.clientId);
         this.policies = this.client?.policies?.sort() || [];
         this.policy = this.client?.policies?.find((p) => p.id === Number(this.policyRequested));
     }

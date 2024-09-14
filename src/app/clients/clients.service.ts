@@ -46,12 +46,11 @@ export class ClientsService {
         )[0];
     }
 
-    getClientById(id: string): Client | undefined {
+    getClientById(id: number): Client | undefined {
         this.getAllFromApi();
         
         return this.clients.filter((protocol) => 
-            protocol.user === this.user && protocol.id === Number(id)
-        )[0];
+            protocol.user === this.user && protocol.id === id)[0];
     }
 
     removeClient(protocolId: number) {

@@ -26,7 +26,7 @@ const routes: Routes = [
         component: EditClientComponent
     },
     {
-        path: 'policy/:clientName/:policyId',
+        path: 'policy/:clientId/:policyId',
         component: PolicyDetailsComponent
     },
     {

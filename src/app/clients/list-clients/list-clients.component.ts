@@ -117,21 +117,13 @@ export class ListClientsComponent {
 
     protected updateClient(event: Event, clientId: number): void {
         event.stopPropagation();
-        let navigationExtras: NavigationExtras = {
-            queryParams: {
-                clientId: clientId,
-            }
-        }
-        this.router.navigate([`/protected/client/update/${clientId}`], navigationExtras);
+        this.router.navigate([`/protected/client/update/${clientId}`]);
     }
 
-    protected navigate(clientName: string): void {
-        let navigationExtras: NavigationExtras = {
-            queryParams: {
-                clientName: clientName,
-            }
-        }
-        this.router.navigate([`/protected/client/${clientName}`], navigationExtras);
+    protected navigate(clientId: string): void {
+        console.log('clientId is', clientId);
+        
+        this.router.navigate([`/protected/client/${clientId}`]);
     }
 
     protected setFilterDate(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {

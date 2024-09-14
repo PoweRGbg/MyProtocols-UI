@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
     addProtocol: boolean = false;
 
-    protected clientId: string = '';
+    protected clientId: number = 0;
     protected client: Client | undefined;
     private sub: Subscription = new Subscription();
     protected policies: Policy[] = [];
@@ -29,7 +29,7 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
     ) {}
 
     async ngOnInit() {
-        this.clientId = this.route.snapshot.paramMap.get('clientId') ?? '';
+        this.clientId = Number(this.route.snapshot.paramMap.get('clientId')) ?? 0;
         this.clientsService.getAllClients();
         this.clientsService.clients$.subscribe((clients) => {
             this.client = clients.find((c) => c.id === Number(this.clientId));

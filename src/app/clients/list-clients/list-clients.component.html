@@ -41,22 +41,22 @@
     <tbody>
       <tr *ngFor="let client of clients"
         class="client"
-        (click)="navigate(client.clientName)">
+        (click)="navigate(client.id.toString())">
         <td 
             class="client"
-            (click)="navigate(client.clientName)"
+            (click)="navigate(client.id.toString())"
         >
             {{client.clientName}}
         </td>
         <td 
             class="client"
-            (click)="navigate(client.clientName)"
+            (click)="navigate(client.id.toString())"
         >
             {{client.identifier}}
         </td>
         <td 
             class="client"
-            (click)="navigate(client.clientName)"
+            (click)="navigate(client.id.toString())"
         >
             {{getClientVehicles(client)}}
         </td>
