@@ -46,6 +46,14 @@ export class ClientsService {
         )[0];
     }
 
+    getClientById(id: string): Client | undefined {
+        this.getAllFromApi();
+        
+        return this.clients.filter((protocol) => 
+            protocol.user === this.user && protocol.id === Number(id)
+        )[0];
+    }
+
     removeClient(protocolId: number) {
         this.http.delete<Client>(`${this.apiUrl}/${protocolId}`).subscribe(() => {
             this.getAllFromApi();

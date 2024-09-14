@@ -40,6 +40,14 @@ export class ListClientsComponent {
     }
     
     ngOnInit(): void {
+        const savedDate = localStorage.getItem('filterDate');
+        if (savedDate) {
+            console.log('Saved filter date', savedDate);
+            
+            this.filterDate.setValue(moment(savedDate, 'MM/YYYY'));
+            this.filterByDate();
+        }
+
         if (this.clients.length === 0) {
             this.getAll();
         }
@@ -132,10 +140,13 @@ export class ListClientsComponent {
         ctrlValue.year(normalizedMonthAndYear.year());
         this.filterDate.setValue(ctrlValue);
         datepicker.close();
+        localStorage.setItem('filterDate', ctrlValue.format('MM/YYYY'));
         this.filterByDate();
     }
 
     protected filterByDate(): void {
+        console.log('filtering for ',this.filterDate.value.toDate());
+        
         if (this.filterDate.value !== null) {
             const date = this.filterDate.value.toDate();
             const filteredClients = this.clients.filter((client) => {
@@ -161,6 +172,7 @@ export class ListClientsComponent {
 
     protected clearFilter(): void {
         this.filterDate.setValue(null);
+        localStorage.removeItem('filterDate');
         this.getAll();
     }
 }
