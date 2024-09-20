@@ -93,13 +93,13 @@ export class DashboardNotificationsComponent {
         return client.policies?.some((policy) => policy.payments.length > 0);
     }
 
-    protected navigate(clientName: string, policyId: number): void {
+    protected navigate(clientId: number, policyId: number): void {
         let navigationExtras: NavigationExtras = {
             queryParams: {
-                clientName: clientName,
+                id: clientId,
                 policyId: policyId,
             }
         }
-        this.router.navigate([`/protected/policy/${clientName}/${policyId}`], navigationExtras);
+        this.router.navigate([`/protected/policy/${clientId}/${policyId}`], navigationExtras);
     }
 }

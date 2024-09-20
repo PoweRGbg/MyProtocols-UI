@@ -6,7 +6,7 @@
 </div>
 <div>
     Справка:
-    <button mat-flat-button color="primary" (click)="toggleNotifications()">Покажи/Скрий</button>
+    <button mat-flat-button color="primary" (click)="toggleNotifications()">{{showNotifications ? 'Скрий' : 'Покажи'}}</button>
     <dashboard-notifications *ngIf="showNotifications"
         [prescriptions]="prescriptions"
         [protocols]="protocols"

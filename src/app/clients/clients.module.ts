@@ -18,6 +18,7 @@ import { ClientDetailsComponent } from './client-details/client-details.componen
 import { PolicyDetailsComponent } from './policy-details/policy-details.component';
 import { EditClientComponent } from './client-edit/edit-client.component';
 import { MonthlyReportComponent } from './monthly-report/monthly-report.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatIcon } from '@angular/material/icon';
 @NgModule({
@@ -43,6 +44,7 @@ import { MatIcon } from '@angular/material/icon';
         MatRadioGroup,
         MatIcon,
         MatSelectModule,
+        MatCheckboxModule,
         ReactiveFormsModule,
     ],
     providers: [

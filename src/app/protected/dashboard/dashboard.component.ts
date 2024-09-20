@@ -21,7 +21,7 @@ export class DashboardComponent {
     protected sessionExpiry: string;
     protected prescriptions: Prescription[] = [];
     protected protocols: Protocol[] = [];
-    protected showNotifications: boolean = true;
+    protected showNotifications: boolean = false;
     protected date: FormControl = new FormControl();
 
     constructor(

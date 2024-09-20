@@ -1,3 +1,5 @@
+-- make hidden notifications stay hidden
+-- save filtered date
 - Send emails
     -- of expiring/expired protocols
     -- expiring/expired recipes (7 days)

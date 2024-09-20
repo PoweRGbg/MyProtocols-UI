@@ -29,6 +29,8 @@ export class AddPolicyComponent {
         'ГО',
         'Карта СБА',
     ];
+    // I want to add an option to choose if the policy is valid for only one month which will set the end date to the start date plus one month and the maximum amount to the total amount divided by the number of payments to one
+    protected monthlyPolicy: boolean = false;
 
     constructor(
         private clientsService: ClientsService,
@@ -82,6 +84,11 @@ export class AddPolicyComponent {
 	}
 
     onPaymentNumberChange(): void {
+        this.payments = [];
+        const startDate = new Date(this.startDate);
+        let paymentDate = new Date(startDate.getTime()+3*1000*60*60);
+        const remainder = ((this.totalAmount * 100) % this.numberOfPayments) / 100;
+        
         if (!this.endDate) {
             alert('Моля изберете край на полицата');
             return;
@@ -91,35 +98,46 @@ export class AddPolicyComponent {
             return;
         }
 
-        this.payments = [];
         for (let i = 0; i < this.numberOfPayments; i++) {
-
-            const startDate = new Date(this.startDate);
-            const oneYearFromNow = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()+1);
-            
-            let paymentDate = new Date(startDate.getTime()+3*1000*60*60);
-            
-            const paymentMonth = (12 / this.numberOfPayments);
-            let extraYears = paymentMonth > 12 ? Math.floor(paymentMonth / 12) : 0;
-            if (extraYears > 0) {
-                paymentDate.setFullYear(paymentDate.getFullYear() + extraYears);
+            if(this.monthlyPolicy) {
+                console.log('monthly policy');
+                
+                const startDate = new Date(this.startDate);
+                const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
+                this.numberOfPayments = 1;
+                this.payments.push({
+                    id: i,
+                    date: this.getDateDashed(startDate),
+                    amount: this.totalAmount,
+                    issued: false,
+                    sent: false,
+                    paid: false,
+                    clientInformed: false,
+                    policyId: 0,
+                    vehicleId: this.vehicleId,
+                })
+            } else {
+                const paymentMonth = (12 / this.numberOfPayments);
+                let extraYears = paymentMonth > 12 ? Math.floor(paymentMonth / 12) : 0;
+                if (extraYears > 0) {
+                    paymentDate.setFullYear(paymentDate.getFullYear() + extraYears);
+                }
+                paymentDate.setMonth(paymentDate.getMonth() + paymentMonth * i);
+                
+                paymentDate.setDate(paymentDate.getDate());
+                
+                this.payments.push({
+                    id: i,
+                    date: this.getDateDashed(paymentDate),
+                    amount: Math.floor((this.totalAmount / this.numberOfPayments) * 100) / 100,
+                    issued: false,
+                    sent: false,
+                    paid: false,
+                    clientInformed: false,
+                    policyId: 0,
+                    vehicleId: this.vehicleId,
+                });
             }
-            paymentDate.setMonth(paymentDate.getMonth() + paymentMonth * i);
-            
-            paymentDate.setDate(paymentDate.getDate());
-            const remainder = ((this.totalAmount * 100) % this.numberOfPayments) / 100;
-            
-            this.payments.push({
-                id: i,
-                date: this.getDateDashed(paymentDate),
-                amount: Math.floor((this.totalAmount / this.numberOfPayments) * 100) / 100,
-                issued: false,
-                sent: false,
-                paid: false,
-                clientInformed: false,
-                policyId: 0,
-                vehicleId: this.vehicleId,
-            });
 
             if (remainder > 0 && this.numberOfPayments > 1) {
                 this.payments[0].amount = Number((this.payments[i].amount + remainder).toFixed(2));
