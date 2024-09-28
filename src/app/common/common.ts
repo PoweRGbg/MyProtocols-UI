@@ -1,7 +1,14 @@
 export const defaultProtocolValidityInDays = 180;
 // function to convert date to EU format
 export function convertDateToEU(date: string | Date): string {
-    const dateObj = typeof date === 'string' ? new Date(convertDateFromEU(date)) : date instanceof Date ? new Date(date) : date;
+    if (typeof date === 'string' && !date.includes('/')) {
+        date = new Date(date);
+    }
+    const dateObj = typeof date === 'string' 
+        ? new Date(convertDateFromEU(date)) 
+        : date instanceof Date 
+            ? new Date(date)
+            : date;
     console.log('Converting', date,'-', typeof date, dateObj, ' to ', dateObj.getDate() + '/' + (dateObj.getMonth() + 1) + '/' + dateObj.getFullYear());
     
     return `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
