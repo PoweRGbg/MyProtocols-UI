@@ -98,12 +98,16 @@ export class AddPolicyComponent {
             return;
         }
 
+        if (this.monthlyPolicy) {
+            this.numberOfPayments = 1;
+        }
+        
         for (let i = 0; i < this.numberOfPayments; i++) {
             if(this.monthlyPolicy) {
                 console.log('monthly policy');
                 
                 const startDate = new Date(this.startDate);
-                const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
+                this.endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
                 this.numberOfPayments = 1;
                 this.payments.push({
                     id: i,
