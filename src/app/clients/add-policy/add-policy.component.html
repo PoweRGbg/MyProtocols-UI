@@ -48,12 +48,14 @@
     </mat-form-field>
 </div>
 <div *ngIf="totalAmount !== 0">
-    <mat-checkbox [(ngModel)]="monthlyPolicy">Едномесечна</mat-checkbox>
+    <div>
+        <mat-checkbox [(ngModel)]="monthlyPolicy">Едномесечна</mat-checkbox>
+    </div>
     <mat-label for="payments">Брой вноски:</mat-label><BR>
     <mat-radio-group aria-label="Select an option" 
         [(ngModel)]="numberOfPayments"
         (change)="onPaymentNumberChange()">
-        <mat-radio-button value="1">1</mat-radio-button>
+        <mat-radio-button value="1" [checked]="monthlyPolicy ? true : false">1</mat-radio-button>
         <mat-radio-button *ngIf="!monthlyPolicy" value="2">2</mat-radio-button>
         <mat-radio-button *ngIf="!monthlyPolicy" value="4">4</mat-radio-button>
     </mat-radio-group>

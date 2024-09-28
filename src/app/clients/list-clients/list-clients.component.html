@@ -34,6 +34,7 @@
       <tr>
         <th>Клиент:</th>
         <th>Булстат/ЕГН:</th>
+        <th>Контакт:</th>
         <th>Автомобили:</th>
         <th>Действия</th>
       </tr>
@@ -42,22 +43,16 @@
       <tr *ngFor="let client of clients"
         class="client"
         (click)="navigate(client.id.toString())">
-        <td 
-            class="client"
-            (click)="navigate(client.id.toString())"
-        >
+        <td>
             {{client.clientName}}
         </td>
-        <td 
-            class="client"
-            (click)="navigate(client.id.toString())"
-        >
+        <td>
             {{client.identifier}}
         </td>
-        <td 
-            class="client"
-            (click)="navigate(client.id.toString())"
-        >
+        <td>
+            {{client.contact}}
+        </td>
+        <td>
             {{getClientVehicles(client)}}
         </td>
         <td  class="centered">

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ClientsService } from '../clients.service';
-import { Client } from '../clients/clients.component';
+import { Client, Policy } from '../clients/clients.component';
 import { convertDateToEU, convertDateFromEU } from '../../common/common';
 import { NavigationExtras, Router } from '@angular/router';
 import * as _moment from 'moment';
@@ -8,6 +8,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import {default as _rollupMoment, Moment} from 'moment';
 import { getMonthAndYear } from '../common';
+import { formatDate } from '../../prescriptions/common';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS_MONTH = {
@@ -96,9 +97,13 @@ export class ListClientsComponent {
 
     getClientVehicles(client: Client): string {
         const vehicles: string[] = [];
+        
         client.policies?.forEach((policy) => {
             if (policy.vehicleId) {
-                vehicles.push(policy.vehicleId);
+                vehicles
+                    .push(
+                        `${policy.vehicleId} (${policy.policyName}:${policy.policyNumber} - ${this.getLastPaymentDate(policy)})`
+                    );
             }
         });
         return vehicles.join(', ');
@@ -167,4 +172,15 @@ export class ListClientsComponent {
         localStorage.removeItem('filterDate');
         this.getAll();
     }
+
+    //function to get last payment date for each policy that is not paid yet
+    protected getLastPaymentDate(policy: Policy): string {
+        for (let i = 0; i < policy.payments.length; i++) {
+            if (!policy.payments[i].paid) {
+                return `падеж на ${convertDateToEU(policy.payments[i].date)}`;
+            }
+        }
+        return `изтича на ${convertDateToEU(policy.validTo)}`;
+    }
+
 }
