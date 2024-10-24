@@ -5,7 +5,6 @@ import { AddClientComponent } from './add-client/add-client.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ListClientsComponent, MY_FORMATS_MONTH } from './list-clients/list-clients.component';
 import { MatButtonModule } from '@angular/material/button';
-import { PrescriptionModule } from '../prescriptions/prescriptions.module';
 import { AuthService } from '../public/auth.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +34,6 @@ import { MatIcon } from '@angular/material/icon';
     imports: [
         CommonModule,
         FormsModule,
-        PrescriptionModule,
         MatButtonModule,
         MatInputModule,
         MatFormFieldModule,

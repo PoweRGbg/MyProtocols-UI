@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ClientsService } from '../clients.service';
-import { formatDate } from '../../prescriptions/common';
 import { AuthService } from '../../public/auth.service';
 import { Client } from '../clients/clients.component';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'add-client',
@@ -13,7 +13,7 @@ export class AddClientComponent {
     @Input() medicines: string[] | undefined;
 
 	now = new Date();
-	protected readonly todayAsString = formatDate(this.now);
+	protected readonly todayAsString = formatDate(this.now, 'dd/MM/yyyy', 'en-EU');
 	clientStart: string = this.todayAsString;
 	clientName: string = '';
 	contact: string = '';

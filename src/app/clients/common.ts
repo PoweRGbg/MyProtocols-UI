@@ -1,8 +1,8 @@
 import { Payment } from './clients/clients.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-// export const apiUrl: string = 'http://localhost:3030/';
-export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
+export const apiUrl: string = 'http://localhost:3030/';
+// export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
 
 
 export function updatePaymentStatus(payment: Payment, snackBar: MatSnackBar): Payment {
@@ -14,10 +14,8 @@ export function updatePaymentStatus(payment: Payment, snackBar: MatSnackBar): Pa
                 duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
             });
         }
-        console.log('Client informed');
     } else if (payment.clientInformed && !payment.issued) {
         payment.issued = true;
-        console.log('Payment issued');
         if (isPaymentOverdue(payment)) {
             snackBar.open('Вноската е издадена, но не е платена', 'Затвори', {
                 duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
@@ -26,14 +24,12 @@ export function updatePaymentStatus(payment: Payment, snackBar: MatSnackBar): Pa
 
     } else if (payment.issued && !payment.sent) {
         payment.sent = true;
-        console.log('Payment sent');
         if (isPaymentOverdue(payment)) {
             snackBar.open('Вноската е изпратена, но не е платена', 'Затвори', {
                 duration: 2000, horizontalPosition: 'right', verticalPosition: 'top'
             });
         }
     } else if (payment.sent && !payment.paid) {
-        console.log('Payment paid');
         payment.paid = true;
     } else if (payment.paid) {
         payment.clientInformed = false;

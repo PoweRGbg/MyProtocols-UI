@@ -1,8 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Prescription } from '../../../prescriptions/prescriptions.component';
-import { Protocol } from '../../../protocols/protocols/protocols.component';
+import { Component } from '@angular/core';
 import { convertDateToEU } from '../../../common/common';
-import { Client, Payment, Policy } from '../../../clients/clients/clients.component';
+import { Client, Payment } from '../../../clients/clients/clients.component';
 import { ClientsService } from '../../../clients/clients.service';
 import { NavigationExtras, Router } from '@angular/router';
 @Component({
@@ -11,15 +9,9 @@ import { NavigationExtras, Router } from '@angular/router';
   styleUrl: './notifications.component.scss'
 })
 export class DashboardNotificationsComponent {
-    @Input() prescriptions?: Prescription[] = [];
-    @Input() protocols?: Protocol[] = [];
 
-	prescriptionsIn7Days: Prescription[] = [];
     paymentsIn15Days: Client[] = [];
     paymentsOverdue: Client[] = [];
-    protocolsIn7Days: Protocol[] = [];
-    expiredPrescriptions: Prescription[] = [];
-    expiredProtocols: Protocol[] = [];
     protected clients: Client[] = [];
 
 	constructor(

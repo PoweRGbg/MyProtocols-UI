@@ -9,7 +9,6 @@ export function convertDateToEU(date: string | Date): string {
         : date instanceof Date 
             ? new Date(date)
             : date;
-    console.log('Converting', date,'-', typeof date, dateObj, ' to ', dateObj.getDate() + '/' + (dateObj.getMonth() + 1) + '/' + dateObj.getFullYear());
     
     return `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`;
 }

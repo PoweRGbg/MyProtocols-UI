@@ -3,10 +3,6 @@ import { Component } from '@angular/core';
 import { LOCALSTORAGE_TOKEN_KEY } from '../../app.module';
 import { AuthService } from '../../public/auth.service';
 import { version } from '../../../../package.json';
-import { Prescription } from '../../prescriptions/prescriptions.component';
-import { Protocol } from '../../protocols/protocols/protocols.component';
-import { PrescriptionService } from '../../prescriptions/prescriptions-service/prescriptions.service';
-import { ProtocolsService } from '../../protocols/protocols.service';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
@@ -19,30 +15,18 @@ export class DashboardComponent {
     protected readonly appVersion = version;
     protected user: string;
     protected sessionExpiry: string;
-    protected prescriptions: Prescription[] = [];
-    protected protocols: Protocol[] = [];
     protected showNotifications: boolean = false;
     protected date: FormControl = new FormControl();
 
     constructor(
         private router: Router,
         private authService: AuthService,
-        private prescriptionService: PrescriptionService,
-        private protocolsService: ProtocolsService,
     ) {
         this.user = this.authService.getLoggedInUser();
         this.sessionExpiry = this.expiresIn(this.authService.getTokenExpirationDate());
-        this.prescriptions = this.prescriptionService.getAllPrescriptions();
-        this.protocols = this.protocolsService.getAllProtocols();
     }
 
     ngOnInit() {
-        this.prescriptionService.prescriptions$.subscribe((prescriptions) => {
-			this.prescriptions = prescriptions.filter((prescription) => prescription.user === this.authService.getLoggedInUser());
-		});
-        this.protocolsService.protocols$.subscribe((protocols) => {
-			this.protocols = protocols.filter((prescription) => prescription.user === this.authService.getLoggedInUser());
-		});
     }
 
     ngOnChanges() {

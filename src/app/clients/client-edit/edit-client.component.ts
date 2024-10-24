@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ClientsService } from '../clients.service';
-import { formatDate } from '../../prescriptions/common';
 import { AuthService } from '../../public/auth.service';
 import { Client } from '../clients/clients.component';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'edit-client',
@@ -16,7 +16,7 @@ export class EditClientComponent implements OnInit {
 
 	now = new Date();
     protected client: Client | undefined;
-	protected readonly todayAsString = formatDate(this.now);
+	protected readonly todayAsString = formatDate(this.now, 'dd/MM/yyyy', 'en-EU');
 	clientStart: string = this.todayAsString;
 	clientName: string = '';
 	contact: string = '';

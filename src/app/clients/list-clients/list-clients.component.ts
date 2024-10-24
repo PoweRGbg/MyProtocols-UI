@@ -8,7 +8,6 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import {default as _rollupMoment, Moment} from 'moment';
 import { getMonthAndYear } from '../common';
-import { formatDate } from '../../prescriptions/common';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS_MONTH = {
