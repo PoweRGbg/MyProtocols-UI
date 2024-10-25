@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ClientsService } from '../clients.service';
 import { Client, Policy } from '../clients/clients.component';
 import { convertDateToEU, convertDateFromEU } from '../../common/common';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import * as _moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
@@ -40,20 +40,21 @@ export class ListClientsComponent {
     }
     
     ngOnInit(): void {
-        const savedDate = localStorage.getItem('filterDate');
+        let savedDate = localStorage.getItem('filterDate');
         if (savedDate) {
-            console.log('Saved filter date', savedDate);
-            
             this.filterDate.setValue(moment(savedDate, 'MM/YYYY'));
             this.filterByDate();
-        }
-
-        if (this.clients.length === 0) {
+        } else if (this.clients.length === 0) {
             this.getAll();
-        }
-        
+        } 
+
         this.clientsService.clients$.subscribe((clients) => {
+            savedDate = localStorage.getItem('filterDate');
             this.clients = clients;
+            if (savedDate) {
+                this.filterDate.setValue(moment(savedDate, 'MM/YYYY'));
+                this.filterByDate();
+            }        
         });
     }
 
@@ -141,28 +142,23 @@ export class ListClientsComponent {
     }
 
     protected filterByDate(): void {
-        console.log('filtering for ',this.filterDate.value.toDate());
+        if (this.clients.length === 0) {
+            console.log('No clients to filter');
+            this.getAll();
+            return;
+        }
         
-        if (this.filterDate.value !== null) {
+        if (this.filterDate.value !== null && this.clients.length > 0) {
             const date = this.filterDate.value.toDate();
-            const filteredClients = this.clients.filter((client) => {
-                return client.policies?.some((policy) => {
-                    const filterDate = this.formatDate(date).split('/');
-                    const lastPaymentDate = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
-                    const paymentEveryMonths = 12 / policy.payments.length;
-                    let calculatedPolicyEnd = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
-                    calculatedPolicyEnd.setMonth(lastPaymentDate.getMonth() + paymentEveryMonths);
-                    const calculatedEndDate = getMonthAndYear(calculatedPolicyEnd).split('/');
-                    
-                    return policy.payments?.some((payment) => {
-                        const paymentDate = payment.date.split('/');
-                        return (paymentDate[1] === filterDate[1] && paymentDate[2] === filterDate[2])
-                            || (calculatedEndDate[0] === filterDate[1] && calculatedEndDate[1] === filterDate[2]);
-                    });
-                });
+            const filterDate = this.formatDate(date).split('/');
+            const filteredClients = this.clients.map((client) => {
+                if (client.policies) {
+                    client.policies = this.filterPolicysByDate(client.policies, filterDate);
+                }
+                return client;
             });
-            
-            this.clients = [...filteredClients];
+            this.clients = [...filteredClients.filter((client) => client.policies && client.policies.length > 0)];
+            console.log('Filtered clients', this.clients);
         }
     }
 
@@ -182,4 +178,35 @@ export class ListClientsComponent {
         return `изтича на ${convertDateToEU(policy.validTo)}`;
     }
 
+    protected filterPolicysByDate(policies: Policy[], filterDate: string[]): Policy[] {
+        const filterMonthYear = filterDate[1] + '/' + filterDate[2];
+        console.log('filtering for ',filterMonthYear);
+        return policies.filter((policy) => {
+            const paymentEveryMonths = 12 / policy.payments.length;
+            let calculatedPolicyEnd = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
+            calculatedPolicyEnd.setMonth(this.getLastPaymentDateAsDate(policy).getMonth() + paymentEveryMonths);
+            console.log('policy end', convertDateToEU(policy.validTo),'-',convertDateToEU(calculatedPolicyEnd));
+            
+            const calculatedEndDate = getMonthAndYear(calculatedPolicyEnd).split('/');
+            console.log('polycy ends on filter date', calculatedEndDate.join('/').endsWith(filterMonthYear));
+            if (calculatedEndDate.join('/').endsWith(filterMonthYear)) {
+                return true;
+            }
+            return policy.payments?.some((payment) => {
+                return payment.date.endsWith(filterMonthYear);
+            });
+        })
+    }
+
+    protected getLastPaymentDateAsDate(policy: Policy): Date {
+        return convertDateFromEU(policy.payments[policy.payments.length - 1].date);
+    }
+
+    protected getPolcyEndDate(policy: Policy): Date {
+        const lastPaymentDate = this.getLastPaymentDateAsDate(policy);
+
+        const paymentEveryMonths = 12 / policy.payments.length;
+        let calculatedPolicyEnd = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
+        return new Date(calculatedPolicyEnd.setMonth(lastPaymentDate.getMonth() + paymentEveryMonths));
+    }
 }
