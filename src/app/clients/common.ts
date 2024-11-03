@@ -1,7 +1,8 @@
-import { Payment } from './clients/clients.component';
+import { convertDateFromEU, convertDateToEU } from '../common/common';
+import { Payment, Policy } from './clients/clients.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-//export const apiUrl: string = 'http://localhost:3030/';
+// export const apiUrl: string = 'http://localhost:3030/';
 export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
 
 
@@ -60,4 +61,50 @@ export function getMonthAndYear(date: Date): string {
 
 export function oneYearFromDate(date: Date): Date {
     return new Date(date.setFullYear(date.getFullYear() + 1));
+}
+
+export function areAllPaymentsPaid(policy: Policy): boolean {
+    return policy.payments.every((payment) => payment.paid);
+}
+
+export function filterPoliciessByDate(policies: Policy[], filterDate: string[]): Policy[] {
+    const filterMonthYear = filterDate[1] + '/' + filterDate[2];
+    console.log('filtering for ', filterMonthYear);
+    return policies.filter((policy) => {
+        const paymentEveryMonths = 12 / policy.payments.length;
+        let calculatedPolicyEnd = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
+        calculatedPolicyEnd.setMonth(getLastPaymentDateAsDate(policy).getMonth() + paymentEveryMonths);
+
+        const calculatedEndDate = getMonthAndYear(calculatedPolicyEnd).split('/');
+        if (calculatedEndDate.join('/').endsWith(filterMonthYear)) {
+            return true;
+        }
+        return policy.payments?.filter((payment) => {
+            return payment.date.endsWith(filterMonthYear) && !payment.paid;
+        });
+    })
+}
+
+export function getLastPaymentDateAsDate(policy: Policy): Date {
+    return convertDateFromEU(policy.payments[policy.payments.length - 1].date);
+}
+
+export function filterPolicysByDate(policies: Policy[], filterDate: string[]): Policy[] {
+    const filterMonthYear = filterDate[1] + '/' + filterDate[2];
+    console.log('filtering for ',filterMonthYear);
+    return policies.filter((policy) => {
+        const paymentEveryMonths = 12 / policy.payments.length;
+        let calculatedPolicyEnd = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
+        calculatedPolicyEnd.setMonth(getLastPaymentDateAsDate(policy).getMonth() + paymentEveryMonths);
+        console.log('policy end', convertDateToEU(policy.validTo),'-',convertDateToEU(calculatedPolicyEnd));
+        
+        const calculatedEndDate = getMonthAndYear(calculatedPolicyEnd).split('/');
+        console.log('polycy ends on filter date', calculatedEndDate.join('/').endsWith(filterMonthYear));
+        if (calculatedEndDate.join('/').endsWith(filterMonthYear)) {
+            return true;
+        }
+        return policy.payments?.some((payment) => {
+            return payment.date.endsWith(filterMonthYear) && !payment.paid;
+        });
+    })
 }

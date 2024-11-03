@@ -7,7 +7,7 @@ import * as _moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import {default as _rollupMoment, Moment} from 'moment';
-import { getMonthAndYear } from '../common';
+import { areAllPaymentsPaid, filterPolicysByDate, getLastPaymentDateAsDate, getMonthAndYear } from '../common';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS_MONTH = {
@@ -143,7 +143,7 @@ export class ListClientsComponent {
 
     protected filterByDate(): void {
         if (this.clients.length === 0) {
-            console.log('No clients to filter');
+            console.error('No clients to filter');
             this.getAll();
             return;
         }
@@ -153,7 +153,22 @@ export class ListClientsComponent {
             const filterDate = this.formatDate(date).split('/');
             const filteredClients = this.clients.map((client) => {
                 if (client.policies) {
-                    client.policies = this.filterPolicysByDate(client.policies, filterDate);
+                    client.policies = filterPolicysByDate(client.policies, filterDate);
+                    // sort clients by earlliest payment date
+                    if (client.policies.length > 0) {
+                        client.policies.sort((a, b) => {
+                            if (a.payments.length > 0 && b.payments.length > 0) {
+                                return new Date(a.payments[0].date).getTime() - new Date(b.payments[0].date).getTime();
+                            }
+                            if (a.payments.length > 0) {
+                                return -1;
+                            }
+                            if (b.payments.length > 0) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+                    }
                 }
                 return client;
             });
@@ -170,40 +185,16 @@ export class ListClientsComponent {
 
     //function to get last payment date for each policy that is not paid yet
     protected getLastPaymentDate(policy: Policy): string {
-        for (let i = 0; i < policy.payments.length; i++) {
-            if (!policy.payments[i].paid) {
-                return `падеж на ${convertDateToEU(policy.payments[i].date)}`;
-            }
+        if(areAllPaymentsPaid(policy)) {
+            return `изтича на ${convertDateToEU(policy.validTo)}`;
+        } else {
+            policy.payments.filter((payment) => !payment.paid);
+            return `падеж на ${convertDateToEU(policy.payments[0].date)}`;
         }
-        return `изтича на ${convertDateToEU(policy.validTo)}`;
-    }
-
-    protected filterPolicysByDate(policies: Policy[], filterDate: string[]): Policy[] {
-        const filterMonthYear = filterDate[1] + '/' + filterDate[2];
-        console.log('filtering for ',filterMonthYear);
-        return policies.filter((policy) => {
-            const paymentEveryMonths = 12 / policy.payments.length;
-            let calculatedPolicyEnd = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
-            calculatedPolicyEnd.setMonth(this.getLastPaymentDateAsDate(policy).getMonth() + paymentEveryMonths);
-            console.log('policy end', convertDateToEU(policy.validTo),'-',convertDateToEU(calculatedPolicyEnd));
-            
-            const calculatedEndDate = getMonthAndYear(calculatedPolicyEnd).split('/');
-            console.log('polycy ends on filter date', calculatedEndDate.join('/').endsWith(filterMonthYear));
-            if (calculatedEndDate.join('/').endsWith(filterMonthYear)) {
-                return true;
-            }
-            return policy.payments?.some((payment) => {
-                return payment.date.endsWith(filterMonthYear);
-            });
-        })
-    }
-
-    protected getLastPaymentDateAsDate(policy: Policy): Date {
-        return convertDateFromEU(policy.payments[policy.payments.length - 1].date);
     }
 
     protected getPolcyEndDate(policy: Policy): Date {
-        const lastPaymentDate = this.getLastPaymentDateAsDate(policy);
+        const lastPaymentDate = getLastPaymentDateAsDate(policy);
 
         const paymentEveryMonths = 12 / policy.payments.length;
         let calculatedPolicyEnd = convertDateFromEU(policy.payments[policy.payments.length - 1].date);
