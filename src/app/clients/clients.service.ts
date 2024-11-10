@@ -100,8 +100,8 @@ export class ClientsService {
     getAllFromApi(): void {
         this.http.get<Client[]>(this.apiUrl).subscribe((clients) => {
             this.clients = clients
-                .map(client => this.toClient(client));
-                
+                .map((client) => this.toClient(client));
+            
             this.clientsSubject.next([...this.clients]);
         });
     }

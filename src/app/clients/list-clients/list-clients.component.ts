@@ -6,8 +6,12 @@ import { Router } from '@angular/router';
 import * as _moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
-import {default as _rollupMoment, Moment} from 'moment';
-import { areAllPaymentsPaid, filterPolicysByDate, getLastPaymentDateAsDate, getMonthAndYear } from '../common';
+import { default as _rollupMoment, Moment} from 'moment';
+import {
+  areAllPaymentsPaid,
+  filterPolicysByDate,
+  getLastPaymentDateAsDate,
+} from '../common';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS_MONTH = {
@@ -154,6 +158,8 @@ export class ListClientsComponent {
             const filteredClients = this.clients.map((client) => {
                 if (client.policies) {
                     client.policies = filterPolicysByDate(client.policies, filterDate);
+                    console.log('filtered policies got', client.policies);
+                    
                     // sort clients by earlliest payment date
                     if (client.policies.length > 0) {
                         client.policies.sort((a, b) => {
@@ -185,6 +191,25 @@ export class ListClientsComponent {
 
     //function to get last payment date for each policy that is not paid yet
     protected getLastPaymentDate(policy: Policy): string {
+        if (this.filterDate.value !== null) {
+            const date = this.filterDate.value.toDate();
+            const filterDate = this.formatDate(date).split('/');
+            const filterMonthYear = filterDate[1] + '/' + filterDate[2];
+            
+            if (policy.payments.length > 0) {
+                const paymentOnFilterDate = policy.payments.find(
+                  (payment) =>
+                    convertDateToEU(payment.date).endsWith(filterMonthYear)
+                );
+                if (paymentOnFilterDate === undefined) {
+                    return `изтича на ${convertDateToEU(this.getPolcyEndDate(policy))}`;
+                }
+                return `падеж на ${convertDateToEU(
+                  paymentOnFilterDate?.date
+                )} ${paymentOnFilterDate?.paid ? 'платен' : 'неплатен'}`;
+            } 
+        }
+
         if(areAllPaymentsPaid(policy)) {
             return `изтича на ${convertDateToEU(policy.validTo)}`;
         } else {

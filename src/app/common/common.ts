@@ -1,6 +1,6 @@
 export const defaultProtocolValidityInDays = 180;
 // function to convert date to EU format
-export function convertDateToEU(date: string | Date): string {
+export function convertDateToEU(date: string | Date ): string {
     if (typeof date === 'string' && !date.includes('/')) {
         date = new Date(date);
     }
@@ -15,6 +15,7 @@ export function convertDateToEU(date: string | Date): string {
 // function to return date from string in EU format
 export function convertDateFromEU(date: string): Date {
   const [day, month, year] = date.split('/');
+  
   return new Date(Number(year), Number(month) - 1, Number(day));
 }
 
