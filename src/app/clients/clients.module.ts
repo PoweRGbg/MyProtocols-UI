@@ -20,6 +20,7 @@ import { MonthlyReportComponent } from './monthly-report/monthly-report.componen
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatIcon } from '@angular/material/icon';
+import { LastChangesComponent } from './latest-changes/latest-changes.component';
 @NgModule({
     declarations: [
         ClientsComponent,
@@ -30,6 +31,7 @@ import { MatIcon } from '@angular/material/icon';
         PolicyDetailsComponent,
         EditClientComponent,
         MonthlyReportComponent,
+        LastChangesComponent,
     ],
     imports: [
         CommonModule,
@@ -64,6 +66,7 @@ import { MatIcon } from '@angular/material/icon';
         AddPolicyComponent,
         PolicyDetailsComponent,
         MonthlyReportComponent,
+        LastChangesComponent,
     ]
 })
 export class ClientsModule { }

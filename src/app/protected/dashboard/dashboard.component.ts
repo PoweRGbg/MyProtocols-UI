@@ -1,9 +1,8 @@
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { LOCALSTORAGE_TOKEN_KEY } from '../../app.module';
 import { AuthService } from '../../public/auth.service';
 import { version } from '../../../../package.json';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-dashboard',

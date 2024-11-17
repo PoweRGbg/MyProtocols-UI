@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatButtonModule } from '@angular/material/button';
 import { DashboardNotificationsComponent } from './dashboard/notifications/notifications.component';
 import { ClientsModule } from '../clients/clients.module';
+import { LastChangesComponent } from '../clients/latest-changes/latest-changes.component';
 
 @NgModule({
     declarations: [

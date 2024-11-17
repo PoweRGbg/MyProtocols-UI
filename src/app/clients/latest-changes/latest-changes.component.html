@@ -1,0 +1,5 @@
+<div *ngIf="isNewChanges() && !this.hideChanges">
+    <h3>Последни промени:</h3>
+    <div [innerHTML]="changesMarkdown"></div>
+    <button mat-flat-button color="primary" (click)="markChangesAsRead()">Прочетено</button>
+</div>
