@@ -7,7 +7,13 @@
         border: 1px solid #000000;
         td {
             border: 1px solid #000000;
-            padding: 0.5rem;
+        }
+        table {
+            border: none;
+            padding: 0px;
+            td {
+                padding: 0px;
+            }
         }
     }
 }

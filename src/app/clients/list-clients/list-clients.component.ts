@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { ClientsService } from '../clients.service';
-import { Client, Policy } from '../clients/clients.component';
+import { Client, Policy } from '../models';
 import { convertDateToEU, convertDateFromEU } from '../../common/common';
 import { Router } from '@angular/router';
 import * as _moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
-import { default as _rollupMoment, Moment} from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
 import {
-  areAllPaymentsPaid,
-  filterPolicysByDate,
-  getLastPaymentDateAsDate,
+    areAllPaymentsPaid,
+    filterPolicysByDate,
+    getLastPaymentComment,
+    getLastPaymentDateAsDate,
+    sortClientsByDate,
 } from '../common';
 
 const moment = _rollupMoment || _moment;
@@ -154,32 +156,20 @@ export class ListClientsComponent {
         
         if (this.filterDate.value !== null && this.clients.length > 0) {
             const date = this.filterDate.value.toDate();
+            
             const filterDate = this.formatDate(date).split('/');
-            const filteredClients = this.clients.map((client) => {
+            const filterMonthAndYear = filterDate[1] + '/' + filterDate[2];
+            let filteredClients = this.clients.map((client) => {
                 if (client.policies) {
                     client.policies = filterPolicysByDate(client.policies, filterDate);
-                    console.log('filtered policies got', client.policies);
-                    
-                    // sort clients by earlliest payment date
-                    if (client.policies.length > 0) {
-                        client.policies.sort((a, b) => {
-                            if (a.payments.length > 0 && b.payments.length > 0) {
-                                return new Date(a.payments[0].date).getTime() - new Date(b.payments[0].date).getTime();
-                            }
-                            if (a.payments.length > 0) {
-                                return -1;
-                            }
-                            if (b.payments.length > 0) {
-                                return 1;
-                            }
-                            return 0;
-                        })
-                    }
                 }
                 return client;
             });
-            this.clients = [...filteredClients.filter((client) => client.policies && client.policies.length > 0)];
-            console.log('Filtered clients', this.clients);
+            filteredClients = filteredClients.filter((client) => client.policies?.length && client.policies.length);
+            filteredClients = sortClientsByDate(filteredClients, filterMonthAndYear);
+            console.log('filteredClients', filteredClients);
+            
+            this.clients = [...filteredClients.filter((client) => client.policies?.length && client.policies.length)];
         }
     }
 
@@ -202,11 +192,15 @@ export class ListClientsComponent {
                     convertDateToEU(payment.date).endsWith(filterMonthYear)
                 );
                 if (paymentOnFilterDate === undefined) {
-                    return `изтича на ${convertDateToEU(this.getPolcyEndDate(policy))}`;
+                    return `изтича на ${convertDateToEU(this.getPolcyEndDate(policy))} ${getLastPaymentComment(policy)}`;
                 }
-                return `падеж на ${convertDateToEU(
-                  paymentOnFilterDate?.date
-                )} ${paymentOnFilterDate?.paid ? 'платен' : 'неплатен'}`;
+
+                let paymentText = `падеж на ${convertDateToEU(paymentOnFilterDate?.date)}`;
+                return paymentText +  
+                    `${paymentOnFilterDate?.paid ? 
+                        ' платен' :
+                        ` неплатен ${getLastPaymentComment(policy)}`
+                    }`;
             } 
         }
 

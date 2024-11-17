@@ -1,6 +1,6 @@
 import { Injectable, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Client, Policy } from '../clients/clients/clients.component';
+import { Client, Policy } from '../clients/models';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../public/auth.service';
 import { apiUrl, convertEUStringToDate } from './common';

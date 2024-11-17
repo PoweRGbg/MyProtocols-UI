@@ -40,20 +40,34 @@
         <td>{{policy.company}}</td>
         <td>{{policy.broker}}</td>
         <td>{{policy.policyNumber}}</td>
-        <td 
-            *ngFor="let payment of policy.payments; index as i"
-            class="payment-cell" 
-            [ngClass]="{
-                'informed': payment.clientInformed,
-                'issued': payment.issued,
-                'sent': payment.sent,
-                'paid': payment.paid,
-                'overdue': isPaymentOverdue(payment)
-            }"
-            (click)="onPaymentClicked(policy.id, payment.id)"
-        >
-            {{payment.date}} - {{payment.amount}} лв.
-        </td>
+        <td *ngFor="let payment of policy.payments; index as i">
+            <table>
+                <tr>
+                    <td
+                        class="payment-cell" 
+                        [ngClass]="{
+                            'informed': payment.clientInformed,
+                            'issued': payment.issued,
+                            'sent': payment.sent,
+                            'paid': payment.paid,
+                            'overdue': isPaymentOverdue(payment)
+                        }"
+                        (click)="onPaymentClicked(policy.id, payment.id)"
+                    >
+                    {{payment.date}} - {{payment.amount}} лв.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input 
+                            [(ngModel)]="payment.comment"
+                            (focusout)="updatePaymentComment(policy.id, payment.id, payment.comment)"
+                            placeholder="Коментар"
+                            value="{{payment.comment}}"
+                        />
+                    </td>
+                </tr>
+            </table>
         <td>
             <button mat-flat-button color="primary" (click)="removePolicy(policy.id)">Изтрий</button>
         </td>

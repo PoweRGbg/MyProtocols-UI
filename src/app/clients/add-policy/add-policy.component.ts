@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ClientsService } from '../clients.service';
-import { Payment, Policy } from '../clients/clients.component';
+import { Payment, Policy } from '../models';
 import { oneYearFromDate } from '../common';
 
 @Component({

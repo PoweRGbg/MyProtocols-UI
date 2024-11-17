@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ClientsService } from '../clients.service';
 import { AuthService } from '../../public/auth.service';
-import { Client } from '../clients/clients.component';
+import { Client } from '../models';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 

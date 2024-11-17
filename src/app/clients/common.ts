@@ -1,8 +1,8 @@
-import { convertDateFromEU } from '../common/common';
-import { Payment, Policy } from './clients/clients.component';
+import { convertDateFromEU, convertDateToEU } from '../common/common';
+import { Client, Payment, Policy } from './models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-// export const apiUrl: string = 'http://localhost:3030/';
+//export const apiUrl: string = 'http://localhost:3030/';
 export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
 
 
@@ -92,9 +92,8 @@ export function getLastPaymentDateAsDate(policy: Policy): Date {
 export function filterPolicysByDate(policies: Policy[], filterDate: string[]): Policy[] {
     let hits = 0;
     const filterMonthYear = filterDate[1] + '/' + filterDate[2];
-    console.log('filtering for ',filterMonthYear, 'policies: ', policies);
+    console.log('filtering for ',filterMonthYear);
     let filteredPolicies: Policy[] = policies.filter((policy) => {
-        const paymentEveryMonths = 12 / policy.payments.length;
         let calculatedPolicyEnd = new Date(policy.validTo);
 
         // calculatedPolicyEnd.setMonth(getLastPaymentDateAsDate(policy).getMonth() + paymentEveryMonths);
@@ -117,4 +116,64 @@ export function filterPolicysByDate(policies: Policy[], filterDate: string[]): P
         });
     });
     return filteredPolicies;
+}
+
+export function getLastPaymentComment(policy: Policy): string {
+    let lastComment = '';
+    policy.payments.forEach((payment) => {
+        if (payment.comment) {
+            lastComment = payment.comment;
+        }
+    })
+    return lastComment;
+}
+
+export function sortClientsByDate(clients: Client[], filterMonthAndYear: string): Client[] {
+    return clients.sort((a, b) => {
+        if (!a.policies || !b.policies) {
+            return 0;
+        };
+        // find the policy whith payment which ends in filter month and year or if none the the if the policy ends in filter month and year
+        let dateA: Date | undefined = a.policies!.find((policy) =>
+          convertDateToEU(policy.validTo).endsWith(filterMonthAndYear)
+        )?.validTo;
+        let dateB: Date | undefined = b.policies!.find((policy) =>
+          convertDateToEU(policy.validTo).endsWith(filterMonthAndYear)
+        )?.validTo;
+        
+        if (!dateA) {
+            // set dateA to the date of which one of the policies' payment ends in filter month and year
+            dateA = convertDateFromEU(a.policies!.find((policy) =>
+              policy.payments.find((payment) =>
+                convertDateToEU(payment.date).endsWith(filterMonthAndYear)
+              )
+            )!.payments[0].date);
+        }
+
+        if (!dateB) {
+            // set dateB to the date of which one of the policies' payment ends in filter month and year
+            dateB = convertDateFromEU(b.policies!.find((policy) =>
+              policy.payments.find((payment) =>
+                convertDateToEU(payment.date).endsWith(filterMonthAndYear)
+              )
+            )!.payments[0].date);
+        }
+        
+        // sort whith the earlieast date betheen dateA and dateB
+        if (typeof dateB === 'string') {
+            dateB = new Date(dateB);
+        }
+        
+        
+        if (dateA && dateB) {
+            return dateA.getTime() - dateB.getTime();
+        }            
+        if (dateA) {
+            return -1;
+        }
+        if (dateB) {
+            return 1;
+        }
+        return 0;
+    });
 }

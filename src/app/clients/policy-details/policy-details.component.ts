@@ -2,7 +2,7 @@ import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ClientsService } from '../clients.service';
-import { Client, Payment, Policy } from '../clients/clients.component';
+import { Client, Payment, Policy } from '../models';
 import { convertDateToEU } from '../../common/common';
 import { updatePaymentStatus, isPaymentOverdue } from '../common';
 import { MatSnackBar } from '@angular/material/snack-bar';

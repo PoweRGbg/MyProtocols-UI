@@ -2,7 +2,7 @@ import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ClientsService } from '../clients.service';
-import { Client, Payment, Policy } from '../clients/clients.component';
+import { Client, Payment, Policy } from '../models';
 import { convertDateToEU as convertDateToEU } from '../../common/common';
 import { isPaymentOverdue, updatePaymentStatus } from '../common';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -127,5 +127,39 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
 
     protected formatDate(targetDate: Date): string {
         return convertDateToEU(targetDate);
+    }
+
+    updatePaymentComment(policyId: number, paymentId: number, comment: string | undefined
+    ): void {
+        console.log('Update payment comment', this.clientId, policyId, paymentId, comment);
+        
+        if (!comment || !this.client?.policies) {
+            return;
+        }
+
+        let policyToUpdate = this.client.policies?.find((p) => p.id === policyId);
+        const paymentToUpdate = policyToUpdate?.payments?.find((p) => p.id === policyId);
+        if (paymentToUpdate && policyToUpdate) {
+            policyToUpdate = {
+                ...policyToUpdate,
+                payments: policyToUpdate.payments.map((payment) => {
+                    if (payment.id === paymentId) {
+                        return { ...payment, comment: comment};
+                    }
+                    return payment;
+                }),
+            };
+            this.client.policies = this.client.policies!.map((p) => {
+                if (p.id === policyId && policyToUpdate) {
+                    return policyToUpdate;
+                }
+                return p;
+            });
+            console.log('Updating payment for client', this.client);
+            
+            this.clientsService.updateClient(this.client);
+            this.ngOnChanges();    
+        }
+        console.log('Not updating payment to update or policy', paymentToUpdate, policyToUpdate);
     }
 }

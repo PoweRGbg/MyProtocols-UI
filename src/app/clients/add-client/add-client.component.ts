@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ClientsService } from '../clients.service';
 import { AuthService } from '../../public/auth.service';
-import { Client } from '../clients/clients.component';
+import { Client } from '../models';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -30,7 +30,7 @@ export class AddClientComponent {
 	addClient() {
         if (this.clientName.length > 0) {
 			this.clientsService.addClient({
-				id: this.clientsService.getAllClients().length + 1,
+				id: this.getLargestClientId(),
                 user: this.authService.getLoggedInUser(),
 				clientName: this.clientName,
                 identifier: this.identifier,
@@ -49,4 +49,8 @@ export class AddClientComponent {
 		const today = new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate();
 		return today;
 	}
+
+    protected getLargestClientId(): number {
+        return this.clientsService.getAllClients().reduce((max, client) => Math.max(max, client.id), 0) + 1;
+    }
 }

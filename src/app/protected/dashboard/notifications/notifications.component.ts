@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { convertDateToEU } from '../../../common/common';
-import { Client, Payment } from '../../../clients/clients/clients.component';
+import { Client, Payment } from '../../../clients/models';
 import { ClientsService } from '../../../clients/clients.service';
 import { NavigationExtras, Router } from '@angular/router';
+import { Policy } from '../../../clients/models';
 @Component({
   selector: 'dashboard-notifications',
   templateUrl: './notifications.component.html',
@@ -82,7 +83,7 @@ export class DashboardNotificationsComponent {
         if (!client.policies) {
             return false;
         }
-        return client.policies?.some((policy) => policy.payments.length > 0);
+        return client.policies?.some((policy: Policy) => policy.payments.length > 0);
     }
 
     protected navigate(clientId: number, policyId: number): void {
