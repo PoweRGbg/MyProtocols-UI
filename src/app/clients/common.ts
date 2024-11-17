@@ -1,3 +1,4 @@
+import { get } from 'http';
 import { convertDateFromEU, convertDateToEU } from '../common/common';
 import { Client, Payment, Policy } from './models';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -92,7 +93,7 @@ export function getLastPaymentDateAsDate(policy: Policy): Date {
 export function filterPolicysByDate(policies: Policy[], filterDate: string[]): Policy[] {
     let hits = 0;
     const filterMonthYear = filterDate[1] + '/' + filterDate[2];
-    console.log('filtering for ',filterMonthYear);
+    console.log('filtering for ', filterMonthYear);
     let filteredPolicies: Policy[] = policies.filter((policy) => {
         let calculatedPolicyEnd = new Date(policy.validTo);
 
@@ -133,7 +134,7 @@ export function sortClientsByDate(clients: Client[], filterMonthAndYear: string)
         if (!a.policies || !b.policies) {
             return 0;
         };
-        // find the policy whith payment which ends in filter month and year or if none the the if the policy ends in filter month and year
+
         let dateA: Date | undefined = a.policies!.find((policy) =>
           convertDateToEU(policy.validTo).endsWith(filterMonthAndYear)
         )?.validTo;
@@ -142,28 +143,21 @@ export function sortClientsByDate(clients: Client[], filterMonthAndYear: string)
         )?.validTo;
         
         if (!dateA) {
-            // set dateA to the date of which one of the policies' payment ends in filter month and year
-            dateA = convertDateFromEU(a.policies!.find((policy) =>
-              policy.payments.find((payment) =>
-                convertDateToEU(payment.date).endsWith(filterMonthAndYear)
-              )
-            )!.payments[0].date);
+            const filteredA = getFilteredDate(a, filterMonthAndYear);
+            dateA = convertDateFromEU(filteredA!);
         }
 
         if (!dateB) {
-            // set dateB to the date of which one of the policies' payment ends in filter month and year
-            dateB = convertDateFromEU(b.policies!.find((policy) =>
-              policy.payments.find((payment) =>
-                convertDateToEU(payment.date).endsWith(filterMonthAndYear)
-              )
-            )!.payments[0].date);
+            const filteredB = getFilteredDate(b, filterMonthAndYear);
+            dateB = convertDateFromEU(filteredB!);
         }
         
-        // sort whith the earlieast date betheen dateA and dateB
         if (typeof dateB === 'string') {
             dateB = new Date(dateB);
         }
-        
+        if (typeof dateA === 'string') {
+            dateA = new Date(dateA);
+        }
         
         if (dateA && dateB) {
             return dateA.getTime() - dateB.getTime();
@@ -176,4 +170,15 @@ export function sortClientsByDate(clients: Client[], filterMonthAndYear: string)
         }
         return 0;
     });
+}
+
+export function getFilteredDate(client: Client, filterMonthAndYear: string): string | undefined {
+  return client
+    .policies!.find((policy) =>
+      policy.payments.find((payment) =>
+        convertDateToEU(payment.date).endsWith(filterMonthAndYear)
+      )
+    )!
+    .payments.find((payment) => payment.date.endsWith(filterMonthAndYear))
+    ?.date;
 }

@@ -165,11 +165,10 @@ export class ListClientsComponent {
                 }
                 return client;
             });
-            filteredClients = filteredClients.filter((client) => client.policies?.length && client.policies.length);
+            filteredClients = filteredClients.filter((client) => client.policies?.length);
             filteredClients = sortClientsByDate(filteredClients, filterMonthAndYear);
-            console.log('filteredClients', filteredClients);
             
-            this.clients = [...filteredClients.filter((client) => client.policies?.length && client.policies.length)];
+            this.clients = filteredClients;
         }
     }
 
