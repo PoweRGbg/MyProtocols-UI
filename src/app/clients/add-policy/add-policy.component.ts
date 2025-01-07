@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ClientsService } from '../clients.service';
 import { Payment, Policy } from '../models';
 import { oneYearFromDate } from '../common';
+import { calculateDates } from '../../common/common';
 
 @Component({
 	selector: 'client-add-policy',
@@ -85,8 +86,7 @@ export class AddPolicyComponent {
 
     onPaymentNumberChange(): void {
         this.payments = [];
-        const startDate = new Date(this.startDate);
-        let paymentDate = new Date(startDate.getTime()+3*1000*60*60);
+        const paymentDates = calculateDates(new Date(this.startDate), this.numberOfPayments);
         const remainder = ((this.totalAmount * 100) % this.numberOfPayments) / 100;
         
         if (!this.endDate) {
@@ -121,18 +121,9 @@ export class AddPolicyComponent {
                     vehicleId: this.vehicleId,
                 })
             } else {
-                const paymentMonth = (12 / this.numberOfPayments);
-                let extraYears = paymentMonth > 12 ? Math.floor(paymentMonth / 12) : 0;
-                if (extraYears > 0) {
-                    paymentDate.setFullYear(paymentDate.getFullYear() + extraYears);
-                }
-                paymentDate.setMonth(paymentDate.getMonth() + paymentMonth * i);
-                
-                paymentDate.setDate(paymentDate.getDate());
-                
                 this.payments.push({
                     id: i,
-                    date: this.getDateDashed(paymentDate),
+                    date: this.getDateDashed(paymentDates[i]),
                     amount: Math.floor((this.totalAmount / this.numberOfPayments) * 100) / 100,
                     issued: false,
                     sent: false,
@@ -160,7 +151,7 @@ export class AddPolicyComponent {
     }
 
     protected getDateDashed(date: Date): string {
-        return  date.getUTCDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        return  date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
     }
 
     protected validatePolicy(): boolean {

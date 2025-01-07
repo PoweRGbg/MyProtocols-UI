@@ -30,3 +30,20 @@ export const MY_FORMATS = {
       monthYearA11yLabel: 'MMMM YYYY',
     },
 };
+
+// function to calculate dates given start date and months are added as months will be 12/periods = months.
+// so first date will be the start date, and the next date will be the start date + 1/periods * 12 months
+export function calculateDates(start: Date, periods: number): Date[] {
+    start.setDate(start.getDate() - 1);
+    const dates: Date[] = [];
+    dates.push(start);
+
+    for (let i = 1; i < periods; i++) {
+        const nextDate = new Date(start.getTime());
+        nextDate.setMonth(nextDate.getMonth() + (12/periods)*i);
+        dates.push(nextDate);
+    }
+
+    return dates;
+}
+
