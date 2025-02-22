@@ -1,6 +1,6 @@
 <button mat-flat-button color="primary" (click)="goBack()">Назад</button>
 <button mat-flat-button color="primary" (click)="toggleAddPolicy()">Нова полица</button>
-<client-add-policy *ngIf="addProtocol" 
+<client-add-policy *ngIf="addPolicy" 
     (policyAdded)="policyAdded($event)"
     [clientId]="client?.id">
 </client-add-policy>

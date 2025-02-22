@@ -72,8 +72,10 @@ export class AddPolicyComponent {
             company: this.company,
             amount: this.totalAmount,
             validTo: new Date(this.endDate),
+            created: new Date(),
             payments: this.payments,
-        } as Policy;
+        };
+        
         if (this.clientId === undefined) {
             alert('Моля изберете клиент');
             return;
@@ -104,8 +106,6 @@ export class AddPolicyComponent {
         
         for (let i = 0; i < this.numberOfPayments; i++) {
             if(this.monthlyPolicy) {
-                console.log('monthly policy');
-                
                 const startDate = new Date(this.startDate);
                 this.endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
                 this.numberOfPayments = 1;

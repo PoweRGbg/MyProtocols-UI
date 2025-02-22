@@ -10,6 +10,7 @@ export interface Client {
 
 export interface Policy {
     id: number;
+    type: string;
     vehicleId: string;
     policyName: string;
     policyNumber: string;
@@ -18,6 +19,7 @@ export interface Policy {
     comment?: string;
     amount: number;
     validTo: Date;
+    created?: Date;
     payments: Payment[];
 }
 
