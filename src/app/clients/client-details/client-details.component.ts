@@ -111,6 +111,9 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
         this.ngOnChanges();
     }
 
+    editPolicy(policyId: number): void {
+        this.router.navigate([`/protected/edit-policy/${this.clientId}/${policyId}`]);
+    }
     
     protected updateClient(): void {
         let navigationExtras: NavigationExtras = {

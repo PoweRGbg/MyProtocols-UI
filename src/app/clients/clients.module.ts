@@ -21,12 +21,14 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatIcon } from '@angular/material/icon';
 import { LastChangesComponent } from './latest-changes/latest-changes.component';
+import { EditPolicyComponent } from './policy-edit/edit-policy.component';
 @NgModule({
     declarations: [
         ClientsComponent,
         AddClientComponent,
         ListClientsComponent,
         AddPolicyComponent,
+        EditPolicyComponent,
         ClientDetailsComponent,
         PolicyDetailsComponent,
         EditClientComponent,
@@ -64,6 +66,7 @@ import { LastChangesComponent } from './latest-changes/latest-changes.component'
         ClientDetailsComponent,
         AddClientComponent,
         AddPolicyComponent,
+        EditPolicyComponent,
         PolicyDetailsComponent,
         MonthlyReportComponent,
         LastChangesComponent,

@@ -5,6 +5,7 @@ import { ClientsComponent } from '../clients/clients/clients.component';
 import { ClientDetailsComponent } from '../clients/client-details/client-details.component';
 import { PolicyDetailsComponent } from '../clients/policy-details/policy-details.component';
 import { EditClientComponent } from '../clients/client-edit/edit-client.component';
+import { EditPolicyComponent } from '../clients/policy-edit/edit-policy.component';
 
 // Routes for child Module (protectedModule). Since protected module is lazy loaded in in the 
 // app-routing.module the full path is `/protected/dashboard`
@@ -28,6 +29,10 @@ const routes: Routes = [
     {
         path: 'policy/:clientId/:policyId',
         component: PolicyDetailsComponent
+    },
+    {
+        path: 'edit-policy/:clientId/:policyId',
+        component: EditPolicyComponent
     },
     {
         path: '**',

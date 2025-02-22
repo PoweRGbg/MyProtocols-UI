@@ -2,8 +2,8 @@ import { convertDateFromEU, convertDateToEU } from '../common/common';
 import { Client, Payment, Policy } from './models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-//export const apiUrl: string = 'http://localhost:3030/';
-export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
+export const apiUrl: string = 'http://localhost:3030/';
+// export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
 
 
 export function updatePaymentStatus(payment: Payment, snackBar: MatSnackBar): Payment {
@@ -180,4 +180,8 @@ export function getFilteredDate(client: Client, filterMonthAndYear: string): str
     )!
     .payments.find((payment) => payment.date.endsWith(filterMonthAndYear))
     ?.date;
+}
+
+export function getDateDashed(date: Date): string {
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
 }

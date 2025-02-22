@@ -55,6 +55,9 @@
         </td>
         <td>
             <button mat-flat-button color="primary" (click)="removePolicy(policy.id)">Изтрий</button>
+            <button mat-icon-button (click)="editPolicy(policy.id)">
+                <mat-icon>edit</mat-icon>
+            </button>
         </td>
     </tr>
 </table>

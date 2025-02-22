@@ -41,20 +41,20 @@ export class ClientsService {
     getClientByName(name: string): Client | undefined {
         this.getAllFromApi();
         
-        return this.clients.filter((protocol) => 
-            protocol.user === this.user && protocol.clientName === name
+        return this.clients.filter((client) => 
+            client.user === this.user && client.clientName === name
         )[0];
     }
 
     getClientById(id: number): Client | undefined {
         this.getAllFromApi();
         
-        return this.clients.filter((protocol) => 
-            protocol.user === this.user && protocol.id === id)[0];
+        return this.clients.filter((client) => 
+            client.user === this.user && client.id === id)[0];
     }
 
-    removeClient(protocolId: number) {
-        this.http.delete<Client>(`${this.apiUrl}/${protocolId}`).subscribe(() => {
+    removeClient(clientId: number) {
+        this.http.delete<Client>(`${this.apiUrl}/${clientId}`).subscribe(() => {
             this.getAllFromApi();
         });
     }
@@ -185,15 +185,15 @@ export class ClientsService {
         return filteredClients;
     }
 
-    toClient(protocol: any): Client {
+    toClient(client: any): Client {
         return {
-            id: protocol.id,
-            user: protocol.user,
-            clientName: protocol.clientName,
-            identifier: protocol.identifier,
-            contact: protocol.contact ?? '',
-            comment: protocol.comment ?? '',
-            policies: protocol.policies ?? [],
+            id: client.id,
+            user: client.user,
+            clientName: client.clientName,
+            identifier: client.identifier,
+            contact: client.contact ?? '',
+            comment: client.comment ?? '',
+            policies: client.policies ?? [],
         }
     }
     
