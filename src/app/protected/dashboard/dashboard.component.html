@@ -1,0 +1,20 @@
+<div class="dashboard-title">Здравейте {{user}}
+    <span class="dashboard-buttons">
+        <span class="logout-button">
+            <button mat-flat-button color="primary" (click)="logout()">Излизане</button>
+        </span>
+    </span>
+</div>
+<div>Сесията изтича след: {{sessionExpiry}}</div>
+<div>
+    <latest-changes></latest-changes>
+</div>
+<!-- <div>
+    Справка:
+    <button mat-flat-button color="primary" (click)="toggleNotifications()">{{showNotifications ? 'Скрий' : 'Покажи'}}</button>
+    <dashboard-notifications *ngIf="showNotifications"
+    ></dashboard-notifications>
+</div> -->
+<div>
+    <clients></clients>
+</div>

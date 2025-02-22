@@ -1,0 +1,77 @@
+:host{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    table {
+        width: 100%;
+        border: 1px solid #000000;
+        td {
+            border: 1px solid #000000;
+        }
+        table {
+            border: none;
+            padding: 0px;
+            td {
+                padding: 0px;
+            }
+        }
+    }
+}
+
+.payment-cell:hover {
+    cursor: pointer;
+    background-color: rgb(127, 210, 252);
+}
+
+.legend {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+    .issued {
+        color: white;
+        background-color: rgb(102, 71, 255);
+    }
+
+    .informed {
+        background-color: orange;
+    }
+
+    .sent {
+        background-color: rgb(255, 238, 0);
+    }
+
+    .paid {
+        background-color: rgb(86, 255, 142);
+    }
+
+    .overdue {
+        border: 4px solid red;
+    }
+}
+
+.payment-cell {
+    &.informed {
+        background-color: orange;
+    }
+
+    &.issued {
+        color: white;
+        background-color: rgb(102, 71, 255);
+    }
+
+
+    &.sent {
+        color: black;
+        background-color: rgb(255, 238, 0);
+    }
+
+    &.paid {
+        color: black;
+        background-color: rgb(86, 255, 142);
+    }
+
+    &.overdue {
+        // color: black;
+        border: 4px solid red !important;
+    }
+}

@@ -1,0 +1,61 @@
+
+<mat-form-field>
+    <mat-label for="search">Търсене:</mat-label>
+    <input matInput
+        id="search"
+        name="search"
+        size="10"
+        [(ngModel)]="searchText"
+        (keyup)="onSearch()"
+    >
+</mat-form-field>
+<mat-form-field>
+    <mat-label>Филтър по месец и година</mat-label>
+    <input matInput [matDatepicker]="dp" [formControl]="filterDate">
+    <mat-hint>MM/ГГГГ</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp
+        startView="multi-year"
+        (monthSelected)="setFilterDate($event, dp)"
+        panelClass="example-month-picker">
+    </mat-datepicker>
+</mat-form-field>
+<button *ngIf="filterDate.value"
+    mat-icon-button
+    (click)="clearFilter()"
+    aria-label="Clear filter">
+    <mat-icon style="color: red;">clear</mat-icon>
+</button>
+<table *ngIf="clients.length">
+    <thead>
+      <tr>
+        <th>Клиент:</th>
+        <th>Булстат/ЕГН:</th>
+        <th>Контакт:</th>
+        <th>Автомобили:</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients"
+        class="client"
+        (click)="navigate(client.id.toString())">
+        <td>
+            {{client.clientName}}
+        </td>
+        <td>
+            {{client.identifier}}
+        </td>
+        <td>
+            {{client.contact}}
+        </td>
+        <td>
+            {{getClientVehicles(client)}}
+        </td>
+        <td  class="centered">
+            <button mat-flat-button color="primary" (click)="updateClient($event, client.id)">Редакция</button>
+            <button mat-flat-button color="warn" (click)="removeClient($event, client.id)">ИЗТРИЙ</button>
+        </td>
+      </tr>
+    </tbody>
+  </table> 

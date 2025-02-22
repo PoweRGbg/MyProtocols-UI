@@ -1,0 +1,67 @@
+<!-- <div *ngIf="prescriptionsIn7Days.length === 0 && protocolsIn7Days.length === 0">
+    Няма изтичащи скоро рецепти и протоколи
+</div>
+<div *ngIf="protocolsIn7Days.length > 0">
+    <label>Изтичащи скоро протоколи:</label>
+    <ul>
+        <li *ngFor="let protocol of protocolsIn7Days">
+            Протокол за {{protocol.medicines.join(',')}} изтича на {{formatDate(protocol.validTo)}}
+        </li>
+    </ul>
+</div>
+<div *ngIf="prescriptionsIn7Days.length > 0">
+    <label>Изтичащи скоро рецепти:</label>
+    <ul>
+        <li *ngFor="let recipe of prescriptionsIn7Days">
+            Рецепта за {{recipe.medicineName}} изтича на {{formatDate(recipe.validTo)}}
+        </li>
+    </ul>
+</div>   -->
+<div *ngIf="paymentsOverdue.length === 0 && paymentsIn15Days.length === 0">
+    Няма изтичащи скоро падежи
+</div>
+<div *ngIf="paymentsIn15Days.length > 0">
+    <label>Изтичащи скоро падежи:</label>
+    <ul>
+        <li *ngFor="let client of paymentsIn15Days">
+            За клиент {{client.clientName}}:
+            <ul>
+                <li *ngFor="let policy of client.policies">
+                    Падежи за {{policy.vehicleId}} за полица {{policy.policyName}}:
+                    <ul>
+                        <li *ngFor="let payment of policy.payments"
+                            (click)="navigate(client.id, policy.id)"
+                            class="payment-cell"
+                        >
+                            Падеж {{payment.amount}} лв. на {{payment.date}} - {{getPaymentStatus(payment)}}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div *ngIf="paymentsOverdue.length > 0">
+    <label>Изтекли падежи:</label>
+    <ul>
+        <li *ngFor="let client of paymentsOverdue">
+            <span *ngIf="clientHasPayments(client)">
+            За {{client.clientName}}:
+                <ul>
+                    <li *ngFor="let policy of client.policies">
+                        Падежи за {{policy.vehicleId}} за полица {{policy.policyName}}:
+                        <ul>
+                            <li 
+                                *ngFor="let payment of policy.payments"
+                                (click)="navigate(client.id, policy.id)"
+                                class="payment-cell"
+                            >
+                                Падеж {{policy.policyName}} - {{payment.amount}} лв. на {{payment.date}} - {{getPaymentStatus(payment)}}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </span>
+        </li>
+    </ul>
+</div>

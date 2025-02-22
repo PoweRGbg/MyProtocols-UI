@@ -1,0 +1,63 @@
+<button mat-flat-button color="primary" (click)="goBack()">Назад</button>
+<button mat-flat-button color="primary" (click)="toggleAddPolicy()">Нова полица</button>
+<client-add-policy *ngIf="addPolicy" 
+    (policyAdded)="policyAdded($event)"
+    [clientId]="client?.id">
+</client-add-policy>
+
+<table>
+    <th>Име</th>
+    <th>Егн/Булстат</th>
+    <th>Контакт</th>
+    <th>Коментар</th>
+    <tr>
+        <td>{{client?.clientName}}</td>
+        <td>{{client?.identifier}}</td>
+        <td>{{client?.contact}}</td>
+        <td>{{client?.comment}}</td>
+    </tr>
+</table>
+<p>Автомобили на клииент</p>
+<div class="legend">
+    <span>Легенда:</span>
+    <span class="informed">информиран</span>
+    <span class="issued">издадена</span>
+    <span class="sent">изпратена</span>
+    <span class="paid">платена</span>
+    <span class="overdue">забавена</span>
+</div>
+<table>
+    <th>ДКН</th>
+    <th>Тип</th>
+    <th>Компания</th>
+    <th>Брокер</th>
+    <th>Номер</th>
+    <th>Вноски</th>
+    <tr *ngIf="policy">
+        <td>{{policy.vehicleId}}</td>
+        <td>{{policy.policyName}}</td>
+        <td>{{policy.company}}</td>
+        <td>{{policy.broker}}</td>
+        <td>{{policy.policyNumber}}</td>
+        <td 
+            *ngFor="let payment of policy.payments; index as i"
+            class="payment-cell" 
+            [ngClass]="{
+                'informed': payment.clientInformed,
+                'issued': payment.issued,
+                'sent': payment.sent,
+                'paid': payment.paid,
+                'overdue': isPaymentOverdue(payment)
+            }"
+            (click)="onPaymentClicked(policy.id, payment.id)"
+        >
+            {{payment.date}} - {{payment.amount}} лв.
+        </td>
+        <td>
+            <button mat-flat-button color="primary" (click)="removePolicy(policy.id)">Изтрий</button>
+            <button mat-icon-button (click)="editPolicy(policy.id)">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </td>
+    </tr>
+</table>
