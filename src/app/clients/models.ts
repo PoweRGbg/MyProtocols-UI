@@ -18,6 +18,7 @@ export interface Policy {
     company?: string;
     comment?: string;
     amount: number;
+    validFrom?: Date;
     validTo: Date;
     created?: Date;
     payments: Payment[];

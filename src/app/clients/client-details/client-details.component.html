@@ -1,7 +1,7 @@
 <button mat-flat-button color="primary" (click)="goBack()">Назад</button>
 <button mat-flat-button color="primary" (click)="updateClient()">Редактирай клиент</button>
 <button mat-flat-button color="primary" (click)="toggleAddPolicy()">Нова полица</button>
-<client-add-policy *ngIf="addProtocol" 
+<client-add-policy *ngIf="addPolicy" 
     (policyAdded)="policyAdded($event)"
     [clientId]="client?.id">
 </client-add-policy>
@@ -69,7 +69,9 @@
                 </tr>
             </table>
         <td>
-            <button mat-flat-button color="primary" (click)="removePolicy(policy.id)">Изтрий</button>
+            <button mat-icon-button (click)="removePolicy(policy.id)" color="warn">
+                <mat-icon>delete</mat-icon>
+            </button>
             <button mat-icon-button (click)="editPolicy(policy.id)">
                 <mat-icon>edit</mat-icon>
             </button>

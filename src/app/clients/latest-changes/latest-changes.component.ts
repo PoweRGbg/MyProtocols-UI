@@ -16,7 +16,7 @@ export class LastChangesComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get('assets/CHANGES.md', { responseType: 'text' })
-      .subscribe(markdown => {
+        .subscribe(markdown => {
         this.changesMarkdown = markdown;
       });
   }
@@ -29,10 +29,14 @@ export class LastChangesComponent implements OnInit {
   }
 
   isNewChanges(): boolean {
-    const lastReadDate = localStorage.getItem('lastReadDate');
+      const lastReadDate = localStorage.getItem('lastReadDate');
+      console.log('lastReadDate', lastReadDate);
+      
     if (lastReadDate) {
       const lastReadDateObj = new Date(lastReadDate);
-      const changesDate = new Date(this.changesMarkdown.split('\n')[0].replace('## ', '').trim());
+        const changesDate = new Date(this.changesMarkdown.split('\n')[0].replace('## ', '').trim());
+        console.log('changesDate', changesDate);
+        
       return changesDate > lastReadDateObj;
     }
     return true;

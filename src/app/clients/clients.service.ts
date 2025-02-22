@@ -41,16 +41,12 @@ export class ClientsService {
     getClientByName(name: string): Client | undefined {
         this.getAllFromApi();
         
-        return this.clients.filter((client) => 
-            client.user === this.user && client.clientName === name
-        )[0];
+        return this.clients.find((client) => client.clientName === name);
     }
 
     getClientById(id: number): Client | undefined {
         this.getAllFromApi();
-        
-        return this.clients.filter((client) => 
-            client.user === this.user && client.id === id)[0];
+        return this.clients.find((client) => client.id === id);
     }
 
     removeClient(clientId: number) {

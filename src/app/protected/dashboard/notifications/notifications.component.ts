@@ -37,18 +37,6 @@ export class DashboardNotificationsComponent {
             this.paymentsOverdue = this.getPaymentsOverdue();
         });
     }
-    
-    // getProtocolsInDays(days: number): Protocol[] {
-    //     const now = new Date();
-    //     const daysFromNow = new Date(now.setDate(now.getDate() + days));
-    //     return this.protocols.filter((protocol) => protocol.validTo <= daysFromNow && protocol.validTo.getDate() < now.getDate());
-    // }
-    
-    // getPrescriptionsInDays(days: number): Prescription[] {
-    //     const now = new Date();
-    //     const daysFromNow = new Date(now.setDate(now.getDate() + days));
-    //     return this.prescriptions.filter((protocol) => protocol.validTo <= daysFromNow);
-    // }
 
     getPaymentsInDays(days: number): Client[] {
         return this.clientsService.clientsWithDuesNextDays(days);

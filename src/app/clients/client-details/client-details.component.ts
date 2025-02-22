@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     styleUrl: './client-details.component.scss'
 })
 export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
-    addProtocol: boolean = false;
+    addPolicy: boolean = false;
 
     protected clientId: number = 0;
     protected client: Client | undefined;
@@ -51,7 +51,7 @@ export class ClientDetailsComponent implements OnInit, OnChanges, OnDestroy{
     }
 
     protected toggleAddPolicy(): void {
-        this.addProtocol = !this.addProtocol;
+        this.addPolicy = !this.addPolicy;
     }
 
     protected goBack(): void {

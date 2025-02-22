@@ -22,7 +22,7 @@ export class AddPolicyComponent {
     protected numberOfPayments: number = 1;
     private readonly today = new Date();
     protected tomorrow = new Date(this.today.setDate(this.today.getDate() + 1));
-    protected startDate: string = this.tomorrow.toISOString().split('T')[0];
+    protected validFrom: string = this.tomorrow.toISOString().split('T')[0];
     protected endDate: Date = oneYearFromDate(this.tomorrow);
     protected payments: Payment[] = [];
     protected policyTypes: string[] = [
@@ -74,8 +74,9 @@ export class AddPolicyComponent {
             validTo: new Date(this.endDate),
             created: new Date(),
             payments: this.payments,
+            validFrom: new Date(this.validFrom),
         };
-        
+
         if (this.clientId === undefined) {
             alert('Моля изберете клиент');
             return;
@@ -88,7 +89,7 @@ export class AddPolicyComponent {
 
     onPaymentNumberChange(): void {
         this.payments = [];
-        const paymentDates = calculateDates(new Date(this.startDate), this.numberOfPayments);
+        const paymentDates = calculateDates(new Date(this.validFrom), this.numberOfPayments);
         const remainder = ((this.totalAmount * 100) % this.numberOfPayments) / 100;
         
         if (!this.endDate) {
@@ -106,12 +107,12 @@ export class AddPolicyComponent {
         
         for (let i = 0; i < this.numberOfPayments; i++) {
             if(this.monthlyPolicy) {
-                const startDate = new Date(this.startDate);
-                this.endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
+                const validFrom = new Date(this.validFrom);
+                this.endDate = new Date(validFrom.getFullYear(), validFrom.getMonth() + 1, validFrom.getDate());
                 this.numberOfPayments = 1;
                 this.payments.push({
                     id: i,
-                    date: this.getDateDashed(startDate),
+                    date: this.getDateDashed(validFrom),
                     amount: this.totalAmount,
                     issued: false,
                     sent: false,
@@ -141,8 +142,8 @@ export class AddPolicyComponent {
         }
     }
 
-    onStartDateChange(): void {
-        this.endDate = oneYearFromDate(new Date(this.startDate));
+    onValidFromChange(): void {
+        this.endDate = oneYearFromDate(new Date(this.validFrom));
         console.log('end date is: ', this.endDate);
         
         if (this.totalAmount > 0) {
@@ -159,8 +160,8 @@ export class AddPolicyComponent {
         if (this.vehicleId.length < 1) {
             errorMessages.push('Моля въведете регистрационен номер');
         }
-        if (this.policyName.length < 1) {
-            errorMessages.push('Моля въведете име на полицата');
+        if (!this.policyName) {
+            errorMessages.push('Моля въведете тип на полицата');
         }
         if (this.policyNumber.length < 1) {
             errorMessages.push('Моля въведете номер на полицата');

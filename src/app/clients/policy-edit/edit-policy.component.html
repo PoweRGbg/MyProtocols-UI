@@ -9,7 +9,7 @@
             matInput id="vehicle"
             name="vehicle"
             [(ngModel)]="vehicleId"
-            (focusout)="valideVehicleId()">
+            (focusout)="valideVehicleId(vehicleId)">
     </mat-form-field>
     <mat-form-field>
         <mat-label>Изберете тип</mat-label>
@@ -35,8 +35,8 @@
     <mat-form-field>
         <mat-label for="prescriptionStart">Дата на старт:</mat-label>
         <input matInput [matDatepicker]="picker" 
-            [(ngModel)]="startDate"
-            (dateChange)="onStartDateChange()"
+            [(ngModel)]="validFrom"
+            (dateChange)="onValidFromChange()"
             name="prescription-start">
         <mat-hint>ДД/ММ/ГГГГ</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -73,4 +73,9 @@
         <input matInput id="amount" name="amount" [value]="payments[i].amount">
     </mat-form-field>
 </div>
-<button mat-flat-button color="primary" type="button" (click)="updatePolicy()">Добави полица</button>
+<button mat-icon-button (click)="updatePolicy()" color="green">
+    <mat-icon>check</mat-icon>
+</button>
+<button mat-icon-button (click)="cancelEdit()" color="red">
+    <mat-icon>cancel</mat-icon>
+</button>

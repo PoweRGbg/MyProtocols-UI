@@ -2,8 +2,8 @@ import { convertDateFromEU, convertDateToEU } from '../common/common';
 import { Client, Payment, Policy } from './models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-export const apiUrl: string = 'http://localhost:3030/';
-// export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
+// export const apiUrl: string = 'http://localhost:3030/';
+export const apiUrl: string = 'https://protocols.nightscout.bg/api/';
 
 
 export function updatePaymentStatus(payment: Payment, snackBar: MatSnackBar): Payment {
@@ -184,4 +184,13 @@ export function getFilteredDate(client: Client, filterMonthAndYear: string): str
 
 export function getDateDashed(date: Date): string {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+}
+
+export function valideVehicleId(vehicleId: string): boolean {
+    const vehicleIdPattern = /^[A-Za-z0-9]+$/;
+    if (!vehicleIdPattern.test(vehicleId)) {
+        alert('Регистрационният номер трябва да съдържа само латински букви и цифри');
+        return false;
+    }
+    return true;
 }
